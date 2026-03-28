@@ -1,0 +1,406 @@
+/* =====================================================
+   ROSIE'S BEAUTY SPA — BOOK TAB CSS
+   Header, category pills, iframe embed, skeleton,
+   error state, fallback CTAs, footer
+   ===================================================== */
+
+/* ─── Book Tab Container ─────────────────────────────── */
+#tab-book {
+  background-color: var(--bg-primary);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─── Header ─────────────────────────────────────────── */
+.book-header {
+  padding-top: calc(var(--safe-top) + var(--space-6));
+  padding-bottom: var(--space-5);
+  padding-left: var(--space-5);
+  padding-right: var(--space-5);
+}
+
+.book-header__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-title1);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.15;
+  margin-bottom: var(--space-1);
+}
+
+.book-header__subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-subhead);
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* ─── Category Pills ─────────────────────────────────── */
+.book-categories {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-2);
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 var(--space-5) var(--space-4);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.book-categories::-webkit-scrollbar {
+  display: none;
+}
+
+.book-category {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-pill);
+  background-color: var(--accent-subtle);
+  color: var(--accent);
+  font-family: var(--font-body);
+  font-size: var(--text-footnote);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.book-category:active {
+  transform: scale(0.96);
+}
+
+.book-category.active {
+  background-color: var(--accent);
+  color: var(--text-on-accent);
+  border-color: var(--accent);
+}
+
+/* ─── Iframe Embed Card ──────────────────────────────── */
+.book-embed {
+  position: relative;
+  margin: 0 var(--space-5) var(--space-4);
+  background-color: var(--bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  min-height: 500px;
+  overflow: hidden;
+}
+
+.book-embed iframe {
+  display: block;
+  width: 100%;
+  height: 600px;
+  border: none;
+}
+
+/* Hide skeleton once loaded */
+.book-embed.loaded .book-skeleton {
+  display: none;
+}
+
+/* Hide iframe when error */
+.book-embed.error iframe {
+  display: none;
+}
+
+/* ─── Loading Skeleton ───────────────────────────────── */
+.book-skeleton {
+  position: absolute;
+  inset: 0;
+  padding: var(--space-5);
+  background-color: var(--bg-card);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Shimmer mixin — applied to skeleton elements */
+.book-skeleton__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.book-skeleton__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-circle);
+  flex-shrink: 0;
+  background: linear-gradient(
+    90deg,
+    var(--warm-beige) 25%,
+    var(--warm-beige-dark) 50%,
+    var(--warm-beige) 75%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+.book-skeleton__lines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.book-skeleton__line {
+  height: 12px;
+  border-radius: var(--radius-xs);
+  background: linear-gradient(
+    90deg,
+    var(--warm-beige) 25%,
+    var(--warm-beige-dark) 50%,
+    var(--warm-beige) 75%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+.book-skeleton__line--short {
+  width: 60%;
+}
+
+.book-skeleton__line--medium {
+  width: 80%;
+}
+
+.book-skeleton__block {
+  height: 100px;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-5);
+  background: linear-gradient(
+    90deg,
+    var(--warm-beige) 25%,
+    var(--warm-beige-dark) 50%,
+    var(--warm-beige) 75%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+/* Stagger skeleton rows */
+.book-skeleton__row:nth-child(2) .book-skeleton__avatar,
+.book-skeleton__row:nth-child(2) .book-skeleton__line {
+  animation-delay: 0.15s;
+}
+
+.book-skeleton__row:nth-child(3) .book-skeleton__avatar,
+.book-skeleton__row:nth-child(3) .book-skeleton__line {
+  animation-delay: 0.3s;
+}
+
+.book-skeleton__block:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.book-skeleton__block:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* ─── Error State ────────────────────────────────────── */
+.book-error {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-8) var(--space-6);
+  min-height: 500px;
+  position: absolute;
+  inset: 0;
+  background-color: var(--bg-card);
+  z-index: 3;
+}
+
+.book-embed.error .book-error {
+  display: flex;
+}
+
+.book-error__icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-circle);
+  background-color: var(--error-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+}
+
+.book-error__icon i {
+  font-size: 24px;
+  color: var(--error);
+}
+
+.book-error__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-headline);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.book-error__text {
+  font-family: var(--font-body);
+  font-size: var(--text-footnote);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+  max-width: 240px;
+}
+
+.book-error__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 260px;
+}
+
+.book-error__retry {
+  width: 100%;
+  height: 48px;
+  border-radius: var(--radius-button);
+  background-color: var(--accent);
+  color: var(--text-on-accent);
+  font-family: var(--font-body);
+  font-size: var(--text-callout);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  box-shadow: var(--shadow-btn);
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.book-error__retry:active {
+  transform: scale(0.97);
+}
+
+.book-error__browser-link {
+  font-family: var(--font-body);
+  font-size: var(--text-footnote);
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.book-error__browser-link:hover {
+  text-decoration: underline;
+}
+
+/* ─── Fallback CTAs ──────────────────────────────────── */
+.book-fallbacks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0 var(--space-5) var(--space-4);
+}
+
+.book-fallback-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background-color: var(--bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.book-fallback-card:active {
+  transform: scale(0.98);
+  box-shadow: var(--shadow-elevated);
+}
+
+.book-fallback-card__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-circle);
+  background-color: var(--accent-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.book-fallback-card__icon i {
+  font-size: 20px;
+  color: var(--accent);
+}
+
+.book-fallback-card__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.book-fallback-card__label {
+  font-family: var(--font-body);
+  font-size: var(--text-callout);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.book-fallback-card__detail {
+  font-family: var(--font-body);
+  font-size: var(--text-footnote);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.book-fallback-card__arrow {
+  flex-shrink: 0;
+  color: var(--text-tertiary);
+  font-size: 18px;
+}
+
+/* ─── Footer ─────────────────────────────────────────── */
+.book-footer {
+  text-align: center;
+  padding: 0 var(--space-5) calc(var(--tab-bar-height) + var(--safe-bottom) + var(--space-6));
+}
+
+.book-footer__caption {
+  font-family: var(--font-body);
+  font-size: var(--text-caption1);
+  color: var(--text-tertiary);
+  line-height: 1.5;
+}
+
+/* ─── Reduced Motion ─────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .book-skeleton__avatar,
+  .book-skeleton__line,
+  .book-skeleton__block {
+    animation: none !important;
+    background: var(--warm-beige) !important;
+  }
+
+  .book-category,
+  .book-fallback-card,
+  .book-error__retry {
+    transition: none !important;
+  }
+}
