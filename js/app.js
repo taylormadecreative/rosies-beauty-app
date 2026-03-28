@@ -126,36 +126,7 @@ const App = {
         break;
 
       case 'book':
-        document.getElementById('tab-book').innerHTML = `
-          <div class="container" style="padding-top: calc(var(--safe-top) + var(--space-6));">
-            <h1 class="heading-lg" style="margin-bottom: var(--space-2);">Book a Treatment</h1>
-            <p class="text-subhead text-secondary" style="margin-bottom: var(--space-8);">Schedule your next visit with Ashley</p>
-
-            <div class="card" style="padding: var(--space-5); margin-bottom: var(--space-4);">
-              <h3 class="heading-sm" style="margin-bottom: var(--space-3);">Call to Book</h3>
-              <p class="text-footnote text-secondary" style="margin-bottom: var(--space-4);">Speak directly with Ashley to schedule your appointment</p>
-              <a href="tel:8174229613" class="btn btn-primary btn-block" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                <i class="ph ph-phone"></i> Call (817) 422-9613
-              </a>
-            </div>
-
-            <div class="card" style="padding: var(--space-5); margin-bottom: var(--space-4);">
-              <h3 class="heading-sm" style="margin-bottom: var(--space-3);">Book Online</h3>
-              <p class="text-footnote text-secondary" style="margin-bottom: var(--space-4);">View availability and book instantly</p>
-              <a href="https://pocketsuite.io/book/rosies-beauty-spa" target="_blank" rel="noopener" class="btn btn-primary btn-block" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                <i class="ph ph-calendar-check"></i> Book Online
-              </a>
-            </div>
-
-            <div class="card" style="padding: var(--space-5);">
-              <h3 class="heading-sm" style="margin-bottom: var(--space-3);">DM on Instagram</h3>
-              <p class="text-footnote text-secondary" style="margin-bottom: var(--space-4);">Send a message to book or ask questions</p>
-              <a href="https://instagram.com/rosiesbeautyspatx" target="_blank" rel="noopener" class="btn btn-secondary btn-block" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                <i class="ph ph-instagram-logo"></i> @rosiesbeautyspatx
-              </a>
-            </div>
-          </div>
-        `;
+        Book.render();
         break;
 
       case 'shop':
