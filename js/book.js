@@ -40,7 +40,7 @@ const Book = {
     return `
       <header class="book-header">
         <h1 class="book-header__title">Book a Treatment</h1>
-        <p class="book-header__subtitle">Schedule your next visit with Ashley</p>
+        <p class="book-header__subtitle">Schedule your visit with Ashley</p>
       </header>
     `;
   },
@@ -113,8 +113,8 @@ const Book = {
           <div class="book-error__icon" aria-hidden="true">
             <i class="ph ph-wifi-slash"></i>
           </div>
-          <h2 class="book-error__title">Couldn't Load Booking</h2>
-          <p class="book-error__text">Check your connection and try again, or use one of the options below.</p>
+          <h2 class="book-error__title">We Hit a Snag</h2>
+          <p class="book-error__text">Online booking isn't loading right now. Try again or reach out directly.</p>
           <div class="book-error__actions">
             <button class="book-error__retry btn btn-primary" onclick="Book.retry()" aria-label="Retry loading booking">
               <i class="ph ph-arrow-clockwise" aria-hidden="true"></i>
@@ -126,7 +126,7 @@ const Book = {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Open in browser
+              Book on PocketSuite.io
             </a>
           </div>
         </div>
@@ -249,10 +249,6 @@ const Book = {
       embedCard.classList.remove('error');
     };
 
-    iframe.onerror = () => {
-      this._showError();
-    };
-
     // Set src — triggers load
     iframe.src = url;
 
@@ -282,5 +278,14 @@ const Book = {
   // ─── Retry ────────────────────────────────────────────
   retry() {
     this._loadIframe();
+  },
+
+  // ─── Destroy ──────────────────────────────────────────
+  destroy() {
+    if (this.loadTimeout) {
+      clearTimeout(this.loadTimeout);
+      this.loadTimeout = null;
+    }
+    this.iframeLoaded = false;
   },
 };

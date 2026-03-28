@@ -93,6 +93,11 @@ const App = {
   switchTab(tabName) {
     if (tabName === this.currentTab) return;
 
+    // Clean up previous tab
+    if (this.currentTab === 'book' && typeof Book !== 'undefined' && Book.destroy) {
+      Book.destroy();
+    }
+
     const prevTab = this.currentTab;
     this.currentTab = tabName;
 
