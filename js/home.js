@@ -1,139 +1,268 @@
 /* =====================================================
    ROSIE'S BEAUTY SPA — HOME SCREEN MODULE
-   Placeholder — full implementation in Task 8
+   Hero, treatments scroll, upcoming appointment,
+   rewards peek, and recommended product
    ===================================================== */
 
 const Home = {
+
+  // ─── Render ─────────────────────────────────────────
   render() {
     const panel = document.getElementById('tab-home');
+    if (!panel) return;
+
     const user = MOCK_USER;
     const greeting = getGreeting();
+    const pointsProgress = Math.min(
+      Math.round((user.glowPoints / user.nextRewardAt) * 100),
+      100
+    );
+    const pointsRemaining = user.nextRewardAt - user.glowPoints;
 
     panel.innerHTML = `
-      <div class="container fade-in" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
-        <p class="text-subhead" style="color: var(--text-secondary);">${greeting}</p>
-        <h1 class="heading-lg" style="margin-bottom: var(--space-6);">${user.name} ✨</h1>
+      ${Home._renderHeader(greeting, user.name)}
 
-        <div class="card" style="padding: var(--space-5); margin-bottom: var(--space-4);">
-          <p class="text-footnote" style="color: var(--text-secondary); margin-bottom: var(--space-2);">Upcoming Appointment</p>
-          <p class="text-headline">${user.upcomingAppointment.service}</p>
-          <p class="text-subhead" style="color: var(--text-secondary);">
-            ${user.upcomingAppointment.date} at ${user.upcomingAppointment.time}
-          </p>
-        </div>
+      <div class="home-content fade-in">
 
-        <div class="card" style="padding: var(--space-5); margin-bottom: var(--space-6);">
-          <div class="section-header" style="margin-bottom: var(--space-3);">
-            <p class="text-subhead" style="color: var(--text-secondary);">Glow Points</p>
-            <span class="pill">${user.glowPoints} pts</span>
-          </div>
-          <div class="progress-bar">
-            <div
-              class="progress-fill shimmer"
-              style="width: ${Math.round((user.glowPoints / user.nextRewardAt) * 100)}%"
-            ></div>
-          </div>
-          <p class="text-caption" style="color: var(--text-secondary); margin-top: var(--space-2);">
-            ${user.nextRewardAt - user.glowPoints} points until your next reward
-          </p>
-        </div>
+        ${Home._renderHeroCard(greeting, user.name, user.visitStreak)}
 
-        <div class="section-header">
-          <h2>Our Services</h2>
-        </div>
+        ${Home._renderTreatmentsSection()}
 
-        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
-          ${TREATMENTS.map((t) => `
-            <div
-              class="card fade-in"
-              style="padding: var(--space-4); cursor: pointer;"
-              onclick="Home.openTreatment('${t.id}')"
-              role="button"
-              tabindex="0"
-              aria-label="Learn more about ${t.name}"
-            >
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-3);">
-                <div style="flex: 1;">
-                  <h3 class="text-headline" style="margin-bottom: 4px;">${t.name}</h3>
-                  <p class="text-callout" style="color: var(--text-secondary);">${t.benefit}</p>
-                  <div style="display: flex; gap: var(--space-2); margin-top: var(--space-2);">
-                    <span class="pill">${formatPrice(t.priceFrom)}+</span>
-                    <span class="pill pill-neutral">${formatDuration(t.duration)}</span>
-                  </div>
-                </div>
-                <i class="ph ${t.icon}" style="font-size: 28px; color: var(--accent); flex-shrink: 0;"></i>
-              </div>
-            </div>
-          `).join('')}
-        </div>
+        ${Home._renderUpcomingSection(user.upcomingAppointment)}
+
+        ${Home._renderRewardsSection(user.glowPoints, pointsRemaining, pointsProgress)}
+
+        ${Home._renderProductSection(user.recommendedProduct)}
+
+        <div style="height: 100px;" aria-hidden="true"></div>
+
       </div>
     `;
   },
 
-  openTreatment(id) {
-    const treatment = getTreatmentById(id);
-    if (!treatment) return;
-
-    const overlay = document.getElementById('treatment-overlay');
-    const content = document.getElementById('treatment-overlay-content');
-    const backdrop = document.getElementById('overlay-backdrop');
-
-    content.innerHTML = `
-      <div style="padding-bottom: var(--space-4);">
-        <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);">
-          <div style="
-            width: 52px; height: 52px; border-radius: 12px;
-            background-color: var(--accent-subtle);
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-          ">
-            <i class="ph ${treatment.icon}" style="font-size: 26px; color: var(--accent);"></i>
-          </div>
-          <div>
-            <h2 class="heading-sm">${treatment.name}</h2>
-            <div style="display: flex; gap: var(--space-2); margin-top: 4px;">
-              <span class="pill">${formatPrice(treatment.priceFrom)}+</span>
-              <span class="pill pill-neutral">${formatDuration(treatment.duration)}</span>
-            </div>
-          </div>
+  // ─── Header ─────────────────────────────────────────
+  _renderHeader(greeting, name) {
+    return `
+      <header class="home-header" role="banner">
+        <div>
+          <p class="home-header__greeting">${greeting}</p>
+          <p class="home-header__name">${name}</p>
         </div>
-
-        <p class="text-body" style="color: var(--text-secondary); margin-bottom: var(--space-4);">
-          ${treatment.description}
-        </p>
-
-        <p class="text-headline" style="margin-bottom: var(--space-2);">Best For</p>
-        <div style="display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4);">
-          ${treatment.bestFor.map((concern) => `<span class="pill">${concern}</span>`).join('')}
+        <div class="home-header__icon" aria-hidden="true">
+          <i class="ph ph-flower-lotus"></i>
         </div>
+      </header>
+    `;
+  },
 
-        <p class="text-headline" style="margin-bottom: var(--space-2);">How to Prep</p>
-        <ul style="display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-6);">
-          ${treatment.prep.map((step) => `
-            <li style="display: flex; gap: var(--space-2); align-items: flex-start;">
-              <i class="ph ph-check-circle" style="font-size: 18px; color: var(--success); flex-shrink: 0; margin-top: 2px;"></i>
-              <span class="text-callout" style="color: var(--text-secondary);">${step}</span>
-            </li>
-          `).join('')}
-        </ul>
+  // ─── Hero Card ──────────────────────────────────────
+  _renderHeroCard(greeting, name, visitStreak) {
+    const streakText = visitStreak === 1
+      ? '1 visit this month'
+      : `${visitStreak} visits this month`;
 
+    return `
+      <div class="hero-card" role="region" aria-label="Welcome banner">
+        <p class="hero-card__greeting">${greeting},<br>${name}.</p>
+        <p class="hero-card__streak">${streakText} — keep glowing.</p>
         <button
-          class="btn btn-primary btn-lg btn-block"
+          class="hero-card__cta"
           onclick="App.switchTab('book')"
+          aria-label="Book your next visit"
         >
-          Book This Service
+          <i class="ph ph-calendar-blank" aria-hidden="true"></i>
+          Book Your Next Visit
         </button>
+        <p class="hero-card__social-proof">5.0 ★ · 91 Reviews</p>
       </div>
     `;
-
-    overlay.classList.remove('hidden');
-
-    // Close on backdrop tap
-    backdrop.onclick = () => Home.closeTreatment();
   },
 
-  closeTreatment() {
-    const overlay = document.getElementById('treatment-overlay');
-    overlay.classList.add('hidden');
+  // ─── Treatments Section ─────────────────────────────
+  _renderTreatmentsSection() {
+    const cards = TREATMENTS.map((t) => Home._renderTreatmentCard(t)).join('');
+
+    return `
+      <section class="home-section" aria-label="Treatments">
+        <div class="home-section__header">
+          <h2 class="home-section__title">Treatments</h2>
+        </div>
+        <div
+          class="treatments-scroll"
+          role="list"
+          aria-label="Available treatments"
+        >
+          ${cards}
+        </div>
+      </section>
+    `;
+  },
+
+  _renderTreatmentCard(treatment) {
+    const duration = formatDuration(treatment.duration);
+    const price = formatPrice(treatment.priceFrom);
+
+    return `
+      <article
+        class="treatment-card"
+        role="listitem"
+        tabindex="0"
+        aria-label="${treatment.name}, from ${price}, ${duration}"
+        onclick="Home._openTreatment('${treatment.id}')"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();Home._openTreatment('${treatment.id}')}"
+      >
+        <div class="treatment-card__icon" aria-hidden="true">
+          <i class="ph ${treatment.icon}"></i>
+        </div>
+        <p class="treatment-card__name">${treatment.name}</p>
+        <p class="treatment-card__duration">${duration}</p>
+        <p class="treatment-card__benefit">${treatment.benefit}</p>
+        <p class="treatment-card__price">${price}+</p>
+      </article>
+    `;
+  },
+
+  // ─── Upcoming Appointment Section ───────────────────
+  _renderUpcomingSection(appointment) {
+    const cardHTML = appointment
+      ? Home._renderAppointmentCard(appointment)
+      : Home._renderAppointmentEmpty();
+
+    return `
+      <section class="home-section" aria-label="Upcoming appointment">
+        <div class="home-section__header">
+          <h2 class="home-section__title">Upcoming</h2>
+        </div>
+        ${cardHTML}
+      </section>
+    `;
+  },
+
+  _renderAppointmentCard(appt) {
+    const daysLabel = appt.daysUntil === 1
+      ? 'Tomorrow'
+      : `${appt.daysUntil} days`;
+
+    return `
+      <div
+        class="appointment-card"
+        role="button"
+        tabindex="0"
+        aria-label="${appt.service} on ${appt.date} at ${appt.time}, in ${daysLabel}"
+        onclick="App.switchTab('book')"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();App.switchTab('book')}"
+      >
+        <div class="appointment-card__photo" aria-hidden="true">
+          <i class="ph ph-sparkle"></i>
+        </div>
+        <div class="appointment-card__body">
+          <p class="appointment-card__service">${appt.service}</p>
+          <p class="appointment-card__datetime">${appt.date} · ${appt.time}</p>
+        </div>
+        <p class="appointment-card__countdown">${daysLabel}</p>
+      </div>
+    `;
+  },
+
+  _renderAppointmentEmpty() {
+    return `
+      <div
+        class="appointment-empty"
+        role="button"
+        tabindex="0"
+        aria-label="No upcoming appointment. Tap to book a service."
+        onclick="App.switchTab('book')"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();App.switchTab('book')}"
+      >
+        <div class="appointment-empty__icon" aria-hidden="true">
+          <i class="ph ph-calendar-plus"></i>
+        </div>
+        <p class="appointment-empty__text">No upcoming appointments</p>
+        <p class="appointment-empty__cta">Book a service →</p>
+      </div>
+    `;
+  },
+
+  // ─── Rewards Section ────────────────────────────────
+  _renderRewardsSection(points, remaining, progressPct) {
+    return `
+      <section class="home-section" aria-label="Glow Rewards">
+        <div class="home-section__header">
+          <h2 class="home-section__title">Rewards</h2>
+          <button
+            class="home-section__link"
+            onclick="App.switchTab('rewards')"
+            aria-label="View all rewards"
+          >
+            View All →
+          </button>
+        </div>
+        <div
+          class="rewards-card"
+          role="button"
+          tabindex="0"
+          aria-label="Glow Rewards: ${points} points, ${remaining} until next reward"
+          onclick="App.switchTab('rewards')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();App.switchTab('rewards')}"
+        >
+          <div class="rewards-card__top">
+            <div class="rewards-card__points-group">
+              <p class="rewards-card__points-number">${points}</p>
+              <p class="rewards-card__points-label">Glow Points</p>
+            </div>
+            <span class="rewards-card__remaining-pill">${remaining} to next reward</span>
+          </div>
+          <div class="progress-bar" role="progressbar" aria-valuenow="${progressPct}" aria-valuemin="0" aria-valuemax="100" aria-label="Rewards progress">
+            <div class="progress-fill shimmer" style="width: ${progressPct}%"></div>
+          </div>
+          <p class="rewards-card__caption">Earn points with every visit. Redeem for free services.</p>
+        </div>
+      </section>
+    `;
+  },
+
+  // ─── Recommended Product Section ────────────────────
+  _renderProductSection(product) {
+    const imageHTML = product.image
+      ? `<img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.parentElement.innerHTML='<i class=\\"ph ph-flask\\" aria-hidden=\\"true\\"></i>'">`
+      : `<i class="ph ph-flask" aria-hidden="true"></i>`;
+
+    return `
+      <section class="home-section" aria-label="Recommended for you">
+        <div class="home-section__header">
+          <h2 class="home-section__title">Recommended For You</h2>
+        </div>
+        <div
+          class="product-card"
+          role="button"
+          tabindex="0"
+          aria-label="${product.name}, $${product.price}"
+          onclick="App.switchTab('shop')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();App.switchTab('shop')}"
+        >
+          <div class="product-card__image" aria-hidden="true">
+            ${imageHTML}
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__name">${product.name}</p>
+            <p class="product-card__context">${product.description}</p>
+          </div>
+          <p class="product-card__price">$${product.price}</p>
+        </div>
+      </section>
+    `;
+  },
+
+  // ─── Open Treatment ─────────────────────────────────
+  // Delegates to TreatmentDetail (Task 9). Falls back gracefully if not yet loaded.
+  _openTreatment(id) {
+    if (typeof TreatmentDetail !== 'undefined' && TreatmentDetail.show) {
+      TreatmentDetail.show(id);
+    } else {
+      // Fallback: open the existing overlay from the previous stub if present
+      const treatment = getTreatmentById(id);
+      if (!treatment) return;
+      console.info('[Home] TreatmentDetail not loaded yet (Task 9). Treatment:', treatment.name);
+    }
   },
 };
