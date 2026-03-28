@@ -100,6 +100,12 @@ const App = {
     if (this.currentTab === 'shop' && typeof Shop !== 'undefined' && Shop.destroy) {
       Shop.destroy();
     }
+    if (this.currentTab === 'rewards' && typeof Rewards !== 'undefined' && Rewards.destroy) {
+      Rewards.destroy();
+    }
+    if (this.currentTab === 'profile' && typeof Profile !== 'undefined' && Profile.destroy) {
+      Profile.destroy();
+    }
 
     const prevTab = this.currentTab;
     this.currentTab = tabName;
@@ -144,19 +150,15 @@ const App = {
         break;
 
       case 'rewards':
-        document.getElementById('tab-rewards').innerHTML = this.renderPlaceholderTab(
-          'Your Glow Rewards',
-          'ph-gift',
-          'Earn points on every visit. Full rewards tracking coming soon.'
-        );
+        if (typeof Rewards !== 'undefined' && Rewards.render) {
+          Rewards.render();
+        }
         break;
 
       case 'profile':
-        document.getElementById('tab-profile').innerHTML = this.renderPlaceholderTab(
-          'Your Profile',
-          'ph-user',
-          'Account management coming soon.'
-        );
+        if (typeof Profile !== 'undefined' && Profile.render) {
+          Profile.render();
+        }
         break;
 
       default:
