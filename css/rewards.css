@@ -1,0 +1,389 @@
+/* =====================================================
+   ROSIE'S BEAUTY SPA — REWARDS TAB CSS
+   Points hero, earn actions, available rewards, history
+   ===================================================== */
+
+/* ─── Rewards Tab Container ─────────────────────────── */
+#tab-rewards {
+  background-color: var(--bg-primary);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─── Header ─────────────────────────────────────────── */
+.rewards-header {
+  padding-top: calc(var(--safe-top) + var(--space-6));
+  padding-bottom: var(--space-5);
+  padding-left: var(--space-5);
+  padding-right: var(--space-5);
+}
+
+.rewards-header__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-title1);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.15;
+}
+
+/* ─── Points Hero Card ───────────────────────────────── */
+.rewards-hero {
+  margin: 0 var(--space-5) var(--space-6);
+  padding: var(--space-6) var(--space-5);
+  background-color: var(--bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.rewards-hero__points {
+  font-family: var(--font-heading);
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: var(--space-1);
+}
+
+.rewards-hero__label {
+  font-family: var(--font-body);
+  font-size: var(--text-subhead);
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-5);
+}
+
+/* Progress ring */
+.rewards-hero__progress {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin-bottom: var(--space-3);
+}
+
+.rewards-hero__progress svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.rewards-hero__progress-track {
+  fill: none;
+  stroke: var(--accent-subtle);
+  stroke-width: 6;
+}
+
+.rewards-hero__progress-fill {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 600ms ease;
+}
+
+.rewards-hero__progress-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: var(--text-headline);
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.rewards-hero__next {
+  font-family: var(--font-body);
+  font-size: var(--text-footnote);
+  color: var(--text-secondary);
+}
+
+/* ─── Section Headers ────────────────────────────────── */
+.rewards-section-title {
+  font-family: var(--font-body);
+  font-size: var(--text-caption1);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding: 0 var(--space-5);
+  margin-bottom: var(--space-3);
+}
+
+/* ─── How to Earn Section ────────────────────────────── */
+.rewards-earn {
+  margin-bottom: var(--space-6);
+}
+
+.rewards-earn__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 0 var(--space-5);
+}
+
+.rewards-earn__card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background-color: var(--bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.rewards-earn__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-circle);
+  background-color: var(--accent-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rewards-earn__icon i {
+  font-size: 20px;
+  color: var(--accent);
+}
+
+.rewards-earn__text {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: var(--text-callout);
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.rewards-earn__points-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background-color: var(--success-subtle);
+  color: var(--success);
+  font-family: var(--font-body);
+  font-size: var(--text-footnote);
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ─── Available Rewards Section ──────────────────────── */
+.rewards-available {
+  margin-bottom: var(--space-6);
+}
+
+.rewards-available__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 0 var(--space-5);
+}
+
+.rewards-available__card {
+  padding: var(--space-4) var(--space-5);
+  background-color: var(--bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.rewards-available__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.rewards-available__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.rewards-available__name {
+  font-family: var(--font-body);
+  font-size: var(--text-callout);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.rewards-available__desc {
+  font-family: var(--font-body);
+  font-size: var(--text-footnote);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.rewards-available__cost {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background-color: var(--accent-subtle);
+  color: var(--accent);
+  font-family: var(--font-body);
+  font-size: var(--text-footnote);
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.rewards-available__redeem {
+  width: 100%;
+  height: 44px;
+  border-radius: var(--radius-button);
+  background-color: var(--accent);
+  color: var(--text-on-accent);
+  font-family: var(--font-body);
+  font-size: var(--text-callout);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  box-shadow: var(--shadow-btn);
+  transition: transform var(--transition-fast), background-color var(--transition-fast), opacity var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.rewards-available__redeem:active {
+  transform: scale(0.97);
+}
+
+.rewards-available__redeem:disabled {
+  background-color: var(--bg-input);
+  color: var(--text-tertiary);
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* ─── History Section ────────────────────────────────── */
+.rewards-history {
+  margin-bottom: var(--space-6);
+}
+
+.rewards-history__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0 var(--space-5);
+}
+
+.rewards-history__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--divider);
+}
+
+.rewards-history__row:last-child {
+  border-bottom: none;
+}
+
+.rewards-history__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-circle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rewards-history__icon--earned {
+  background-color: var(--success-subtle);
+}
+
+.rewards-history__icon--earned i {
+  font-size: 14px;
+  color: var(--success);
+}
+
+.rewards-history__icon--redeemed {
+  background-color: var(--accent-subtle);
+}
+
+.rewards-history__icon--redeemed i {
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.rewards-history__details {
+  flex: 1;
+  min-width: 0;
+}
+
+.rewards-history__desc {
+  font-family: var(--font-body);
+  font-size: var(--text-footnote);
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.rewards-history__date {
+  font-family: var(--font-body);
+  font-size: var(--text-caption1);
+  color: var(--text-tertiary);
+}
+
+.rewards-history__points {
+  font-family: var(--font-body);
+  font-size: var(--text-callout);
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.rewards-history__points--earned {
+  color: var(--success);
+}
+
+.rewards-history__points--redeemed {
+  color: var(--accent);
+}
+
+/* ─── Welcome / Empty State ──────────────────────────── */
+.rewards-welcome {
+  margin: 0 var(--space-5) var(--space-6);
+  padding: var(--space-5);
+  background-color: var(--accent-subtle);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--accent-border);
+}
+
+.rewards-welcome__text {
+  font-family: var(--font-body);
+  font-size: var(--text-callout);
+  color: var(--text-primary);
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* ─── Footer Spacing ─────────────────────────────────── */
+.rewards-footer {
+  padding-bottom: calc(var(--tab-bar-height) + var(--safe-bottom) + var(--space-6));
+}
+
+/* ─── Reduced Motion ─────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .rewards-hero__progress-fill {
+    transition: none !important;
+  }
+
+  .rewards-available__redeem {
+    transition: none !important;
+  }
+}
