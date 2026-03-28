@@ -231,7 +231,7 @@ ol {
 /* ─── Wide Screen Adaptation ────────────────────────── */
 @media (min-width: 431px) {
   body {
-    background-color: #E8E0DB;
+    background-color: var(--bg-outer);
   }
 
   body::before {
@@ -275,16 +275,7 @@ ol {
   }
 }
 
-@media (min-width: 431px) and (prefers-color-scheme: dark) {
-  body:not([data-theme="light"]) {
-    background-color: #0E080B;
-  }
-}
-@media (min-width: 431px) {
-  [data-theme="dark"] {
-    background-color: #0E080B;
-  }
-}
+/* Dark mode wide-screen backgrounds now handled by --bg-outer token */
 
 /* ─── Reduced Motion ─────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {

@@ -63,14 +63,16 @@ const Home = {
 
   // ─── Hero Card ──────────────────────────────────────
   _renderHeroCard(greeting, name, visitStreak) {
-    const streakText = visitStreak === 1
-      ? '1 visit this month'
-      : `${visitStreak} visits this month`;
+    const user = MOCK_USER;
+    const pointsRemaining = user.nextRewardAt - user.glowPoints;
+    const streakMessage = pointsRemaining <= 200
+      ? `${pointsRemaining} points away from your next free add-on`
+      : `Your skin is on a ${user.visitStreak}-visit glow up streak`;
 
     return `
       <div class="hero-card" role="region" aria-label="Welcome banner">
         <p class="hero-card__greeting">${greeting},<br>${name}.</p>
-        <p class="hero-card__streak">${streakText} — keep glowing.</p>
+        <p class="hero-card__streak">${streakMessage}</p>
         <button
           class="hero-card__cta"
           onclick="App.switchTab('book')"

@@ -126,34 +126,59 @@ const App = {
         break;
 
       case 'book':
-        document.getElementById('tab-book').innerHTML = this.renderPlaceholderTab(
-          'Book a Service',
-          'ph-calendar-blank',
-          'Online booking is coming soon. Call or DM us to schedule your appointment.'
-        );
+        document.getElementById('tab-book').innerHTML = `
+          <div class="container" style="padding-top: calc(var(--safe-top) + var(--space-6));">
+            <h1 class="heading-lg" style="margin-bottom: var(--space-2);">Book a Treatment</h1>
+            <p class="text-subhead text-secondary" style="margin-bottom: var(--space-8);">Schedule your next visit with Ashley</p>
+
+            <div class="card" style="padding: var(--space-5); margin-bottom: var(--space-4);">
+              <h3 class="heading-sm" style="margin-bottom: var(--space-3);">Call to Book</h3>
+              <p class="text-footnote text-secondary" style="margin-bottom: var(--space-4);">Speak directly with Ashley to schedule your appointment</p>
+              <a href="tel:8174229613" class="btn btn-primary btn-block" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <i class="ph ph-phone"></i> Call (817) 422-9613
+              </a>
+            </div>
+
+            <div class="card" style="padding: var(--space-5); margin-bottom: var(--space-4);">
+              <h3 class="heading-sm" style="margin-bottom: var(--space-3);">Book Online</h3>
+              <p class="text-footnote text-secondary" style="margin-bottom: var(--space-4);">View availability and book instantly</p>
+              <a href="https://pocketsuite.io/book/rosies-beauty-spa" target="_blank" rel="noopener" class="btn btn-primary btn-block" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <i class="ph ph-calendar-check"></i> Book Online
+              </a>
+            </div>
+
+            <div class="card" style="padding: var(--space-5);">
+              <h3 class="heading-sm" style="margin-bottom: var(--space-3);">DM on Instagram</h3>
+              <p class="text-footnote text-secondary" style="margin-bottom: var(--space-4);">Send a message to book or ask questions</p>
+              <a href="https://instagram.com/rosiesbeautyspatx" target="_blank" rel="noopener" class="btn btn-secondary btn-block" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <i class="ph ph-instagram-logo"></i> @rosiesbeautyspatx
+              </a>
+            </div>
+          </div>
+        `;
         break;
 
       case 'shop':
         document.getElementById('tab-shop').innerHTML = this.renderPlaceholderTab(
           'Shop',
           'ph-bag-simple',
-          'Our skincare shop is launching soon. Check back for curated products for melanin-rich skin.'
+          'Coming Soon — Melanu Skincare products will be available here.'
         );
         break;
 
       case 'rewards':
         document.getElementById('tab-rewards').innerHTML = this.renderPlaceholderTab(
-          'Glow Rewards',
+          'Your Glow Rewards',
           'ph-gift',
-          'Your loyalty program is almost ready. Earn points for every visit and redeem for free services.'
+          'Earn points on every visit. Full rewards tracking coming soon.'
         );
         break;
 
       case 'profile':
         document.getElementById('tab-profile').innerHTML = this.renderPlaceholderTab(
-          'My Profile',
+          'Your Profile',
           'ph-user',
-          'Profile management is coming in the next update. Your skin journey awaits.'
+          'Account management coming soon.'
         );
         break;
 

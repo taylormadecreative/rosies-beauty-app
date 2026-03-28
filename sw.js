@@ -14,6 +14,11 @@ const STATIC_ASSETS = [
   '/js/data.js',
   '/js/home.js',
   '/js/onboarding.js',
+  '/js/treatment-detail.js',
+  '/js/animations.js',
+  '/css/treatment-detail.css',
+  '/assets/icons/phosphor.css',
+  '/assets/icons/Phosphor.woff2',
 ];
 
 // Install: cache static assets

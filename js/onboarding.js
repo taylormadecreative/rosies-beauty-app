@@ -86,8 +86,11 @@ const Onboarding = {
             <div
               class="onboarding-dot${i === 0 ? ' active' : ''}"
               role="tab"
+              tabindex="0"
               aria-label="Slide ${i + 1} of ${this.totalSlides}"
               aria-selected="${i === 0}"
+              onclick="Onboarding.goToSlide(${i})"
+              onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();Onboarding.goToSlide(${i})}"
             ></div>
           `).join('')}
         </div>
@@ -120,6 +123,11 @@ const Onboarding = {
       ? `<p class="onboarding-social-proof">${slide.socialProof}</p>`
       : '';
 
+    const isLastSlide = index === this.totalSlides - 1;
+    const signInHTML = isLastSlide
+      ? `<p class="onboarding-sign-in" style="margin-top: 12px; font-size: var(--text-footnote); color: var(--text-secondary);">Already have an account? <button onclick="App.completeOnboarding()" style="background:none;border:none;color:var(--accent);font-weight:600;cursor:pointer;padding:0;font-size:inherit;font-family:inherit;">Sign In</button></p>`
+      : '';
+
     return `
       <section
         class="onboarding-slide"
@@ -134,6 +142,7 @@ const Onboarding = {
         <p>${slide.body}</p>
         ${pillsHTML}
         ${socialHTML}
+        ${signInHTML}
       </section>
     `;
   },
@@ -182,6 +191,28 @@ const Onboarding = {
     skipBtn.addEventListener('click', () => {
       App.completeOnboarding();
     });
+
+    // Keyboard: ArrowLeft/ArrowRight to navigate slides
+    slidesEl.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' && this.currentSlide < this.totalSlides - 1) {
+        e.preventDefault();
+        this.goToSlide(this.currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' && this.currentSlide > 0) {
+        e.preventDefault();
+        this.goToSlide(this.currentSlide - 1);
+      }
+    });
+  },
+
+  // ─── Go To Slide ──────────────────────────────────────
+  goToSlide(index) {
+    const slidesEl = document.getElementById('onboarding-slides');
+    if (!slidesEl) return;
+    const slideWidth = slidesEl.offsetWidth;
+    slidesEl.scrollTo({
+      left: index * slideWidth,
+      behavior: 'smooth',
+    });
   },
 
   // ─── Update Dots ────────────────────────────────────
@@ -199,7 +230,7 @@ const Onboarding = {
     const ctaBtn = document.getElementById('onboarding-cta');
     if (!ctaBtn) return;
     ctaBtn.textContent = this.currentSlide === this.totalSlides - 1
-      ? 'Book Your First Visit'
+      ? 'Get Started'
       : 'Next';
   },
 };

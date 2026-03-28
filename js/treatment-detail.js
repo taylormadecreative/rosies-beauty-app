@@ -43,6 +43,16 @@ const TreatmentDetail = {
 
     // Prevent body scroll while overlay is open
     document.body.style.overflow = 'hidden';
+
+    // Store trigger element for focus restoration
+    this._triggerElement = document.activeElement;
+
+    // After rendering, focus the close button
+    const closeBtn = overlay.querySelector('[aria-label="Close"]') || overlay.querySelector('button');
+    if (closeBtn) closeBtn.focus();
+
+    // Set up focus trap
+    this._trapFocus(overlay);
   },
 
   // ─── Hide ────────────────────────────────────────────
@@ -54,6 +64,9 @@ const TreatmentDetail = {
 
     // Restore body scroll immediately (feels more responsive)
     document.body.style.overflow = '';
+
+    // Release focus trap and restore focus to trigger element
+    this._releaseFocus();
 
     // Listen on the sheet (which has the animation)
     const sheet = overlay.querySelector('.treatment-overlay__sheet');
@@ -227,9 +240,45 @@ const TreatmentDetail = {
     `;
   },
 
+  // ─── Focus Trap ──────────────────────────────────────
+  _trapFocus(container) {
+    this._focusTrapHandler = (e) => {
+      if (e.key !== 'Tab') return;
+      const focusable = container.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    document.addEventListener('keydown', this._focusTrapHandler);
+  },
+
+  _releaseFocus() {
+    if (this._focusTrapHandler) {
+      document.removeEventListener('keydown', this._focusTrapHandler);
+      this._focusTrapHandler = null;
+    }
+    if (this._triggerElement && typeof this._triggerElement.focus === 'function') {
+      this._triggerElement.focus();
+      this._triggerElement = null;
+    }
+  },
+
   // ─── Book Button Handler ──────────────────────────────
   _handleBook() {
-    this.hide();
+    TreatmentDetail.hide();
     // Switch to book tab after hide animation starts
     if (typeof App !== 'undefined' && App.switchTab) {
       App.switchTab('book');

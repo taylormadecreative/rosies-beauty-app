@@ -74,6 +74,13 @@
   --glass-bg:        rgba(246, 242, 239, 0.80);
   --glass-border:    rgba(246, 242, 239, 0.50);
 
+  /* Hero */
+  --bg-hero-end:     #7a1519;
+  --shadow-hero:     0 8px 32px rgba(155, 27, 33, 0.35);
+
+  /* Outer (wide-screen background) */
+  --bg-outer:        #E8E0DB;
+
   /* ─── Typography ───────────────────────────────────── */
   --font-heading:    'Cardo', Georgia, 'Times New Roman', serif;
   --font-body:       'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -177,6 +184,9 @@
 
     /* Hero bg stays dark in dark mode */
     --bg-hero:         #6A1015;
+    --bg-hero-end:     #5a1012;
+    --shadow-hero:     0 8px 32px rgba(155, 27, 33, 0.2);
+    --bg-outer:        #0E080B;
   }
 }
 
@@ -210,4 +220,7 @@
   --glass-bg:        rgba(30, 18, 24, 0.85);
   --glass-border:    rgba(231, 212, 204, 0.12);
   --bg-hero:         #6A1015;
+  --bg-hero-end:     #5a1012;
+  --shadow-hero:     0 8px 32px rgba(155, 27, 33, 0.2);
+  --bg-outer:        #0E080B;
 }

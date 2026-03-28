@@ -33,14 +33,15 @@
   will-change: transform;
 }
 
-/* Dark mode tab bar */
-[data-theme="dark"] .tab-bar,
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .tab-bar {
-    background-color: rgba(30, 18, 24, 0.85);
-    border-top-color: rgba(231, 212, 204, 0.08);
-  }
+/* Dark mode tab bar — explicit attribute */
+[data-theme="dark"] .tab-bar {
+  background-color: rgba(30, 18, 24, 0.85);
+  border-top-color: rgba(231, 212, 204, 0.08);
 }
+[data-theme="dark"] .tab i { color: rgba(231, 212, 204, 0.45); }
+[data-theme="dark"] .tab span { color: rgba(231, 212, 204, 0.45); }
+[data-theme="dark"] .tab.active i { color: var(--accent); }
+[data-theme="dark"] .tab.active span { color: var(--accent); }
 
 /* ─── Tab Button ─────────────────────────────────────── */
 .tab {
@@ -118,4 +119,8 @@
     background-color: rgba(30, 18, 24, 0.85);
     border-top-color: rgba(231, 212, 204, 0.08);
   }
+  :root:not([data-theme="light"]) .tab i { color: rgba(231, 212, 204, 0.45); }
+  :root:not([data-theme="light"]) .tab span { color: rgba(231, 212, 204, 0.45); }
+  :root:not([data-theme="light"]) .tab.active i { color: var(--accent); }
+  :root:not([data-theme="light"]) .tab.active span { color: var(--accent); }
 }
