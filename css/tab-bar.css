@@ -28,9 +28,17 @@
 
   /* Top border */
   border-top: 0.5px solid rgba(155, 27, 33, 0.12);
+}
 
-  /* Prevent layout shift */
-  will-change: transform;
+/* Wide screen: constrain tab bar to phone width */
+@media (min-width: 431px) {
+  .tab-bar {
+    width: 430px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    border-radius: 20px 20px 0 0;
+  }
 }
 
 /* Dark mode tab bar — explicit attribute */

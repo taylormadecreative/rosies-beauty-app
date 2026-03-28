@@ -251,13 +251,7 @@ ol {
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
   }
 
-  .tab-bar {
-    max-width: 430px;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    border-radius: 20px 20px 0 0;
-  }
+  /* Tab bar wide-screen rules are in tab-bar.css */
 
   .onboarding {
     max-width: 430px;
