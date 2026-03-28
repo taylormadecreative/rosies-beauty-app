@@ -1,22 +1,13 @@
 /* =====================================================
    ROSIE'S BEAUTY SPA — BOOK TAB MODULE
-   PocketSuite iframe embed, category filters,
-   loading skeleton, error state, fallback CTAs
+   PocketSuite iframe embed, loading skeleton,
+   error state, fallback CTAs
    ===================================================== */
 
 const Book = {
   BASE_URL: 'https://pocketsuite.io/book/rosies-beauty-spa',
-  currentCategory: 'all',
   iframeLoaded: false,
   loadTimeout: null,
-
-  categories: [
-    { id: 'all',           label: 'All Services',    path: '' },
-    { id: 'facials',       label: 'Facials',          path: '/items/facials' },
-    { id: 'peels',         label: 'Chemical Peels',   path: '/items/chemical-peels' },
-    { id: 'microneedling', label: 'Microneedling',    path: '/items/microneedling' },
-    { id: 'brightening',   label: 'Brightening',      path: '/items/brightening' },
-  ],
 
   // ─── Render ───────────────────────────────────────────
   render() {
@@ -25,13 +16,11 @@ const Book = {
 
     container.innerHTML = `
       ${this._renderHeader()}
-      ${this._renderCategories()}
       ${this._renderEmbed()}
       ${this._renderFallbacks()}
       ${this._renderFooter()}
     `;
 
-    this._bindEvents();
     this._loadIframe();
   },
 
@@ -42,27 +31,6 @@ const Book = {
         <h1 class="book-header__title">Book a Treatment</h1>
         <p class="book-header__subtitle">Schedule your visit with Ashley</p>
       </header>
-    `;
-  },
-
-  // ─── Category Pills ───────────────────────────────────
-  _renderCategories() {
-    const pills = this.categories.map((cat) => `
-      <button
-        class="book-category${cat.id === this.currentCategory ? ' active' : ''}"
-        data-category="${cat.id}"
-        role="tab"
-        aria-selected="${cat.id === this.currentCategory ? 'true' : 'false'}"
-        aria-controls="book-embed-frame"
-      >
-        ${cat.label}
-      </button>
-    `).join('');
-
-    return `
-      <div class="book-categories" role="tablist" aria-label="Service categories">
-        ${pills}
-      </div>
     `;
   },
 
@@ -188,30 +156,6 @@ const Book = {
     `;
   },
 
-  // ─── Bind Events ─────────────────────────────────────
-  _bindEvents() {
-    const categoryRow = document.querySelector('.book-categories');
-    if (!categoryRow) return;
-
-    categoryRow.addEventListener('click', (e) => {
-      const btn = e.target.closest('.book-category');
-      if (!btn) return;
-
-      const newCategory = btn.dataset.category;
-      if (newCategory === this.currentCategory) return;
-
-      // Update active state on pills
-      categoryRow.querySelectorAll('.book-category').forEach((pill) => {
-        const isActive = pill.dataset.category === newCategory;
-        pill.classList.toggle('active', isActive);
-        pill.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      });
-
-      this.currentCategory = newCategory;
-      this._loadIframe();
-    });
-  },
-
   // ─── Load Iframe ─────────────────────────────────────
   _loadIframe() {
     const embedCard = document.getElementById('book-embed-card');
@@ -233,11 +177,6 @@ const Book = {
     // Show skeleton
     if (skeleton) skeleton.style.display = '';
 
-    // Build URL
-    const category = this.categories.find((c) => c.id === this.currentCategory);
-    const path = category ? category.path : '';
-    const url = this.BASE_URL + path;
-
     // Wire load/error handlers before setting src
     iframe.onload = () => {
       if (this.loadTimeout) {
@@ -250,7 +189,7 @@ const Book = {
     };
 
     // Set src — triggers load
-    iframe.src = url;
+    iframe.src = this.BASE_URL;
 
     // 15-second timeout fallback
     this.loadTimeout = setTimeout(() => {
