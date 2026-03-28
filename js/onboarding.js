@@ -11,18 +11,17 @@ const Onboarding = {
   icons: {
     rose: `<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <circle cx="40" cy="40" r="36" stroke="#9B1B21" stroke-width="1.5"/>
-      <!-- Petals -->
-      <ellipse cx="40" cy="26" rx="6" ry="10" stroke="#9B1B21" stroke-width="1.5" stroke-linecap="round"/>
-      <ellipse cx="52" cy="32" rx="6" ry="10" transform="rotate(60 52 32)" stroke="#9B1B21" stroke-width="1.5" stroke-linecap="round"/>
-      <ellipse cx="52" cy="48" rx="6" ry="10" transform="rotate(120 52 48)" stroke="#9B1B21" stroke-width="1.5" stroke-linecap="round"/>
-      <ellipse cx="40" cy="54" rx="6" ry="10" transform="rotate(180 40 54)" stroke="#9B1B21" stroke-width="1.5" stroke-linecap="round"/>
-      <ellipse cx="28" cy="48" rx="6" ry="10" transform="rotate(240 28 48)" stroke="#9B1B21" stroke-width="1.5" stroke-linecap="round"/>
-      <ellipse cx="28" cy="32" rx="6" ry="10" transform="rotate(300 28 32)" stroke="#9B1B21" stroke-width="1.5" stroke-linecap="round"/>
-      <!-- Center -->
-      <circle cx="40" cy="40" r="5" stroke="#9B1B21" stroke-width="1.5"/>
+      <!-- Rose bloom -->
+      <path d="M40 18C40 18 28 28 28 38C28 44.6 33.4 50 40 50C46.6 50 52 44.6 52 38C52 28 40 18 40 18Z" stroke="#9B1B21" stroke-width="1.5" fill="rgba(155,27,33,0.08)"/>
+      <!-- Inner petals -->
+      <path d="M36 30C36 30 40 26 44 30" stroke="#9B1B21" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M33 36C33 36 40 32 47 36" stroke="#9B1B21" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Side leaves -->
+      <path d="M32 35C32 35 26 30 22 30" stroke="#9B1B21" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M48 35C48 35 54 30 58 30" stroke="#9B1B21" stroke-width="1.5" stroke-linecap="round"/>
       <!-- Stem -->
-      <path d="M40 56 Q42 64 40 72" stroke="#9B1B21" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M40 65 Q35 62 33 58" stroke="#9B1B21" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M40 50V66" stroke="#9B1B21" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M40 58C37 56 34 56 32 56" stroke="#9B1B21" stroke-width="1.5" stroke-linecap="round"/>
     </svg>`,
 
     treatment: `<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

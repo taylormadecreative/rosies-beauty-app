@@ -49,7 +49,13 @@ const Home = {
           <p class="home-header__name">${name}</p>
         </div>
         <div class="home-header__icon" aria-hidden="true">
-          <i class="ph ph-flower-lotus"></i>
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+            <path d="M16 6C16 6 10 11 10 16C10 19.3 12.7 22 16 22C19.3 22 22 19.3 22 16C22 11 16 6 16 6Z" stroke="var(--accent)" stroke-width="1.5" fill="rgba(155,27,33,0.08)"/>
+            <path d="M13 13C13 13 11 10 8 10" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M19 13C19 13 21 10 24 10" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M16 22V28" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M16 25C14 23.5 12.5 23 11 23" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
         </div>
       </header>
     `;
