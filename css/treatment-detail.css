@@ -1,0 +1,273 @@
+/* =====================================================
+   ROSIE'S BEAUTY SPA — TREATMENT DETAIL OVERLAY
+   Bottom-sheet overlay: hero, tags, sections, sticky CTA
+   ===================================================== */
+
+/* ─── Overlay Open/Close States ──────────────────────── */
+
+/* Closing animation — applied to the sheet when hiding */
+.treatment-overlay.closing .treatment-overlay__sheet {
+  animation: slideDown 250ms cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+/* Backdrop fade-out on close */
+.treatment-overlay.closing .treatment-overlay__backdrop {
+  animation: backdropOut 250ms ease forwards;
+}
+
+@keyframes backdropOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ─── Sheet Override: allow sticky CTA ───────────────── */
+/* The sheet itself scrolls; we need relative positioning for sticky child */
+.treatment-overlay__sheet {
+  display: flex;
+  flex-direction: column;
+}
+
+.treatment-overlay__content {
+  flex: 1;
+  padding: 0; /* reset — padding handled per section */
+  padding-bottom: 0;
+}
+
+/* ─── Treatment Detail Inner Layout ──────────────────── */
+.td-body {
+  padding-bottom: 0; /* sticky CTA handles bottom spacing */
+}
+
+/* ─── Hero Image Area ─────────────────────────────────── */
+.td-hero {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: var(--warm-beige);
+  position: relative;
+  overflow: hidden;
+}
+
+.td-hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Placeholder when image is missing or fails */
+.td-hero__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--warm-beige) 0%, var(--warm-beige-dark) 100%);
+}
+
+.td-hero__placeholder i {
+  font-size: 56px;
+  color: var(--accent);
+  opacity: 0.45;
+}
+
+/* ─── Content Padding Wrapper ─────────────────────────── */
+.td-pad {
+  padding: 0 var(--space-5);
+}
+
+/* ─── Title + Benefit ─────────────────────────────────── */
+.td-title-row {
+  padding: var(--space-5) var(--space-5) var(--space-3);
+}
+
+.td-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-title2);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: var(--space-1);
+}
+
+.td-benefit {
+  font-family: var(--font-body);
+  font-size: var(--text-callout);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* ─── Tags Row (duration + price + bestFor pills) ────── */
+.td-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0 var(--space-5) var(--space-5);
+}
+
+.td-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: var(--text-caption1);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.td-tag--meta {
+  background-color: var(--accent-subtle);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+}
+
+.td-tag--neutral {
+  background-color: var(--warm-beige);
+  color: var(--text-secondary);
+}
+
+.td-tag i {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+/* ─── Divider ─────────────────────────────────────────── */
+.td-divider {
+  height: 1px;
+  background-color: var(--divider);
+  margin: 0 var(--space-5);
+}
+
+/* ─── Content Sections ─────────────────────────────────── */
+.td-section {
+  padding: var(--space-5) var(--space-5) var(--space-4);
+}
+
+.td-section__label {
+  font-family: var(--font-body);
+  font-size: var(--text-caption1);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-3);
+}
+
+/* "What to Expect" — description text */
+.td-section__description {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--text-primary);
+  line-height: 1.65;
+}
+
+/* "Best For" — pill grid */
+.td-section__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* "Before Your Visit" — prep list */
+.td-prep-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.td-prep-list__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-callout);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.td-prep-list__bullet {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-circle);
+  background-color: var(--accent-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+.td-prep-list__bullet i {
+  font-size: 12px;
+  color: var(--accent);
+}
+
+/* Prep as plain paragraph (when prep is a string, not array) */
+.td-prep-text {
+  font-family: var(--font-body);
+  font-size: var(--text-callout);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* ─── Sticky Bottom CTA ────────────────────────────────── */
+.td-cta {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--glass-border);
+  padding: var(--space-4) var(--space-5);
+  padding-bottom: calc(var(--space-4) + var(--safe-bottom));
+  z-index: 10;
+}
+
+.td-cta__btn {
+  width: 100%;
+  height: 52px;
+  background-color: var(--accent);
+  color: var(--text-on-accent);
+  border-radius: var(--radius-button);
+  font-family: var(--font-body);
+  font-size: var(--text-headline);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition: transform var(--transition-fast), background-color var(--transition-fast), opacity var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  border: none;
+}
+
+.td-cta__btn:hover {
+  background-color: var(--accent-hover);
+}
+
+.td-cta__btn:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
+
+.td-cta__btn i {
+  font-size: 20px;
+}
+
+/* ─── Reduced Motion Overrides ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .treatment-overlay.closing .treatment-overlay__sheet,
+  .treatment-overlay.closing .treatment-overlay__backdrop {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}
