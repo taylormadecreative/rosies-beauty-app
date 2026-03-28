@@ -1,0 +1,239 @@
+/* =====================================================
+   ROSIE'S BEAUTY SPA — BASE STYLES
+   Reset, body, typography utilities, layout
+   ===================================================== */
+
+/* ─── Box Model Reset ────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Root ───────────────────────────────────────────── */
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+/* ─── Media Resets ───────────────────────────────────── */
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+  object-fit: cover;
+}
+
+/* ─── Interactive Resets ─────────────────────────────── */
+button {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* ─── Focus Visible ──────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+}
+
+/* ─── Scroll Utility ─────────────────────────────────── */
+.scroll-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Typography Utilities ───────────────────────────── */
+
+/* Headings — Cardo */
+.heading-xl {
+  font-family: var(--font-heading);
+  font-size: var(--text-large-title);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+}
+
+.heading-lg {
+  font-family: var(--font-heading);
+  font-size: var(--text-title1);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.2px;
+}
+
+.heading-md {
+  font-family: var(--font-heading);
+  font-size: var(--text-title2);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.heading-sm {
+  font-family: var(--font-heading);
+  font-size: var(--text-title3);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* Body — Figtree */
+.text-headline {
+  font-family: var(--font-body);
+  font-size: var(--text-headline);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.text-body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.text-callout {
+  font-family: var(--font-body);
+  font-size: var(--text-callout);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.text-subhead {
+  font-family: var(--font-body);
+  font-size: var(--text-subhead);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.text-footnote {
+  font-family: var(--font-body);
+  font-size: var(--text-footnote);
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.text-caption {
+  font-family: var(--font-body);
+  font-size: var(--text-caption1);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.text-caption2 {
+  font-family: var(--font-body);
+  font-size: var(--text-caption2);
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.text-accent {
+  color: var(--accent);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-semibold {
+  font-weight: 600;
+}
+
+/* ─── Layout Utilities ───────────────────────────────── */
+.hidden {
+  display: none !important;
+}
+
+.container {
+  padding-left: var(--space-5);
+  padding-right: var(--space-5);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── App Shell ──────────────────────────────────────── */
+.app {
+  padding-bottom: calc(var(--tab-bar-height) + var(--safe-bottom));
+  min-height: 100dvh;
+  position: relative;
+}
+
+.tab-panel {
+  display: none;
+  min-height: calc(100dvh - var(--tab-bar-height) - var(--safe-bottom));
+  padding-top: var(--safe-top);
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+/* ─── Reduced Motion ─────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
