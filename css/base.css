@@ -211,6 +211,8 @@ ol {
 
 /* ─── App Shell ──────────────────────────────────────── */
 .app {
+  max-width: 430px;
+  margin: 0 auto;
   padding-bottom: calc(var(--tab-bar-height) + var(--safe-bottom));
   min-height: 100dvh;
   position: relative;
@@ -224,6 +226,64 @@ ol {
 
 .tab-panel.active {
   display: block;
+}
+
+/* ─── Wide Screen Adaptation ────────────────────────── */
+@media (min-width: 431px) {
+  body {
+    background-color: #E8E0DB;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 430px;
+    height: 100%;
+    background-color: var(--bg-primary);
+    z-index: -1;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
+  }
+
+  .app {
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
+  }
+
+  .tab-bar {
+    max-width: 430px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .onboarding {
+    max-width: 430px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .treatment-overlay {
+    max-width: 430px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Home header sticky needs constraint */
+  .home-header {
+    max-width: 430px;
+  }
+}
+
+@media (min-width: 431px) and (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) {
+    background-color: #0E080B;
+  }
+}
+@media (min-width: 431px) {
+  [data-theme="dark"] {
+    background-color: #0E080B;
+  }
 }
 
 /* ─── Reduced Motion ─────────────────────────────────── */
