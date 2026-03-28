@@ -16,6 +16,7 @@ const TreatmentDetail = {
     }
 
     this._currentId = treatmentId;
+    this._currentTreatmentId = treatmentId;
 
     const overlay = document.getElementById('treatment-overlay');
     if (!overlay) {
@@ -278,6 +279,18 @@ const TreatmentDetail = {
 
   // ─── Book Button Handler ──────────────────────────────
   _handleBook() {
+    // Pre-select the matching booking category when navigating from a treatment
+    const categoryMap = {
+      'corrective-facial':    'facials',
+      'chemical-peel':        'peels',
+      'microneedling':        'microneedling',
+      'brightening-treatment':'brightening',
+      'anti-aging-facial':    'facials',
+    };
+    if (typeof Book !== 'undefined' && categoryMap[this._currentTreatmentId]) {
+      Book.currentCategory = categoryMap[this._currentTreatmentId];
+    }
+
     TreatmentDetail.hide();
     // Switch to book tab after hide animation starts
     if (typeof App !== 'undefined' && App.switchTab) {
