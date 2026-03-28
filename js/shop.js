@@ -136,6 +136,7 @@ const Shop = {
         <div class="shop-product-card__body">
           <p class="shop-product-card__name">${this._escHtml(product.title)}</p>
           ${priceDisplay ? `<p class="shop-product-card__price">${priceDisplay}</p>` : ''}
+          ${product.description ? `<p class="shop-product-card__desc">${this._escHtml(product.description.slice(0, 50))}${product.description.length > 50 ? '…' : ''}</p>` : ''}
         </div>
       </div>
     `;
@@ -353,12 +354,12 @@ const Shop = {
             target="_blank"
             rel="noopener noreferrer"
             class="shop-detail__cta-btn"
-            aria-label="View ${this._escHtml(product.title)} on Rosie's Store"
+            aria-label="Buy ${this._escHtml(product.title)}${priceDisplay ? ' for ' + priceDisplay : ''}"
           >
-            <i class="ph ph-storefront" aria-hidden="true"></i>
-            View on Rosie's Store
+            <i class="ph ph-shopping-cart" aria-hidden="true"></i>
+            Buy Now${priceDisplay ? ' · ' + priceDisplay : ''}
           </a>
-          <p style="font-size: var(--text-caption); color: var(--text-secondary); margin-top: var(--space-2); text-align: center;">You'll be taken to our secure checkout</p>
+          <p style="font-size: var(--text-caption); color: var(--text-secondary); margin-top: var(--space-2); text-align: center;">Secure checkout on rosiesbeautyspa.com</p>
         </div>
 
       </div>
