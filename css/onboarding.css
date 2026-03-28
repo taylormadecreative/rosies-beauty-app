@@ -1,16 +1,103 @@
 /* =====================================================
    ROSIE'S BEAUTY SPA — ONBOARDING CSS
-   Placeholder — full implementation in Task 7
+   3-screen swipeable onboarding flow
    ===================================================== */
 
 .onboarding {
   position: fixed;
   inset: 0;
-  z-index: 1000;
-  background-color: var(--bg-primary);
+  background: var(--bg-primary);
+  z-index: 200;
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
-  padding-top: var(--safe-top);
-  padding-bottom: var(--safe-bottom);
+}
+.onboarding.hidden { display: none; }
+
+.onboarding-slides {
+  flex: 1;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.onboarding-slides::-webkit-scrollbar { display: none; }
+
+.onboarding-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-10) var(--space-8);
+  text-align: center;
+}
+
+.onboarding-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: var(--space-8);
+}
+.onboarding-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.onboarding-slide h2 {
+  font-family: var(--font-heading);
+  font-size: var(--text-title1);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+  line-height: 1.2;
+}
+
+.onboarding-slide p {
+  font-size: var(--text-subhead);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 300px;
+}
+
+.onboarding-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+  max-width: 320px;
+}
+
+.onboarding-social-proof {
+  font-size: var(--text-footnote);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+}
+
+.onboarding-footer {
+  padding: var(--space-5) var(--space-8) calc(var(--space-8) + var(--safe-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.onboarding-dots {
+  display: flex;
+  gap: 6px;
+  margin-bottom: var(--space-4);
+}
+.onboarding-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--text-secondary);
+  opacity: 0.3;
+  transition: all 300ms ease;
+}
+.onboarding-dot.active {
+  width: 24px;
+  background: var(--accent);
+  opacity: 1;
 }
