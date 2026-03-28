@@ -31,7 +31,7 @@ const Shop = {
         console.warn('[Shop] Failed to fetch products:', err);
         container.innerHTML = `
           ${this._renderHeader()}
-          ${this._renderError()}
+          ${this._renderError(err)}
         `;
         return;
       }
@@ -54,20 +54,27 @@ const Shop = {
 
   // ─── Fetch Products ───────────────────────────────────
   async _fetchProducts() {
-    const response = await fetch(this.PRODUCTS_URL);
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+    try {
+      const response = await fetch(this.PRODUCTS_URL, { signal: controller.signal });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      this.products = (data.products || []).map((p) => ({
+        id:          p.id,
+        handle:      p.handle,
+        title:       p.title,
+        description: this._stripHtml(p.body_html || ''),
+        price:       p.variants && p.variants[0] ? p.variants[0].price : null,
+        image:       p.images && p.images[0] ? p.images[0].src : null,
+        imageAlt:    p.images && p.images[0] ? (p.images[0].alt || p.title) : p.title,
+      }));
+    } catch (e) {
+      this.products = [];
+      throw e;
+    } finally {
+      clearTimeout(timeout);
     }
-    const data = await response.json();
-    this.products = (data.products || []).map((p) => ({
-      id:          p.id,
-      handle:      p.handle,
-      title:       p.title,
-      description: this._stripHtml(p.body_html || ''),
-      price:       p.variants && p.variants[0] ? p.variants[0].price : null,
-      image:       p.images && p.images[0] ? p.images[0].src : null,
-      imageAlt:    p.images && p.images[0] ? (p.images[0].alt || p.title) : p.title,
-    }));
   },
 
   // ─── Header ───────────────────────────────────────────
@@ -136,8 +143,8 @@ const Shop = {
 
   // ─── Skeleton ─────────────────────────────────────────
   _renderSkeleton() {
-    // 2x3 shimmer grid (6 cards)
-    const cards = Array.from({ length: 6 }, () => `
+    // 2x2 shimmer grid (4 cards)
+    const cards = Array.from({ length: 4 }, () => `
       <div class="shop-skeleton__card" aria-hidden="true">
         <div class="shop-skeleton__image"></div>
         <div class="shop-skeleton__lines">
@@ -155,14 +162,18 @@ const Shop = {
   },
 
   // ─── Error State ──────────────────────────────────────
-  _renderError() {
+  _renderError(err) {
+    const isTimeout = err && err.name === 'AbortError';
+    const errorText = isTimeout
+      ? 'Taking too long to load. Check your connection and try again.'
+      : 'Couldn\'t load products right now. Try again in a moment.';
     return `
       <div class="shop-error" role="alert" aria-live="polite">
         <div class="shop-error__icon" aria-hidden="true">
           <i class="ph ph-wifi-slash"></i>
         </div>
         <h2 class="shop-error__title">Couldn't Load Products</h2>
-        <p class="shop-error__text">Something went wrong loading the shop. Check your connection and try again.</p>
+        <p class="shop-error__text">${errorText}</p>
         <button
           class="shop-error__retry"
           onclick="Shop.retry()"
@@ -182,8 +193,8 @@ const Shop = {
         <div class="shop-empty__icon" aria-hidden="true">
           <i class="ph ph-bag-simple"></i>
         </div>
-        <h2 class="shop-empty__title">No Products Available</h2>
-        <p class="shop-empty__text">No products are available right now. Check back soon.</p>
+        <h2 class="shop-empty__title">Coming Soon</h2>
+        <p class="shop-empty__text">New skincare drops coming soon. Follow <a href="https://instagram.com/rosiesbeautyspatx" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none;">@rosiesbeautyspatx</a> on Instagram to be the first to know.</p>
       </div>
     `;
   },
@@ -305,6 +316,7 @@ const Shop = {
     const productUrl = `${this.STORE_URL}/${product.handle}`;
 
     return `
+      <div class="shop-detail__backdrop" tabindex="-1"></div>
       <div
         class="shop-detail__sheet"
         role="dialog"
@@ -341,15 +353,15 @@ const Shop = {
             target="_blank"
             rel="noopener noreferrer"
             class="shop-detail__cta-btn"
-            aria-label="Buy ${this._escHtml(product.title)} on the Rosie's website"
+            aria-label="View ${this._escHtml(product.title)} on Rosie's Store"
           >
             <i class="ph ph-storefront" aria-hidden="true"></i>
-            Buy on Website
+            View on Rosie's Store
           </a>
+          <p style="font-size: var(--text-caption); color: var(--text-secondary); margin-top: var(--space-2); text-align: center;">You'll be taken to our secure checkout</p>
         </div>
 
       </div>
-      <div class="shop-detail__backdrop"></div>
     `;
   },
 
@@ -375,16 +387,8 @@ const Shop = {
   // ─── Strip HTML ───────────────────────────────────────
   _stripHtml(html) {
     if (!html) return '';
-    return html
-      .replace(/<[^>]*>/g, ' ')
-      .replace(/&nbsp;/g, ' ')
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;/g, "'")
-      .replace(/\s+/g, ' ')
-      .trim();
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || '';
   },
 
   // ─── Escape HTML (for inline attributes) ─────────────
