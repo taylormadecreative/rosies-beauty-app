@@ -263,10 +263,17 @@ ol {
     transform: translateX(-50%);
   }
 
+  /* Treatment overlay: backdrop spans full viewport, sheet stays 430px */
   .treatment-overlay {
+    /* Keep full viewport coverage — inset: 0 stays */
+    max-width: none;
+    left: 0;
+    right: 0;
+  }
+
+  .treatment-overlay__sheet {
     max-width: 430px;
-    left: 50%;
-    transform: translateX(-50%);
+    margin: 0 auto;
   }
 
   /* Home header sticky needs constraint */
