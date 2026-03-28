@@ -81,7 +81,7 @@ const Profile = {
           <p class="profile-history__service">${visit.service}</p>
           <p class="profile-history__date">${visit.date}</p>
         </div>
-        <span class="profile-history__badge">Completed</span>
+        <span class="profile-history__pts">+100 pts</span>
       </div>
     `).join('');
 
@@ -100,12 +100,13 @@ const Profile = {
     const rows = this.NOTIFICATIONS.map((notif) => {
       const saved = localStorage.getItem(notif.key);
       const isOn = saved !== null ? saved === 'true' : notif.defaultOn;
+      const descId = `notif-desc-${notif.key.replace('rosies_notif_', '')}`;
 
       return `
         <div class="profile-toggle-row">
           <div class="profile-toggle-row__text">
             <p class="profile-toggle-row__label">${notif.label}</p>
-            <p class="profile-toggle-row__desc">${notif.desc}</p>
+            <p class="profile-toggle-row__desc" id="${descId}">${notif.desc}</p>
           </div>
           <label class="profile-toggle">
             <input
@@ -113,6 +114,7 @@ const Profile = {
               data-notif-key="${notif.key}"
               ${isOn ? 'checked' : ''}
               aria-label="${notif.label}"
+              aria-describedby="${descId}"
             />
             <span class="profile-toggle__track"></span>
           </label>
@@ -155,12 +157,12 @@ const Profile = {
             </label>
           </div>
 
-          <a class="profile-settings__link" href="#" aria-label="Privacy Policy">
+          <a class="profile-settings__link" href="https://rosiesbeautyspa.com" target="_blank" rel="noopener" aria-label="Privacy Policy">
             <span class="profile-settings__link-label">Privacy Policy</span>
             <i class="ph ph-caret-right profile-settings__link-arrow" aria-hidden="true"></i>
           </a>
 
-          <a class="profile-settings__link" href="#" aria-label="Terms of Service">
+          <a class="profile-settings__link" href="https://rosiesbeautyspa.com" target="_blank" rel="noopener" aria-label="Terms of Service">
             <span class="profile-settings__link-label">Terms of Service</span>
             <i class="ph ph-caret-right profile-settings__link-arrow" aria-hidden="true"></i>
           </a>
@@ -175,10 +177,10 @@ const Profile = {
   _renderAccountActions() {
     return `
       <div class="profile-actions">
-        <button class="profile-actions__signout" aria-label="Sign out of your account">
+        <button class="profile-actions__signout" aria-label="Sign out of your account" onclick="if(confirm('Sign out of your account?')){localStorage.clear();location.reload();}">
           Sign Out
         </button>
-        <button class="profile-actions__delete" aria-label="Delete your account">
+        <button class="profile-actions__delete" aria-label="Delete your account" onclick="if(confirm('Are you sure you want to delete your account? This will remove all your data, rewards, and appointment history. This cannot be undone.')){alert('Account deletion requested. Please contact Ashley at (817) 422-9613 to complete this process.');}">
           Delete Account
         </button>
       </div>

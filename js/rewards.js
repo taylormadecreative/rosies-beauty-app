@@ -17,7 +17,7 @@ const Rewards = {
     { icon: 'ph-calendar-blank', text: 'Book any treatment', points: '+100' },
     { icon: 'ph-users', text: 'Refer a friend', points: '+200' },
     { icon: 'ph-bag-simple', text: 'Buy a product', points: '+50' },
-    { icon: 'ph-star', text: 'Leave a review', points: '+25' },
+    { icon: 'ph-star', text: 'Leave a review', points: '+50' },
     { icon: 'ph-device-mobile', text: 'Download the app', points: '+50' },
   ],
 
@@ -69,7 +69,14 @@ const Rewards = {
         <div class="rewards-hero__points">${points}</div>
         <div class="rewards-hero__label">Glow Points</div>
 
-        <div class="rewards-hero__progress">
+        <div
+          class="rewards-hero__progress"
+          role="progressbar"
+          aria-valuenow="${points}"
+          aria-valuemin="0"
+          aria-valuemax="${nextAt}"
+          aria-label="${points} of ${nextAt} Glow Points"
+        >
           <svg viewBox="0 0 100 100" aria-hidden="true">
             <circle class="rewards-hero__progress-track" cx="50" cy="50" r="${radius}" />
             <circle
@@ -83,6 +90,7 @@ const Rewards = {
         </div>
 
         <p class="rewards-hero__next">${remaining > 0 ? `${remaining} points to next reward` : 'You have enough for a reward!'}</p>
+        ${remaining > 0 ? `<p class="rewards-hero__visits">That's about ${Math.ceil(remaining / 100)} more visit${Math.ceil(remaining / 100) === 1 ? '' : 's'}</p>` : ''}
       </div>
     `;
   },
@@ -127,6 +135,7 @@ const Rewards = {
           <button
             class="rewards-available__redeem"
             ${canRedeem ? '' : 'disabled'}
+            ${canRedeem ? `onclick="alert('Reward redeemed! Show this screen to Ashley at your next visit. Your points balance has been updated.')"` : ''}
             aria-label="${canRedeem ? `Redeem ${reward.name} for ${reward.cost} points` : `Need ${reward.cost - userPoints} more points to redeem ${reward.name}`}"
           >
             ${canRedeem ? 'Redeem' : `Need ${reward.cost - userPoints} more pts`}

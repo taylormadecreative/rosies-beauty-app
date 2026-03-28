@@ -42,7 +42,7 @@
 
 .rewards-hero__points {
   font-family: var(--font-heading);
-  font-size: 48px;
+  font-size: clamp(36px, 10vw, 52px);
   font-weight: 700;
   color: var(--accent);
   line-height: 1;
@@ -101,6 +101,13 @@
   font-family: var(--font-body);
   font-size: var(--text-footnote);
   color: var(--text-secondary);
+}
+
+.rewards-hero__visits {
+  font-family: var(--font-body);
+  font-size: var(--text-caption1);
+  color: var(--text-tertiary);
+  margin-top: 2px;
 }
 
 /* ─── Section Headers ────────────────────────────────── */

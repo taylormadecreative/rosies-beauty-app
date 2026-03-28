@@ -159,13 +159,13 @@
   color: var(--text-secondary);
 }
 
-.profile-history__badge {
+.profile-history__pts {
   display: inline-flex;
   align-items: center;
   padding: 3px 10px;
   border-radius: var(--radius-pill);
-  background-color: var(--success-subtle);
-  color: var(--success);
+  background-color: var(--accent-subtle);
+  color: var(--accent);
   font-family: var(--font-body);
   font-size: var(--text-caption1);
   font-weight: 600;
