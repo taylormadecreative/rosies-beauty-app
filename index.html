@@ -43,6 +43,7 @@
   <link rel="stylesheet" href="css/home.css" />
   <link rel="stylesheet" href="css/treatment-detail.css" />
   <link rel="stylesheet" href="css/book.css" />
+  <link rel="stylesheet" href="css/shop.css" />
 </head>
 <body>
 
@@ -75,6 +76,11 @@
 
     <div id="tab-profile" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-profile">
       <!-- Profile content rendered by app.js placeholder -->
+    </div>
+
+    <!-- Shop Product Detail Overlay -->
+    <div id="shop-detail" class="shop-detail-overlay hidden" role="dialog" aria-modal="true" aria-label="Product details">
+      <!-- Populated dynamically by shop.js -->
     </div>
 
     <!-- Treatment Detail Overlay -->
@@ -157,6 +163,7 @@
   <script src="js/data.js"></script>
   <script src="js/animations.js"></script>
   <script src="js/book.js"></script>
+  <script src="js/shop.js"></script>
   <script src="js/app.js"></script>
   <script src="js/onboarding.js"></script>
   <script src="js/home.js"></script>

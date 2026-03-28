@@ -97,6 +97,9 @@ const App = {
     if (this.currentTab === 'book' && typeof Book !== 'undefined' && Book.destroy) {
       Book.destroy();
     }
+    if (this.currentTab === 'shop' && typeof Shop !== 'undefined' && Shop.destroy) {
+      Shop.destroy();
+    }
 
     const prevTab = this.currentTab;
     this.currentTab = tabName;
@@ -135,11 +138,9 @@ const App = {
         break;
 
       case 'shop':
-        document.getElementById('tab-shop').innerHTML = this.renderPlaceholderTab(
-          'Shop',
-          'ph-bag-simple',
-          'Coming Soon — Melanu Skincare products will be available here.'
-        );
+        if (typeof Shop !== 'undefined' && Shop.render) {
+          Shop.render();
+        }
         break;
 
       case 'rewards':

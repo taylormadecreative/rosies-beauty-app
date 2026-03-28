@@ -17,8 +17,10 @@ const STATIC_ASSETS = [
   '/js/treatment-detail.js',
   '/js/animations.js',
   '/js/book.js',
+  '/js/shop.js',
   '/css/treatment-detail.css',
   '/css/book.css',
+  '/css/shop.css',
   '/assets/icons/phosphor.css',
   '/assets/icons/Phosphor.woff2',
 ];
