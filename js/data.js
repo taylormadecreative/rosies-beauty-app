@@ -29,7 +29,7 @@ const SERVICES = [
     description: 'Comprehensive consultation plus a 60-min customized facial for first-time clients. 25% off your first visit.',
     bestFor: ['First visit', 'Skin assessment', 'Customized facial'],
     icon: 'ph-flower-lotus',
-    image: 'assets/images/ashley-facial.jpg',
+    image: 'assets/images/consultation.jpg',
   },
   {
     id: 'virtual-skin-consultation',
@@ -41,7 +41,7 @@ const SERVICES = [
     description: 'Virtual skin analysis via FaceTime. Send 3 photos beforehand and come with clean skin.',
     bestFor: ['Remote clients', 'Skin assessment', 'New clients'],
     icon: 'ph-chat-circle-text',
-    image: 'assets/images/ashley-portrait.jpg',
+    image: 'assets/images/consultation.jpg',
   },
   {
     id: 'new-client-brazilian',
@@ -64,7 +64,7 @@ const SERVICES = [
     description: 'Business consultation for estheticians and spa owners. Available virtual or in-person.',
     bestFor: ['Estheticians', 'Spa owners', 'Business advice'],
     icon: 'ph-brain',
-    image: 'assets/images/facial-massage.jpg',
+    image: 'assets/images/consultation.jpg',
   },
 
   /* ── Facials (Returning Rosebuds) ────────────────── */
@@ -121,7 +121,7 @@ const SERVICES = [
     description: 'Required follow-up call for acne clients. Send progress photos before your appointment.',
     bestFor: ['Acne follow-up', 'Progress check'],
     icon: 'ph-video-camera',
-    image: 'assets/images/facial-massage.jpg',
+    image: 'assets/images/consultation.jpg',
   },
   {
     id: 'post-treatment-followup',
