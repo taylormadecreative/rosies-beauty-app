@@ -57,6 +57,24 @@
   height: 100%;
 }
 
+.onboarding-logo {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  border-radius: 20px;
+  mix-blend-mode: lighten;
+}
+
+/* Dark mode — logo on dark bg looks natural, no blend needed */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .onboarding-logo {
+    mix-blend-mode: normal;
+  }
+}
+[data-theme="dark"] .onboarding-logo {
+  mix-blend-mode: normal;
+}
+
 .onboarding-slide h2 {
   font-family: var(--font-heading);
   font-size: var(--text-title1);
