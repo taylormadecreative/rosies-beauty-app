@@ -254,8 +254,9 @@ ol {
   /* Tab bar wide-screen rules are in tab-bar.css */
 
   .onboarding {
-    max-width: 430px;
+    width: 430px;
     left: 50%;
+    right: auto;
     transform: translateX(-50%);
   }
 
