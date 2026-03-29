@@ -1,13 +1,12 @@
 /* =====================================================
    ROSIE'S BEAUTY SPA — BOOK TAB MODULE
-   PocketSuite iframe embed, loading skeleton,
-   error state, fallback CTAs
+   Native service browser with category filtering,
+   service detail overlay, PocketSuite handoff
    ===================================================== */
 
 const Book = {
-  BASE_URL: 'https://pocketsuite.io/book/rosies-beauty-spa',
-  iframeLoaded: false,
-  loadTimeout: null,
+  POCKETSUITE_URL: 'https://pocketsuite.io/book/rosies-beauty-spa',
+  activeCategory: 'All',
 
   // ─── Render ───────────────────────────────────────────
   render() {
@@ -16,12 +15,15 @@ const Book = {
 
     container.innerHTML = `
       ${this._renderHeader()}
-      ${this._renderEmbed()}
-      ${this._renderFallbacks()}
+      ${this._renderCategoryPills()}
+      <div id="book-service-list">
+        ${this._renderServiceList()}
+      </div>
+      ${this._renderCallCard()}
       ${this._renderFooter()}
     `;
 
-    this._loadIframe();
+    this._bindCategoryPills();
   },
 
   // ─── Header ───────────────────────────────────────────
@@ -29,118 +31,106 @@ const Book = {
     return `
       <header class="book-header">
         <h1 class="book-header__title">Book a Treatment</h1>
-        <p class="book-header__subtitle">Schedule your visit with Ashley</p>
+        <p class="book-header__subtitle">Browse services and book your visit</p>
       </header>
     `;
   },
 
-  // ─── Embed Card ───────────────────────────────────────
-  _renderEmbed() {
+  // ─── Category Pills ──────────────────────────────────
+  _renderCategoryPills() {
+    const categories = ['All', ...getServiceCategories()];
+    const pills = categories
+      .map(
+        (cat) => `
+        <button
+          class="book-category${cat === this.activeCategory ? ' active' : ''}"
+          data-category="${cat}"
+          aria-pressed="${cat === this.activeCategory}"
+          aria-label="Filter by ${cat}"
+        >${cat}</button>
+      `
+      )
+      .join('');
+
     return `
-      <div class="book-embed" id="book-embed-card">
-
-        <!-- Loading Skeleton -->
-        <div class="book-skeleton" aria-hidden="true" id="book-skeleton">
-          <div class="book-skeleton__row">
-            <div class="book-skeleton__avatar"></div>
-            <div class="book-skeleton__lines">
-              <div class="book-skeleton__line book-skeleton__line--medium"></div>
-              <div class="book-skeleton__line book-skeleton__line--short"></div>
-            </div>
-          </div>
-          <div class="book-skeleton__block"></div>
-          <div class="book-skeleton__row">
-            <div class="book-skeleton__avatar"></div>
-            <div class="book-skeleton__lines">
-              <div class="book-skeleton__line book-skeleton__line--medium"></div>
-              <div class="book-skeleton__line book-skeleton__line--short"></div>
-            </div>
-          </div>
-          <div class="book-skeleton__block"></div>
-          <div class="book-skeleton__row">
-            <div class="book-skeleton__avatar"></div>
-            <div class="book-skeleton__lines">
-              <div class="book-skeleton__line book-skeleton__line--medium"></div>
-              <div class="book-skeleton__line book-skeleton__line--short"></div>
-            </div>
-          </div>
-          <div class="book-skeleton__block"></div>
-        </div>
-
-        <!-- PocketSuite Booking Iframe -->
-        <iframe
-          id="book-embed-frame"
-          title="Book a treatment at Rosie's Beauty Spa"
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-          loading="lazy"
-          aria-label="Online booking calendar"
-        ></iframe>
-
-        <!-- Error State -->
-        <div class="book-error" id="book-error" role="alert" aria-live="polite">
-          <div class="book-error__icon" aria-hidden="true">
-            <i class="ph ph-wifi-slash"></i>
-          </div>
-          <h2 class="book-error__title">We Hit a Snag</h2>
-          <p class="book-error__text">Online booking isn't loading right now. Try again or reach out directly.</p>
-          <div class="book-error__actions">
-            <button class="book-error__retry btn btn-primary" onclick="Book.retry()" aria-label="Retry loading booking">
-              <i class="ph ph-arrow-clockwise" aria-hidden="true"></i>
-              Try Again
-            </button>
-            <a
-              class="book-error__browser-link"
-              href="${this.BASE_URL}"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Book on PocketSuite.io
-            </a>
-          </div>
-        </div>
-
+      <div class="book-categories" role="tablist" aria-label="Service categories">
+        ${pills}
       </div>
     `;
   },
 
-  // ─── Fallback CTAs ────────────────────────────────────
-  _renderFallbacks() {
+  // ─── Service List ─────────────────────────────────────
+  _renderServiceList() {
+    const services = getServicesByCategory(this.activeCategory);
+
+    if (this.activeCategory === 'All') {
+      // Group by category with section headers
+      const categories = getServiceCategories();
+      return categories
+        .map((cat) => {
+          const catServices = services.filter((s) => s.category === cat);
+          if (catServices.length === 0) return '';
+          const cards = catServices.map((s) => this._renderServiceCard(s)).join('');
+          return `
+            <div class="book-category-group">
+              <h2 class="book-category-header">${cat}</h2>
+              ${cards}
+            </div>
+          `;
+        })
+        .join('');
+    }
+
+    return services.map((s) => this._renderServiceCard(s)).join('');
+  },
+
+  // ─── Service Card ─────────────────────────────────────
+  _renderServiceCard(service) {
+    const duration = formatDuration(service.duration);
+    const price = service.price === 0 ? 'Free' : `$${service.price}`;
+    const benefitText = service.bestFor && service.bestFor.length > 0
+      ? service.bestFor[0]
+      : service.description.substring(0, 50) + '...';
+
     return `
-      <div class="book-fallbacks">
+      <article
+        class="book-service-card"
+        role="button"
+        tabindex="0"
+        aria-label="${service.name}, ${duration}, ${price}"
+        onclick="Book._openServiceDetail('${service.id}')"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();Book._openServiceDetail('${service.id}')}"
+      >
+        <div class="book-service-card__icon" aria-hidden="true">
+          <i class="ph ${service.icon}"></i>
+        </div>
+        <div class="book-service-card__content">
+          <p class="book-service-card__name">${service.name}</p>
+          <p class="book-service-card__meta">${duration} · ${price}</p>
+          <p class="book-service-card__benefit">${benefitText}</p>
+        </div>
+        <i class="ph ph-caret-right book-service-card__arrow" aria-hidden="true"></i>
+      </article>
+    `;
+  },
 
-        <a
-          href="tel:8174229613"
-          class="book-fallback-card"
-          aria-label="Call Rosie's Beauty Spa at (817) 422-9613"
-        >
-          <div class="book-fallback-card__icon" aria-hidden="true">
-            <i class="ph ph-phone"></i>
-          </div>
-          <div class="book-fallback-card__content">
-            <p class="book-fallback-card__label">Call to Book</p>
-            <p class="book-fallback-card__detail">(817) 422-9613</p>
-          </div>
-          <i class="ph ph-caret-right book-fallback-card__arrow" aria-hidden="true"></i>
-        </a>
-
-        <a
-          href="https://instagram.com/rosiesbeautyspatx"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="book-fallback-card"
-          aria-label="DM Rosie's Beauty Spa on Instagram"
-        >
-          <div class="book-fallback-card__icon" aria-hidden="true">
-            <i class="ph ph-instagram-logo"></i>
-          </div>
-          <div class="book-fallback-card__content">
-            <p class="book-fallback-card__label">DM on Instagram</p>
-            <p class="book-fallback-card__detail">@rosiesbeautyspatx</p>
-          </div>
-          <i class="ph ph-caret-right book-fallback-card__arrow" aria-hidden="true"></i>
-        </a>
-
-      </div>
+  // ─── Call Card ────────────────────────────────────────
+  _renderCallCard() {
+    return `
+      <a
+        href="tel:8174229613"
+        class="book-call-card"
+        aria-label="Call Ashley at (817) 422-9613"
+      >
+        <div class="book-call-card__icon" aria-hidden="true">
+          <i class="ph ph-phone"></i>
+        </div>
+        <div class="book-call-card__content">
+          <p class="book-call-card__label">Questions? Call Ashley</p>
+          <p class="book-call-card__number">(817) 422-9613</p>
+        </div>
+        <i class="ph ph-caret-right book-call-card__arrow" aria-hidden="true"></i>
+      </a>
     `;
   },
 
@@ -149,82 +139,54 @@ const Book = {
     return `
       <footer class="book-footer">
         <p class="book-footer__caption">
-          Secure booking powered by PocketSuite.<br>
+          Online booking powered by PocketSuite.<br>
           Questions? Call or DM us on Instagram.
         </p>
       </footer>
     `;
   },
 
-  // ─── Load Iframe ─────────────────────────────────────
-  _loadIframe() {
-    const embedCard = document.getElementById('book-embed-card');
-    const skeleton  = document.getElementById('book-skeleton');
-    const iframe    = document.getElementById('book-embed-frame');
+  // ─── Bind Category Pills ─────────────────────────────
+  _bindCategoryPills() {
+    const container = document.querySelector('.book-categories');
+    if (!container) return;
 
-    if (!embedCard || !iframe) return;
+    container.addEventListener('click', (e) => {
+      const pill = e.target.closest('.book-category');
+      if (!pill) return;
 
-    // Clear any previous timeout
-    if (this.loadTimeout) {
-      clearTimeout(this.loadTimeout);
-      this.loadTimeout = null;
-    }
+      const category = pill.dataset.category;
+      if (category === this.activeCategory) return;
 
-    // Reset states
-    this.iframeLoaded = false;
-    embedCard.classList.remove('loaded', 'error');
+      this.activeCategory = category;
 
-    // Show skeleton
-    if (skeleton) skeleton.style.display = '';
+      // Update pill states
+      container.querySelectorAll('.book-category').forEach((p) => {
+        const isActive = p.dataset.category === category;
+        p.classList.toggle('active', isActive);
+        p.setAttribute('aria-pressed', isActive);
+      });
 
-    // Wire load/error handlers before setting src
-    iframe.onload = () => {
-      if (this.loadTimeout) {
-        clearTimeout(this.loadTimeout);
-        this.loadTimeout = null;
+      // Re-render the service list
+      const listContainer = document.getElementById('book-service-list');
+      if (listContainer) {
+        listContainer.innerHTML = this._renderServiceList();
       }
-      this.iframeLoaded = true;
-      embedCard.classList.add('loaded');
-      embedCard.classList.remove('error');
-    };
-
-    // Set src — triggers load
-    iframe.src = this.BASE_URL;
-
-    // 15-second timeout fallback
-    this.loadTimeout = setTimeout(() => {
-      if (!this.iframeLoaded) {
-        console.warn('[Book] Iframe load timeout — showing error state');
-        this._showError();
-      }
-    }, 15000);
+    });
   },
 
-  // ─── Show Error ───────────────────────────────────────
-  _showError() {
-    if (this.loadTimeout) {
-      clearTimeout(this.loadTimeout);
-      this.loadTimeout = null;
+  // ─── Open Service Detail ──────────────────────────────
+  _openServiceDetail(serviceId) {
+    if (typeof TreatmentDetail !== 'undefined' && TreatmentDetail.show) {
+      TreatmentDetail.show(serviceId);
+    } else {
+      // Fallback: go straight to PocketSuite
+      window.open(this.POCKETSUITE_URL, '_blank');
     }
-
-    const embedCard = document.getElementById('book-embed-card');
-    if (embedCard) {
-      embedCard.classList.remove('loaded');
-      embedCard.classList.add('error');
-    }
-  },
-
-  // ─── Retry ────────────────────────────────────────────
-  retry() {
-    this._loadIframe();
   },
 
   // ─── Destroy ──────────────────────────────────────────
   destroy() {
-    if (this.loadTimeout) {
-      clearTimeout(this.loadTimeout);
-      this.loadTimeout = null;
-    }
-    this.iframeLoaded = false;
+    this.activeCategory = 'All';
   },
 };
