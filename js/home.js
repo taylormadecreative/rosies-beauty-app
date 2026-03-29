@@ -32,7 +32,7 @@ const Home = {
 
         ${Home._renderRewardsSection(user.glowPoints, pointsRemaining, pointsProgress)}
 
-        ${Home._renderProductSection(user.recommendedProduct)}
+        ${Home._renderLocationCard()}
 
         <div style="height: 100px;" aria-hidden="true"></div>
 
@@ -232,34 +232,37 @@ const Home = {
     `;
   },
 
-  // ─── Recommended Product Section ────────────────────
-  _renderProductSection(product) {
-    const imageHTML = product.image
-      ? `<img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.parentElement.innerHTML='<i class=\\"ph ph-flask\\" aria-hidden=\\"true\\"></i>'">`
-      : `<i class="ph ph-flask" aria-hidden="true"></i>`;
-
+  // ─── Location Quick Card ────────────────────────────
+  _renderLocationCard() {
     return `
-      <section class="home-section" aria-label="Recommended for you">
+      <section class="home-section" aria-label="Location">
         <div class="home-section__header">
-          <h2 class="home-section__title">Recommended For You</h2>
+          <h2 class="home-section__title">Find Us</h2>
+          <button
+            class="home-section__link"
+            onclick="App.switchTab('contact')"
+            aria-label="View contact and location"
+          >
+            View All →
+          </button>
         </div>
-        <div
+        <a
+          href="https://maps.apple.com/?address=1150+W+Pioneer+Pkwy,+Arlington,+TX+76013"
+          target="_blank"
+          rel="noopener"
           class="product-card"
-          role="button"
-          tabindex="0"
-          aria-label="${product.name}, $${product.price}"
-          onclick="App.switchTab('shop')"
-          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();App.switchTab('shop')}"
+          style="text-decoration: none; color: inherit;"
+          aria-label="Get directions to 1150 W Pioneer Pkwy, Arlington TX"
         >
           <div class="product-card__image" aria-hidden="true">
-            ${imageHTML}
+            <i class="ph ph-map-pin" aria-hidden="true"></i>
           </div>
           <div class="product-card__body">
-            <p class="product-card__name">${product.name}</p>
-            <p class="product-card__context">${product.description}</p>
+            <p class="product-card__name">1150 W Pioneer Pkwy</p>
+            <p class="product-card__context">Arlington, TX 76013 · Pioneer Plaza</p>
           </div>
-          <p class="product-card__price">$${product.price}</p>
-        </div>
+          <p class="product-card__price" style="font-size: var(--text-caption); color: var(--accent);">Get Directions →</p>
+        </a>
       </section>
     `;
   },
