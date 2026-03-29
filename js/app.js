@@ -97,8 +97,8 @@ const App = {
     if (this.currentTab === 'book' && typeof Book !== 'undefined' && Book.destroy) {
       Book.destroy();
     }
-    if (this.currentTab === 'shop' && typeof Shop !== 'undefined' && Shop.destroy) {
-      Shop.destroy();
+    if (this.currentTab === 'contact' && typeof Contact !== 'undefined' && Contact.destroy) {
+      Contact.destroy();
     }
     if (this.currentTab === 'rewards' && typeof Rewards !== 'undefined' && Rewards.destroy) {
       Rewards.destroy();
@@ -143,9 +143,9 @@ const App = {
         Book.render();
         break;
 
-      case 'shop':
-        if (typeof Shop !== 'undefined' && Shop.render) {
-          Shop.render();
+      case 'contact':
+        if (typeof Contact !== 'undefined' && Contact.render) {
+          Contact.render();
         }
         break;
 
