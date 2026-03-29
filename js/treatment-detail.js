@@ -102,7 +102,7 @@ const TreatmentDetail = {
 
         <div class="td-title-row">
           <h2 class="td-title">${treatment.name}</h2>
-          <p class="td-benefit">${treatment.benefit}</p>
+          <p class="td-benefit">${treatment.benefit || (treatment.bestFor && treatment.bestFor[0]) || ''}</p>
         </div>
 
         ${this._renderTags(treatment)}
@@ -154,8 +154,10 @@ const TreatmentDetail = {
 
   // ─── Tags Row ─────────────────────────────────────────
   _renderTags(treatment) {
-    const durationLabel = formatDuration(treatment.duration);
-    const priceLabel    = treatment.price === 0 ? 'Free' : `From ${formatPrice(treatment.priceFrom || treatment.price)}`;
+    const durationLabel = treatment.duration > 0 ? formatDuration(treatment.duration) : '';
+    const priceLabel    = treatment.salePrice
+      ? `<s>$${treatment.price}</s> $${treatment.salePrice}`
+      : (treatment.price === 0 ? 'View Options' : formatPrice(treatment.price));
 
     // Limit bestFor pills to 3 in the tag row to avoid overflow
     const bestForPills = (treatment.bestFor || [])
@@ -165,10 +167,10 @@ const TreatmentDetail = {
 
     return `
       <div class="td-tags" role="list" aria-label="Treatment details">
-        <span class="td-tag td-tag--meta" role="listitem">
+        ${durationLabel ? `<span class="td-tag td-tag--meta" role="listitem">
           <i class="ph ph-clock" aria-hidden="true"></i>
           ${durationLabel}
-        </span>
+        </span>` : ''}
         <span class="td-tag td-tag--meta" role="listitem">
           <i class="ph ph-tag" aria-hidden="true"></i>
           ${priceLabel}
@@ -235,7 +237,7 @@ const TreatmentDetail = {
           aria-label="Book ${treatment.name}"
         >
           <i class="ph ph-calendar-check" aria-hidden="true"></i>
-          Book This Treatment
+          Book This Service
         </button>
       </div>
     `;
@@ -279,9 +281,11 @@ const TreatmentDetail = {
 
   // ─── Book Button Handler ──────────────────────────────
   _handleBook() {
+    // Look up the current service's category and open the correct PocketSuite deep link
+    const treatment = this._currentId ? getTreatmentById(this._currentId) : null;
+    const link = treatment ? getPocketSuiteLink(treatment.category) : 'https://pocketsuite.io/book/rosies-beauty-spa';
     TreatmentDetail.hide();
-    // Open PocketSuite for scheduling
-    window.open('https://pocketsuite.io/book/rosies-beauty-spa', '_blank');
+    window.open(link, '_blank');
   },
 };
 
