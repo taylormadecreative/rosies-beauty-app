@@ -107,15 +107,18 @@ const Home = {
   },
 
   _renderTreatmentCard(treatment) {
-    const duration = formatDuration(treatment.duration);
-    const price = formatPrice(treatment.priceFrom);
+    const duration = treatment.duration > 0 ? formatDuration(treatment.duration) : '';
+    const displayPrice = treatment.salePrice
+      ? `<s>$${treatment.price}</s> $${treatment.salePrice}`
+      : formatPrice(treatment.price);
+    const benefit = treatment.benefit || (treatment.bestFor && treatment.bestFor[0]) || '';
 
     return `
       <article
         class="treatment-card"
         role="listitem"
         tabindex="0"
-        aria-label="${treatment.name}, from ${price}, ${duration}"
+        aria-label="${treatment.name}, ${displayPrice}, ${duration}"
         onclick="Home._openTreatment('${treatment.id}')"
         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();Home._openTreatment('${treatment.id}')}"
       >
@@ -123,9 +126,9 @@ const Home = {
           <i class="ph ${treatment.icon}"></i>
         </div>
         <p class="treatment-card__name">${treatment.name}</p>
-        <p class="treatment-card__duration">${duration}</p>
-        <p class="treatment-card__benefit">${treatment.benefit}</p>
-        <p class="treatment-card__price">${price}+</p>
+        ${duration ? `<p class="treatment-card__duration">${duration}</p>` : ''}
+        <p class="treatment-card__benefit">${benefit}</p>
+        <p class="treatment-card__price">${displayPrice}</p>
       </article>
     `;
   },

@@ -86,8 +86,10 @@ const Book = {
 
   // ─── Service Card ─────────────────────────────────────
   _renderServiceCard(service) {
-    const duration = formatDuration(service.duration);
-    const price = service.price === 0 ? 'Free' : `$${service.price}`;
+    const duration = service.duration > 0 ? formatDuration(service.duration) : '';
+    const price = service.salePrice
+      ? `<s>$${service.price}</s> $${service.salePrice}`
+      : (service.price === 0 ? 'View Options' : `$${service.price}`);
     const benefitText = service.bestFor && service.bestFor.length > 0
       ? service.bestFor[0]
       : service.description.substring(0, 50) + '...';
@@ -106,7 +108,7 @@ const Book = {
         </div>
         <div class="book-service-card__content">
           <p class="book-service-card__name">${service.name}</p>
-          <p class="book-service-card__meta">${duration} · ${price}</p>
+          <p class="book-service-card__meta">${duration ? duration + ' · ' : ''}${price}</p>
           <p class="book-service-card__benefit">${benefitText}</p>
         </div>
         <i class="ph ph-caret-right book-service-card__arrow" aria-hidden="true"></i>
