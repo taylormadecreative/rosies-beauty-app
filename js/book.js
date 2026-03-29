@@ -168,62 +168,13 @@ const Book = {
     `;
   },
 
-  // ─── Contact Cards ──────────────────────────────────────
+  // ─── Contact Quick Link ─────────────────────────────────
   _renderContactCards() {
     return `
-      <div class="book-contact-section">
-        <h2 class="book-contact-header">Contact & Location</h2>
-
-        <a
-          href="https://maps.apple.com/?address=1150+W+Pioneer+Pkwy,+Arlington,+TX+76013"
-          target="_blank"
-          rel="noopener"
-          class="book-contact-card"
-          aria-label="Get directions to Rosie's Beauty Spa"
-        >
-          <div class="book-contact-card__icon" aria-hidden="true">
-            <i class="ph ph-map-pin"></i>
-          </div>
-          <div class="book-contact-card__content">
-            <p class="book-contact-card__label">Get Directions</p>
-            <p class="book-contact-card__detail">1150 W Pioneer Pkwy, Arlington, TX 76013</p>
-            <p class="book-contact-card__detail">Pioneer Plaza</p>
-          </div>
-          <i class="ph ph-caret-right book-contact-card__arrow" aria-hidden="true"></i>
-        </a>
-
-        <a
-          href="tel:8174229613"
-          class="book-contact-card"
-          aria-label="Call Rosie's Beauty Spa"
-        >
-          <div class="book-contact-card__icon" aria-hidden="true">
-            <i class="ph ph-phone"></i>
-          </div>
-          <div class="book-contact-card__content">
-            <p class="book-contact-card__label">Call or Text</p>
-            <p class="book-contact-card__detail">(817) 422-9613</p>
-            <p class="book-contact-card__detail">Running late? Need to cancel? Call us</p>
-          </div>
-          <i class="ph ph-caret-right book-contact-card__arrow" aria-hidden="true"></i>
-        </a>
-
-        <a
-          href="https://instagram.com/rosiesbeautyspatx"
-          target="_blank"
-          rel="noopener"
-          class="book-contact-card"
-          aria-label="DM on Instagram"
-        >
-          <div class="book-contact-card__icon" aria-hidden="true">
-            <i class="ph ph-instagram-logo"></i>
-          </div>
-          <div class="book-contact-card__content">
-            <p class="book-contact-card__label">DM on Instagram</p>
-            <p class="book-contact-card__detail">@rosiesbeautyspatx</p>
-          </div>
-          <i class="ph ph-caret-right book-contact-card__arrow" aria-hidden="true"></i>
-        </a>
+      <div class="book-contact-section" style="text-align: center;">
+        <p style="font-size: var(--text-subhead); color: var(--text-secondary);">
+          Questions? <a href="tel:8174229613" style="color: var(--accent); text-decoration: none; font-weight: 600;">Call (817) 422-9613</a>
+        </p>
       </div>
     `;
   },
