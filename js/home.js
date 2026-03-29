@@ -52,7 +52,7 @@ const Home = {
           <p class="home-header__name">${name}</p>
         </div>
         <div class="home-header__icon" aria-hidden="true">
-          <img src="assets/images/ashley-headshot.jpg" alt="Ashley" class="home-header__avatar" />
+          <img src="assets/images/ashley-facial.jpg" alt="Ashley" class="home-header__avatar" />
         </div>
       </header>
     `;
