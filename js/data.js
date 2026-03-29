@@ -29,6 +29,7 @@ const SERVICES = [
     description: 'Comprehensive consultation plus a 60-min customized facial for first-time clients. 25% off your first visit.',
     bestFor: ['First visit', 'Skin assessment', 'Customized facial'],
     icon: 'ph-flower-lotus',
+    image: 'assets/images/ashley-facial.jpg',
   },
   {
     id: 'virtual-skin-consultation',
@@ -40,6 +41,7 @@ const SERVICES = [
     description: 'Virtual skin analysis via FaceTime. Send 3 photos beforehand and come with clean skin.',
     bestFor: ['Remote clients', 'Skin assessment', 'New clients'],
     icon: 'ph-chat-circle-text',
+    image: 'assets/images/ashley-portrait.jpg',
   },
   {
     id: 'new-client-brazilian',
@@ -51,6 +53,7 @@ const SERVICES = [
     description: 'Brazilian wax for first-time wax clients at a discounted intro rate.',
     bestFor: ['First-time wax', 'New clients'],
     icon: 'ph-flower-tulip',
+    image: 'assets/images/waxing.jpg',
   },
   {
     id: 'power-hour',
@@ -73,6 +76,7 @@ const SERVICES = [
     description: 'Customized facial with double cleanse, exfoliation, massage, and mask. Recommended every 4-6 weeks.',
     bestFor: ['Maintenance', 'Glow', 'Relaxation', 'All skin types'],
     icon: 'ph-sparkle',
+    image: 'assets/images/facial-massage.jpg',
   },
   {
     id: 'corrective-renewal',
@@ -83,6 +87,7 @@ const SERVICES = [
     description: 'Level 2 corrective treatment with extractions, chemical peel, LED, high frequency, and 2 enhancers included.',
     bestFor: ['Hyperpigmentation', 'Acne', 'Texture', 'Corrective'],
     icon: 'ph-shield-check',
+    image: 'assets/images/ashley-facial.jpg',
   },
   {
     id: 'biweekly-acne',
@@ -93,6 +98,7 @@ const SERVICES = [
     description: 'For clients getting treatments every 2 weeks. Targets active breakouts and unclogs pores.',
     bestFor: ['Active acne', 'Breakouts', 'Congested pores'],
     icon: 'ph-repeat',
+    image: 'assets/images/facial-massage.jpg',
   },
   {
     id: 'teen-acne-facial',
@@ -103,6 +109,7 @@ const SERVICES = [
     description: 'Ages 13-18. A 45-min facial targeted for teenage skin with breakouts.',
     bestFor: ['Teens', 'Acne', 'Young skin'],
     icon: 'ph-smiley',
+    image: 'assets/images/facial-massage.jpg',
   },
   {
     id: 'acne-check-in',
@@ -113,6 +120,7 @@ const SERVICES = [
     description: 'Required follow-up call for acne clients. Send progress photos before your appointment.',
     bestFor: ['Acne follow-up', 'Progress check'],
     icon: 'ph-video-camera',
+    image: 'assets/images/ashley-portrait.jpg',
   },
   {
     id: 'post-treatment-followup',
@@ -123,6 +131,7 @@ const SERVICES = [
     description: '7-10 days post-peel or microneedling. Polishes dead skin and promotes healing.',
     bestFor: ['Post-peel', 'Post-microneedling', 'Healing'],
     icon: 'ph-first-aid-kit',
+    image: 'assets/images/led-treatment.jpg',
   },
   {
     id: 'rosebud-perfect-peel',
@@ -133,6 +142,7 @@ const SERVICES = [
     description: 'Medium depth peel for all skin types. Stop retinol 7-10 days before your appointment.',
     bestFor: ['Dark spots', 'Hyperpigmentation', 'Resurfacing', 'All skin types'],
     icon: 'ph-drop-half-bottom',
+    image: 'assets/images/ashley-facial.jpg',
   },
   {
     id: 'rosebud-perfect-peel-booster',
@@ -143,6 +153,7 @@ const SERVICES = [
     description: 'Medium depth peel with an added booster for enhanced results. Stop retinol 7-10 days before.',
     bestFor: ['Dark spots', 'Hyperpigmentation', 'Enhanced results'],
     icon: 'ph-drop-half-bottom',
+    image: 'assets/images/ashley-facial.jpg',
   },
   {
     id: 'dpn-skin-tag-60',
@@ -153,6 +164,7 @@ const SERVICES = [
     description: 'Treats DPN, skin tags, and seborrheic keratosis. Numbing cream is applied for comfort.',
     bestFor: ['DPN', 'Skin tags', 'Milia', 'Seborrheic keratosis'],
     icon: 'ph-bandaids',
+    image: 'assets/images/led-treatment.jpg',
   },
   {
     id: 'dpn-skin-tag-30',
@@ -163,6 +175,7 @@ const SERVICES = [
     description: 'Shorter DPN and skin tag removal treatment for smaller areas.',
     bestFor: ['DPN', 'Skin tags'],
     icon: 'ph-bandaids',
+    image: 'assets/images/led-treatment.jpg',
   },
 
   /* ── Microneedling ───────────────────────────────── */
@@ -175,6 +188,7 @@ const SERVICES = [
     description: 'FDA-approved SkinPen collagen therapy. Includes post-care home kit and a gift.',
     bestFor: ['Collagen boost', 'Acne scars', 'Fine lines', 'Texture'],
     icon: 'ph-needle',
+    image: 'assets/images/microneedling.jpg',
   },
   {
     id: 'brightening-microneedling',
@@ -185,6 +199,7 @@ const SERVICES = [
     description: 'Microneedling with exosomes + PDRN to correct dark spots, melasma, and PIH. Includes LED therapy.',
     bestFor: ['Dark spots', 'Melasma', 'PIH', 'Brightening'],
     icon: 'ph-sun-dim',
+    image: 'assets/images/microneedling.jpg',
   },
   {
     id: 'microneedling-peel',
@@ -195,6 +210,7 @@ const SERVICES = [
     description: 'Dual-action treatment combining microneedling with a chemical peel for deeper results.',
     bestFor: ['Deep scars', 'Resurfacing', 'Anti-aging', 'Maximum results'],
     icon: 'ph-lightning',
+    image: 'assets/images/microneedling.jpg',
   },
   {
     id: 'microneedling-neck',
@@ -217,6 +233,7 @@ const SERVICES = [
     description: 'Full Brazilian wax — front and back plus stomach strip.',
     bestFor: ['Brazilian', 'Full removal'],
     icon: 'ph-flower-tulip',
+    image: 'assets/images/waxing.jpg',
   },
   {
     id: 'new-client-brazilian-wax',
@@ -228,6 +245,7 @@ const SERVICES = [
     description: 'Brazilian wax for first-time wax clients at a discounted rate.',
     bestFor: ['First-time wax', 'New clients'],
     icon: 'ph-flower-tulip',
+    image: 'assets/images/waxing.jpg',
   },
   {
     id: 'brazilian-mini-intimate',
@@ -238,6 +256,7 @@ const SERVICES = [
     description: 'Brazilian wax plus a post-wax calming treatment with jelly mask and serum.',
     bestFor: ['Brazilian', 'Skin treatment', 'Ingrown prevention'],
     icon: 'ph-flower-tulip',
+    image: 'assets/images/waxing.jpg',
   },
   {
     id: 'extended-brazilian',
@@ -248,6 +267,7 @@ const SERVICES = [
     description: 'Full Brazilian plus butt strip, inner thighs, and tummy strip.',
     bestFor: ['Extended coverage', 'Full removal'],
     icon: 'ph-flower-tulip',
+    image: 'assets/images/waxing.jpg',
   },
   {
     id: 'bikini-wax',
@@ -358,6 +378,7 @@ const SERVICES = [
     description: 'Post-wax skin treatment for the bikini area. Cleanse, exfoliate, extractions, and jelly mask.',
     bestFor: ['Ingrown prevention', 'Post-wax care', 'Bikini area'],
     icon: 'ph-heart',
+    image: 'assets/images/waxing.jpg',
   },
 
   /* ── Body Treatments ─────────────────────────────── */
@@ -370,6 +391,7 @@ const SERVICES = [
     description: 'Professional body peel to even tone and brighten skin on the body. Great for knees, elbows, and underarms.',
     bestFor: ['Body brightening', 'Uneven tone', 'Hyperpigmentation'],
     icon: 'ph-person-arms-spread',
+    image: 'assets/images/ashley-facial.jpg',
   },
   {
     id: 'back-facial',
@@ -380,6 +402,7 @@ const SERVICES = [
     description: 'Deep cleanse, exfoliation, and treatment for back acne, congestion, and uneven texture.',
     bestFor: ['Back acne', 'Body skin', 'Deep cleanse'],
     icon: 'ph-person-arms-spread',
+    image: 'assets/images/facial-massage.jpg',
   },
 
   /* ── Packages ────────────────────────────────────── */
