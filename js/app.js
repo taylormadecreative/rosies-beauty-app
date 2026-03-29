@@ -132,6 +132,12 @@ const App = {
   },
 
   renderTab(tabName) {
+    // Skip re-render if tab content already exists (preserves scroll/state)
+    const panel = document.getElementById(`tab-${tabName}`);
+    if (panel && panel.dataset.rendered === 'true' && tabName !== 'home') {
+      return;
+    }
+
     switch (tabName) {
       case 'home':
         if (typeof Home !== 'undefined' && Home.render) {
@@ -140,24 +146,30 @@ const App = {
         break;
 
       case 'book':
-        Book.render();
+        if (typeof Book !== 'undefined' && Book.render) {
+          Book.render();
+          if (panel) panel.dataset.rendered = 'true';
+        }
         break;
 
       case 'contact':
         if (typeof Contact !== 'undefined' && Contact.render) {
           Contact.render();
+          if (panel) panel.dataset.rendered = 'true';
         }
         break;
 
       case 'rewards':
         if (typeof Rewards !== 'undefined' && Rewards.render) {
           Rewards.render();
+          if (panel) panel.dataset.rendered = 'true';
         }
         break;
 
       case 'profile':
         if (typeof Profile !== 'undefined' && Profile.render) {
           Profile.render();
+          if (panel) panel.dataset.rendered = 'true';
         }
         break;
 

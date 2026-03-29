@@ -35,8 +35,28 @@
 
 /* ─── Treatment Detail Inner Layout ──────────────────── */
 .td-body {
+  position: relative;
   padding-bottom: 0; /* sticky CTA handles bottom spacing */
 }
+
+/* ──�� Close Button ───────────────────────────────────── */
+.td-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  cursor: pointer;
+  border: none;
+}
+.td-close i { font-size: 16px; color: var(--text-primary); }
 
 /* ─── Hero Image Area ─────────────────────────────────── */
 .td-hero {

@@ -12,6 +12,7 @@ const Home = {
     if (!panel) return;
 
     const user = MOCK_USER;
+    const clientName = localStorage.getItem('rosies_client_name') || 'Rosebud';
     const greeting = getGreeting();
     const pointsProgress = Math.min(
       Math.round((user.glowPoints / user.nextRewardAt) * 100),
@@ -20,17 +21,19 @@ const Home = {
     const pointsRemaining = user.nextRewardAt - user.glowPoints;
 
     panel.innerHTML = `
-      ${Home._renderHeader(greeting, user.name)}
+      ${Home._renderHeader(greeting, clientName)}
 
       <div class="home-content fade-in">
 
-        ${Home._renderHeroCard(greeting, user.name, user.visitStreak)}
+        ${Home._renderHeroCard(greeting, clientName, user.visitStreak)}
 
         ${Home._renderTreatmentsSection()}
 
         ${Home._renderUpcomingSection(user.upcomingAppointment)}
 
         ${Home._renderRewardsSection(user.glowPoints, pointsRemaining, pointsProgress)}
+
+        ${Home._renderRecommendedProduct(user.recommendedProduct)}
 
         ${Home._renderLocationCard()}
 
@@ -49,13 +52,7 @@ const Home = {
           <p class="home-header__name">${name}</p>
         </div>
         <div class="home-header__icon" aria-hidden="true">
-          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-            <path d="M16 6C16 6 10 11 10 16C10 19.3 12.7 22 16 22C19.3 22 22 19.3 22 16C22 11 16 6 16 6Z" stroke="var(--accent)" stroke-width="1.5" fill="rgba(155,27,33,0.08)"/>
-            <path d="M13 13C13 13 11 10 8 10" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M19 13C19 13 21 10 24 10" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M16 22V28" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M16 25C14 23.5 12.5 23 11 23" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
+          <img src="assets/images/ashley-headshot.jpg" alt="Ashley" class="home-header__avatar" />
         </div>
       </header>
     `;
@@ -227,6 +224,36 @@ const Home = {
             <div class="progress-fill shimmer" style="width: ${progressPct}%"></div>
           </div>
           <p class="rewards-card__caption">Earn points with every visit. Redeem for free services.</p>
+        </div>
+      </section>
+    `;
+  },
+
+  // ─── Recommended Product ────────────────────────────
+  _renderRecommendedProduct(product) {
+    if (!product) return '';
+    const imgSrc = 'assets/images/product-cream.jpg';
+    return `
+      <section class="home-section" aria-label="Recommended product">
+        <div class="home-section__header">
+          <h2 class="home-section__title">Recommended for You</h2>
+        </div>
+        <div
+          class="product-card"
+          role="button"
+          tabindex="0"
+          aria-label="${product.name}, $${product.price}"
+          onclick="App.switchTab('contact')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();App.switchTab('contact')}"
+        >
+          <div class="product-card__image">
+            <img src="${imgSrc}" alt="${product.name}" loading="lazy" onerror="this.style.display='none'" />
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__name">${product.name}</p>
+            <p class="product-card__context">${product.description}</p>
+          </div>
+          <p class="product-card__price">$${product.price}</p>
         </div>
       </section>
     `;

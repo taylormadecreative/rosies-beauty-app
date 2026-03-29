@@ -68,7 +68,6 @@ const Profile = {
           <p class="profile-info__contact">${ext.email}<br>${ext.phone}</p>
           <p class="profile-info__member">Member since ${ext.memberSince}</p>
         </div>
-        <button class="profile-info__edit" aria-label="Edit profile">Edit</button>
       </div>
     `;
   },
@@ -177,10 +176,10 @@ const Profile = {
   _renderAccountActions() {
     return `
       <div class="profile-actions">
-        <button class="profile-actions__signout" aria-label="Sign out of your account" onclick="if(confirm('Sign out of your account?')){localStorage.clear();location.reload();}">
+        <button class="profile-actions__signout" aria-label="Sign out of your account" onclick="Modal.show({ title: 'Sign Out?', message: 'You will need to sign in again next time.', cancelText: 'Cancel', confirmText: 'Sign Out', type: 'confirm', onConfirm: () => { localStorage.clear(); location.reload(); } })">
           Sign Out
         </button>
-        <button class="profile-actions__delete" aria-label="Delete your account" onclick="if(confirm('Are you sure you want to delete your account? This will remove all your data, rewards, and appointment history. This cannot be undone.')){alert('Account deletion requested. Please contact Ashley at (817) 422-9613 to complete this process.');}">
+        <button class="profile-actions__delete" aria-label="Delete your account" onclick="Modal.show({ title: 'Delete Account?', message: 'This will remove all your data, rewards, and appointment history. This cannot be undone.', cancelText: 'Cancel', confirmText: 'Delete', type: 'warning', onConfirm: () => { Modal.show({ title: 'Contact Ashley', message: 'Please call or text (817) 422-9613 to complete your account deletion.', confirmText: 'Got It', type: 'confirm' }); } })">
           Delete Account
         </button>
       </div>

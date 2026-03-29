@@ -27,6 +27,11 @@ const STATIC_ASSETS = [
   '/js/profile.js',
   '/assets/icons/phosphor.css',
   '/assets/icons/Phosphor.woff2',
+  '/assets/fonts/Cardo-Bold.woff2',
+  '/assets/fonts/Figtree-Regular.woff2',
+  '/assets/fonts/Figtree-SemiBold.woff2',
+  '/js/modal.js',
+  '/css/modal.css',
 ];
 
 // Install: cache static assets

@@ -32,6 +32,7 @@ const SERVICES = [
   },
   {
     id: 'virtual-skin-consultation',
+
     category: 'New Clients',
     name: '(Virtual) Skin Consultation',
     duration: 30,
@@ -49,7 +50,7 @@ const SERVICES = [
     salePrice: 58.50,
     description: 'Brazilian wax for first-time wax clients at a discounted intro rate.',
     bestFor: ['First-time wax', 'New clients'],
-    icon: 'ph-scissors',
+    icon: 'ph-flower-tulip',
   },
   {
     id: 'power-hour',
@@ -59,7 +60,7 @@ const SERVICES = [
     price: 129,
     description: 'Business consultation for estheticians and spa owners. Available virtual or in-person.',
     bestFor: ['Estheticians', 'Spa owners', 'Business advice'],
-    icon: 'ph-chat-circle-text',
+    icon: 'ph-brain',
   },
 
   /* ── Facials (Returning Rosebuds) ────────────────── */
@@ -71,7 +72,7 @@ const SERVICES = [
     price: 129,
     description: 'Customized facial with double cleanse, exfoliation, massage, and mask. Recommended every 4-6 weeks.',
     bestFor: ['Maintenance', 'Glow', 'Relaxation', 'All skin types'],
-    icon: 'ph-flower-lotus',
+    icon: 'ph-sparkle',
   },
   {
     id: 'corrective-renewal',
@@ -81,7 +82,7 @@ const SERVICES = [
     price: 189,
     description: 'Level 2 corrective treatment with extractions, chemical peel, LED, high frequency, and 2 enhancers included.',
     bestFor: ['Hyperpigmentation', 'Acne', 'Texture', 'Corrective'],
-    icon: 'ph-flower-lotus',
+    icon: 'ph-shield-check',
   },
   {
     id: 'biweekly-acne',
@@ -91,7 +92,7 @@ const SERVICES = [
     price: 99,
     description: 'For clients getting treatments every 2 weeks. Targets active breakouts and unclogs pores.',
     bestFor: ['Active acne', 'Breakouts', 'Congested pores'],
-    icon: 'ph-flower-lotus',
+    icon: 'ph-repeat',
   },
   {
     id: 'teen-acne-facial',
@@ -111,7 +112,7 @@ const SERVICES = [
     price: 25,
     description: 'Required follow-up call for acne clients. Send progress photos before your appointment.',
     bestFor: ['Acne follow-up', 'Progress check'],
-    icon: 'ph-chat-circle-text',
+    icon: 'ph-video-camera',
   },
   {
     id: 'post-treatment-followup',
@@ -121,7 +122,7 @@ const SERVICES = [
     price: 75,
     description: '7-10 days post-peel or microneedling. Polishes dead skin and promotes healing.',
     bestFor: ['Post-peel', 'Post-microneedling', 'Healing'],
-    icon: 'ph-flower-lotus',
+    icon: 'ph-first-aid-kit',
   },
   {
     id: 'rosebud-perfect-peel',
@@ -151,7 +152,7 @@ const SERVICES = [
     price: 300,
     description: 'Treats DPN, skin tags, and seborrheic keratosis. Numbing cream is applied for comfort.',
     bestFor: ['DPN', 'Skin tags', 'Milia', 'Seborrheic keratosis'],
-    icon: 'ph-first-aid',
+    icon: 'ph-bandaids',
   },
   {
     id: 'dpn-skin-tag-30',
@@ -161,7 +162,7 @@ const SERVICES = [
     price: 175,
     description: 'Shorter DPN and skin tag removal treatment for smaller areas.',
     bestFor: ['DPN', 'Skin tags'],
-    icon: 'ph-first-aid',
+    icon: 'ph-bandaids',
   },
 
   /* ── Microneedling ───────────────────────────────── */
@@ -183,7 +184,7 @@ const SERVICES = [
     price: 339,
     description: 'Microneedling with exosomes + PDRN to correct dark spots, melasma, and PIH. Includes LED therapy.',
     bestFor: ['Dark spots', 'Melasma', 'PIH', 'Brightening'],
-    icon: 'ph-needle',
+    icon: 'ph-sun-dim',
   },
   {
     id: 'microneedling-peel',
@@ -193,7 +194,7 @@ const SERVICES = [
     price: 450,
     description: 'Dual-action treatment combining microneedling with a chemical peel for deeper results.',
     bestFor: ['Deep scars', 'Resurfacing', 'Anti-aging', 'Maximum results'],
-    icon: 'ph-needle',
+    icon: 'ph-lightning',
   },
   {
     id: 'microneedling-neck',
@@ -215,7 +216,7 @@ const SERVICES = [
     price: 65,
     description: 'Full Brazilian wax — front and back plus stomach strip.',
     bestFor: ['Brazilian', 'Full removal'],
-    icon: 'ph-scissors',
+    icon: 'ph-flower-tulip',
   },
   {
     id: 'new-client-brazilian-wax',
@@ -226,7 +227,7 @@ const SERVICES = [
     salePrice: 58.50,
     description: 'Brazilian wax for first-time wax clients at a discounted rate.',
     bestFor: ['First-time wax', 'New clients'],
-    icon: 'ph-scissors',
+    icon: 'ph-flower-tulip',
   },
   {
     id: 'brazilian-mini-intimate',
@@ -236,7 +237,7 @@ const SERVICES = [
     price: 129,
     description: 'Brazilian wax plus a post-wax calming treatment with jelly mask and serum.',
     bestFor: ['Brazilian', 'Skin treatment', 'Ingrown prevention'],
-    icon: 'ph-scissors',
+    icon: 'ph-flower-tulip',
   },
   {
     id: 'extended-brazilian',
@@ -246,7 +247,7 @@ const SERVICES = [
     price: 85,
     description: 'Full Brazilian plus butt strip, inner thighs, and tummy strip.',
     bestFor: ['Extended coverage', 'Full removal'],
-    icon: 'ph-scissors',
+    icon: 'ph-flower-tulip',
   },
   {
     id: 'bikini-wax',
@@ -256,7 +257,7 @@ const SERVICES = [
     price: 35,
     description: 'Panty line area only.',
     bestFor: ['Bikini line', 'Quick wax'],
-    icon: 'ph-scissors',
+    icon: 'ph-flower',
   },
   {
     id: 'brazilian-underarm',
@@ -266,7 +267,7 @@ const SERVICES = [
     price: 80,
     description: 'Bundle deal — Brazilian wax and underarm wax together.',
     bestFor: ['Bundle', 'Brazilian', 'Underarms'],
-    icon: 'ph-scissors',
+    icon: 'ph-flower-tulip',
   },
   {
     id: 'underarm-wax',
@@ -286,7 +287,7 @@ const SERVICES = [
     price: 21,
     description: 'Precise eyebrow wax and shaping.',
     bestFor: ['Brow shaping', 'Clean lines'],
-    icon: 'ph-scissors',
+    icon: 'ph-eye',
   },
   {
     id: 'lip-wax',
@@ -296,7 +297,7 @@ const SERVICES = [
     price: 15,
     description: 'Quick upper lip wax.',
     bestFor: ['Upper lip'],
-    icon: 'ph-scissors',
+    icon: 'ph-smiley-wink',
   },
   {
     id: 'chin-wax',
@@ -306,7 +307,7 @@ const SERVICES = [
     price: 25,
     description: 'Chin area wax for smooth skin.',
     bestFor: ['Chin'],
-    icon: 'ph-scissors',
+    icon: 'ph-smiley-wink',
   },
   {
     id: 'full-face-wax',
@@ -316,7 +317,7 @@ const SERVICES = [
     price: 61,
     description: 'Complete facial wax — chin, lips, eyebrows, lower jaw, and sideburns.',
     bestFor: ['Full face', 'Smooth finish'],
-    icon: 'ph-scissors',
+    icon: 'ph-user',
   },
   {
     id: 'half-stomach-wax',
@@ -336,7 +337,7 @@ const SERVICES = [
     price: 65,
     description: 'Lower leg wax from knee to ankle.',
     bestFor: ['Legs', 'Lower leg'],
-    icon: 'ph-scissors',
+    icon: 'ph-person',
   },
   {
     id: 'full-leg-wax',
@@ -346,7 +347,7 @@ const SERVICES = [
     price: 120,
     description: 'Full leg wax — thighs to ankles.',
     bestFor: ['Legs', 'Full coverage'],
-    icon: 'ph-scissors',
+    icon: 'ph-person',
   },
   {
     id: 'vajacial',
@@ -356,7 +357,7 @@ const SERVICES = [
     price: 100,
     description: 'Post-wax skin treatment for the bikini area. Cleanse, exfoliate, extractions, and jelly mask.',
     bestFor: ['Ingrown prevention', 'Post-wax care', 'Bikini area'],
-    icon: 'ph-scissors',
+    icon: 'ph-heart',
   },
 
   /* ── Body Treatments ─────────────────────────────── */

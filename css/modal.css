@@ -1,0 +1,139 @@
+/* =====================================================
+   ROSIE'S BEAUTY SPA — BRANDED MODAL
+   Centered overlay modal with slide-up animation
+   ===================================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+.modal-overlay.visible {
+  opacity: 1;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.modal-card {
+  position: relative;
+  z-index: 1;
+  background-color: var(--bg-card);
+  border-radius: 20px;
+  padding: var(--space-8) var(--space-6) var(--space-6);
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+  transform: translateY(20px);
+  transition: transform 300ms var(--spring);
+}
+
+.modal-overlay.visible .modal-card {
+  transform: translateY(0);
+}
+
+.modal-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-4);
+}
+
+.modal-icon i {
+  font-size: 28px;
+}
+
+.modal-icon--success {
+  background-color: var(--success-subtle, rgba(52, 199, 89, 0.12));
+}
+.modal-icon--success i {
+  color: var(--success, #34C759);
+}
+
+.modal-icon--confirm {
+  background-color: var(--accent-subtle);
+}
+.modal-icon--confirm i {
+  color: var(--accent);
+}
+
+.modal-icon--warning {
+  background-color: rgba(255, 59, 48, 0.1);
+}
+.modal-icon--warning i {
+  color: #FF3B30;
+}
+
+.modal-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-title3);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.modal-message {
+  font-family: var(--font-body);
+  font-size: var(--text-subhead);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: var(--space-5);
+}
+
+.modal-actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.modal-btn {
+  flex: 1;
+  height: 48px;
+  border-radius: var(--radius-button);
+  font-family: var(--font-body);
+  font-size: var(--text-callout);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.modal-btn:active {
+  transform: scale(0.97);
+  opacity: 0.88;
+}
+
+.modal-btn--primary {
+  background-color: var(--accent);
+  color: var(--text-on-accent);
+  box-shadow: var(--shadow-btn);
+}
+
+.modal-btn--cancel {
+  background-color: var(--warm-beige);
+  color: var(--text-primary);
+}
+
+.modal-btn--danger {
+  background-color: #FF3B30;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(255, 59, 48, 0.3);
+}

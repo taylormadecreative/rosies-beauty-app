@@ -267,7 +267,6 @@ const Book = {
 
   // ─── Destroy ──────────────────────────────────────────
   destroy() {
-    this.activeCategory = 'All';
-    this.searchQuery = '';
+    // Preserve category and search state across tab switches
   },
 };

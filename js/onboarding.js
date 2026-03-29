@@ -124,6 +124,10 @@ const Onboarding = {
       : '';
 
     const isLastSlide = index === this.totalSlides - 1;
+    const nameInputHTML = isLastSlide
+      ? `<input type="text" placeholder="What should we call you?" class="onboarding-name-input" id="onboarding-name" autocomplete="given-name">`
+      : '';
+
     const signInHTML = isLastSlide
       ? `<p class="onboarding-sign-in" style="margin-top: 12px; font-size: var(--text-footnote); color: var(--text-secondary);">Already have an account? <button onclick="App.completeOnboarding()" style="background:none;border:none;color:var(--accent);font-weight:600;cursor:pointer;padding:0;font-size:inherit;font-family:inherit;">Sign In</button></p>`
       : '';
@@ -142,6 +146,7 @@ const Onboarding = {
         <p>${slide.body}</p>
         ${pillsHTML}
         ${socialHTML}
+        ${nameInputHTML}
         ${signInHTML}
       </section>
     `;
@@ -182,7 +187,11 @@ const Onboarding = {
           behavior: 'smooth',
         });
       } else {
-        // Last slide — complete onboarding
+        // Last slide — save name and complete onboarding
+        const nameInput = document.getElementById('onboarding-name');
+        if (nameInput && nameInput.value.trim()) {
+          localStorage.setItem('rosies_client_name', nameInput.value.trim());
+        }
         App.completeOnboarding();
       }
     });

@@ -38,9 +38,10 @@ const Contact = {
   _renderMapCard() {
     return `
       <div class="contact-map" role="region" aria-label="Location">
-        <div class="contact-map__visual" aria-hidden="true">
-          <i class="ph ph-map-pin"></i>
-        </div>
+        <a href="https://maps.apple.com/?address=1150+W+Pioneer+Pkwy,+Arlington,+TX+76013" target="_blank" rel="noopener" class="contact-map__visual" aria-label="Open in Apple Maps">
+          <img src="assets/images/spa-1.jpg" alt="Rosie's Beauty Spa location" class="contact-map__img" loading="eager" />
+          <div class="contact-map__img-overlay"><i class="ph ph-map-pin"></i> Tap for Directions</div>
+        </a>
         <div class="contact-map__body">
           <p class="contact-map__address">1150 W Pioneer Pkwy<br>Arlington, TX 76013</p>
           <p class="contact-map__landmark">Pioneer Plaza</p>
@@ -138,6 +139,7 @@ const Contact = {
   _renderAbout() {
     return `
       <div class="contact-about" role="region" aria-label="About Ashley">
+        <img src="assets/images/ashley-profile.jpg" alt="Ashley, founder of Rosie's Beauty Spa" class="contact-about__photo" loading="lazy" />
         <h2 class="contact-about__title">About Ashley</h2>
         <p class="contact-about__bio">
           Licensed esthetician, certified nutritionist, and founder of Rosie's Beauty Spa.

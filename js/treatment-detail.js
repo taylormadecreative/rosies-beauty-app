@@ -98,6 +98,10 @@ const TreatmentDetail = {
     return `
       <div class="td-body">
 
+        <button class="td-close" onclick="TreatmentDetail.hide()" aria-label="Close">
+          <i class="ph ph-x"></i>
+        </button>
+
         ${this._renderHero(treatment)}
 
         <div class="td-title-row">
@@ -285,6 +289,15 @@ const TreatmentDetail = {
     const treatment = this._currentId ? getTreatmentById(this._currentId) : null;
     const link = treatment ? getPocketSuiteLink(treatment.category) : 'https://pocketsuite.io/book/rosies-beauty-spa';
     TreatmentDetail.hide();
+
+    // Show toast
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = '<i class="ph ph-arrow-square-out"></i> Opening booking...';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add('visible'), 10);
+    setTimeout(() => { toast.classList.remove('visible'); setTimeout(() => toast.remove(), 300); }, 2500);
+
     window.open(link, '_blank');
   },
 };

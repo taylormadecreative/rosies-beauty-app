@@ -135,7 +135,7 @@ const Rewards = {
           <button
             class="rewards-available__redeem"
             ${canRedeem ? '' : 'disabled'}
-            ${canRedeem ? `onclick="alert('Reward redeemed! Show this screen to Ashley at your next visit. Your points balance has been updated.')"` : ''}
+            ${canRedeem ? `onclick="Modal.show({ title: 'Reward Redeemed!', message: 'Show this screen to Ashley at your next visit. Your points balance has been updated.', type: 'success', confirmText: 'Got It' }); Animations.confetti(document.querySelector('.rewards-hero'));"` : ''}
             aria-label="${canRedeem ? `Redeem ${reward.name} for ${reward.cost} points` : `Need ${reward.cost - userPoints} more points to redeem ${reward.name}`}"
           >
             ${canRedeem ? 'Redeem' : `Need ${reward.cost - userPoints} more pts`}
