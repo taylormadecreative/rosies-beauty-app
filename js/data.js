@@ -403,7 +403,7 @@ const SERVICES = [
     description: 'Professional body peel to even tone and brighten skin on the body. Great for knees, elbows, and underarms.',
     bestFor: ['Body brightening', 'Uneven tone', 'Hyperpigmentation'],
     icon: 'ph-person-arms-spread',
-    image: 'assets/images/ashley-facial.jpg',
+    image: 'assets/images/led-treatment.jpg',
   },
   {
     id: 'back-facial',
@@ -414,7 +414,7 @@ const SERVICES = [
     description: 'Deep cleanse, exfoliation, and treatment for back acne, congestion, and uneven texture.',
     bestFor: ['Back acne', 'Body skin', 'Deep cleanse'],
     icon: 'ph-person-arms-spread',
-    image: 'assets/images/facial-massage.jpg',
+    image: 'assets/images/led-treatment.jpg',
   },
 
   /* ── Packages ────────────────────────────────────── */
@@ -427,6 +427,7 @@ const SERVICES = [
     description: 'Save with monthly memberships and service packages. View all available options on our booking page.',
     bestFor: ['Savings', 'Membership', 'Bundles'],
     icon: 'ph-package',
+    image: 'assets/images/led-treatment.jpg',
   },
 
   /* ── Gift Certificates ───────────────────────────── */
@@ -439,6 +440,7 @@ const SERVICES = [
     description: 'Give the gift of glow. Purchase a gift certificate for any amount through our booking page.',
     bestFor: ['Gifts', 'Any occasion'],
     icon: 'ph-gift',
+    image: 'assets/images/led-treatment.jpg',
   },
 ];
 
