@@ -52,7 +52,10 @@ const Home = {
           <p class="home-header__name">${name}</p>
         </div>
         <div class="home-header__icon" role="button" tabindex="0" aria-label="Profile" onclick="App.switchTab('profile')">
-          <span class="home-header__initial">${name.charAt(0).toUpperCase()}</span>
+          ${localStorage.getItem('rosies_profile_photo')
+            ? `<img src="${localStorage.getItem('rosies_profile_photo')}" alt="Profile" class="home-header__photo" />`
+            : `<span class="home-header__initial">${name.charAt(0).toUpperCase()}</span>`
+          }
         </div>
       </header>
     `;

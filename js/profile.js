@@ -57,11 +57,21 @@ const Profile = {
     const name = localStorage.getItem('rosies_client_name') || MOCK_USER.name;
     const initials = name.charAt(0).toUpperCase();
     const ext = this.MOCK_USER_EXTENDED;
+    const savedPhoto = localStorage.getItem('rosies_profile_photo');
 
     return `
       <div class="profile-info">
-        <div class="profile-info__avatar" aria-hidden="true">
-          <span class="profile-info__initials">${initials}</span>
+        <div class="profile-info__avatar-wrap">
+          <div class="profile-info__avatar" id="profileAvatar" role="button" tabindex="0" aria-label="Change profile photo" onclick="Profile._triggerPhotoUpload()" onkeydown="if(event.key==='Enter')Profile._triggerPhotoUpload()">
+            ${savedPhoto
+              ? `<img src="${savedPhoto}" alt="${name}" class="profile-info__photo" />`
+              : `<span class="profile-info__initials">${initials}</span>`
+            }
+            <div class="profile-info__camera">
+              <i class="ph ph-camera"></i>
+            </div>
+          </div>
+          <input type="file" id="profilePhotoInput" accept="image/*" style="display:none;" onchange="Profile._handlePhotoUpload(event)" />
         </div>
         <div class="profile-info__details">
           <p class="profile-info__name">${name}</p>
@@ -207,6 +217,78 @@ const Profile = {
         }
       });
     }
+  },
+
+  // ─── Photo Upload ────────────────────────────────────
+  _triggerPhotoUpload() {
+    const input = document.getElementById('profilePhotoInput');
+    if (input) input.click();
+  },
+
+  _handlePhotoUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Validate
+    if (!file.type.startsWith('image/')) return;
+    if (file.size > 5 * 1024 * 1024) {
+      if (typeof Modal !== 'undefined') {
+        Modal.show({ title: 'Image Too Large', message: 'Please choose a photo under 5MB.', confirmText: 'OK', type: 'confirm' });
+      }
+      return;
+    }
+
+    // Read and resize to 200x200 for localStorage
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        // Resize with canvas
+        const canvas = document.createElement('canvas');
+        const size = 200;
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+
+        // Crop to square (center crop)
+        const min = Math.min(img.width, img.height);
+        const sx = (img.width - min) / 2;
+        const sy = (img.height - min) / 2;
+        ctx.drawImage(img, sx, sy, min, min, 0, 0, size, size);
+
+        // Save as JPEG to localStorage
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        localStorage.setItem('rosies_profile_photo', dataUrl);
+
+        // Update avatar immediately
+        const avatar = document.getElementById('profileAvatar');
+        if (avatar) {
+          const existing = avatar.querySelector('.profile-info__photo, .profile-info__initials');
+          if (existing) existing.remove();
+          const photo = document.createElement('img');
+          photo.src = dataUrl;
+          photo.alt = 'Profile photo';
+          photo.className = 'profile-info__photo';
+          avatar.insertBefore(photo, avatar.firstChild);
+        }
+
+        // Also update Home header
+        const homeIcon = document.querySelector('.home-header__icon');
+        if (homeIcon) {
+          const initial = homeIcon.querySelector('.home-header__initial');
+          if (initial) {
+            initial.remove();
+            const homePhoto = document.createElement('img');
+            homePhoto.src = dataUrl;
+            homePhoto.alt = 'Profile';
+            homePhoto.className = 'home-header__photo';
+            homeIcon.insertBefore(homePhoto, homeIcon.firstChild);
+          }
+        }
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
   },
 
   // ─── Destroy ──────────────────────────────────────────

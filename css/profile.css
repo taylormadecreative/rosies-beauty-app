@@ -50,12 +50,42 @@
   flex-shrink: 0;
 }
 
+.profile-info__avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
 .profile-info__initials {
   font-family: var(--font-heading);
   font-size: var(--text-title2);
   font-weight: 700;
   color: var(--accent);
   line-height: 1;
+}
+
+.profile-info__photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-info__camera {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border: 2px solid var(--bg-card);
+  pointer-events: none;
 }
 
 .profile-info__details {
