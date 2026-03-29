@@ -9,7 +9,7 @@ const Onboarding = {
 
   // ─── SVG Icons ──────────────────────────────────────
   icons: {
-    rose: `<img src="assets/images/rosies-logo.jpg" alt="Rosie's Beauty" class="onboarding-logo" aria-hidden="true" />`,
+    rose: `<img src="assets/images/rosies-logo.png" alt="Rosie's Beauty" class="onboarding-logo" />`,
 
     treatment: `<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <circle cx="40" cy="40" r="36" stroke="#9B1B21" stroke-width="1.5"/>

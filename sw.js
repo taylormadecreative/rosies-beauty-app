@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rosies-beauty-v7';
+const CACHE_NAME = 'rosies-beauty-v8';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
