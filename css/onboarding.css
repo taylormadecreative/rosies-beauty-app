@@ -57,19 +57,22 @@
   height: 100%;
 }
 
-.onboarding-logo {
-  width: 140px;
-  height: auto;
-  object-fit: contain;
-  border-radius: 16px;
-  background: #1E1218;
-  padding: 16px 20px;
+.onboarding-icon--logo {
+  width: 220px;
+  height: 120px;
+  background: var(--text-primary);
+  border-radius: 20px;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-5);
 }
 
-.onboarding-icon--logo {
-  width: auto;
-  height: auto;
-  margin-bottom: var(--space-5);
+.onboarding-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .onboarding-slide h2 {
