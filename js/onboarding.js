@@ -124,8 +124,22 @@ const Onboarding = {
       : '';
 
     const isLastSlide = index === this.totalSlides - 1;
-    const nameInputHTML = isLastSlide
-      ? `<input type="text" placeholder="What should we call you?" class="onboarding-name-input" id="onboarding-name" autocomplete="given-name">`
+
+    const profileSetupHTML = isLastSlide
+      ? `
+        <div class="onboarding-profile-setup">
+          <div class="onboarding-avatar" id="onboardingAvatar" role="button" tabindex="0" aria-label="Add a profile photo" onclick="Onboarding._triggerPhoto()">
+            <span class="onboarding-avatar__initial" id="onboardingAvatarContent">
+              <i class="ph ph-camera" style="font-size: 24px; color: var(--accent);"></i>
+            </span>
+            <div class="onboarding-avatar__badge">
+              <i class="ph ph-plus"></i>
+            </div>
+          </div>
+          <p style="font-size: var(--text-caption); color: var(--text-secondary); margin-top: 8px;">Add a photo (optional)</p>
+          <input type="file" id="onboardingPhotoInput" accept="image/*" style="display:none;" onchange="Onboarding._handlePhoto(event)" />
+          <input type="text" placeholder="What should we call you?" class="onboarding-name-input" id="onboarding-name" autocomplete="given-name">
+        </div>`
       : '';
 
     const signInHTML = isLastSlide
@@ -139,14 +153,12 @@ const Onboarding = {
         aria-label="Slide ${index + 1}"
         id="onboarding-slide-${index}"
       >
-        <div class="onboarding-icon">
-          ${this.icons[slide.iconKey]}
-        </div>
+        ${!isLastSlide ? `<div class="onboarding-icon">${this.icons[slide.iconKey]}</div>` : ''}
         <h2>${slide.heading}</h2>
         <p>${slide.body}</p>
         ${pillsHTML}
         ${socialHTML}
-        ${nameInputHTML}
+        ${profileSetupHTML}
         ${signInHTML}
       </section>
     `;
@@ -241,5 +253,44 @@ const Onboarding = {
     ctaBtn.textContent = this.currentSlide === this.totalSlides - 1
       ? 'Get Started'
       : 'Next';
+  },
+
+  // ─── Photo Upload ────────────────────────────────────
+  _triggerPhoto() {
+    const input = document.getElementById('onboardingPhotoInput');
+    if (input) input.click();
+  },
+
+  _handlePhoto(event) {
+    const file = event.target.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const size = 200;
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        const min = Math.min(img.width, img.height);
+        const sx = (img.width - min) / 2;
+        const sy = (img.height - min) / 2;
+        ctx.drawImage(img, sx, sy, min, min, 0, 0, size, size);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+
+        // Save immediately
+        localStorage.setItem('rosies_profile_photo', dataUrl);
+
+        // Update the avatar circle to show the photo
+        const avatarContent = document.getElementById('onboardingAvatarContent');
+        if (avatarContent) {
+          avatarContent.innerHTML = `<img src="${dataUrl}" alt="Your photo" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;" />`;
+        }
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
   },
 };

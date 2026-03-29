@@ -115,6 +115,59 @@
   opacity: 1;
 }
 
+/* ─── Profile Setup (Last Slide) ─────────────────── */
+.onboarding-profile-setup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: var(--space-6);
+}
+
+.onboarding-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--accent-subtle);
+  border: 2px dashed var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
+  transition: transform 200ms ease, border-color 200ms ease;
+}
+
+.onboarding-avatar:active {
+  transform: scale(0.95);
+}
+
+.onboarding-avatar__initial {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.onboarding-avatar__badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border: 2px solid var(--bg-primary);
+}
+
 .onboarding-name-input {
   width: 100%;
   max-width: 280px;
