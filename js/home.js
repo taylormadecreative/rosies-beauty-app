@@ -33,9 +33,9 @@ const Home = {
 
         ${Home._renderRewardsSection(user.glowPoints, pointsRemaining, pointsProgress)}
 
-        ${Home._renderRecommendedProduct(user.recommendedProduct)}
-
         ${Home._renderLocationCard()}
+
+        ${Home._renderQuickActions()}
 
         <div style="height: 100px;" aria-hidden="true"></div>
 
@@ -293,6 +293,43 @@ const Home = {
           </div>
           <p class="product-card__price" style="font-size: var(--text-caption); color: var(--accent);">Get Directions →</p>
         </a>
+      </section>
+    `;
+  },
+
+  // ─── Quick Actions ─────────────────────────────────
+  _renderQuickActions() {
+    return `
+      <section class="home-section" aria-label="Quick actions">
+        <div class="home-section__header">
+          <h2 class="home-section__title">Quick Actions</h2>
+        </div>
+        <div class="quick-actions">
+          <a href="tel:8174229613" class="quick-action" aria-label="Call the spa">
+            <div class="quick-action__icon"><i class="ph ph-phone"></i></div>
+            <span class="quick-action__label">Call</span>
+          </a>
+          <button class="quick-action" onclick="App.switchTab('book')" aria-label="Book a treatment">
+            <div class="quick-action__icon"><i class="ph ph-calendar-check"></i></div>
+            <span class="quick-action__label">Book</span>
+          </button>
+          <a href="https://maps.apple.com/?address=1150+W+Pioneer+Pkwy,+Arlington,+TX+76013" target="_blank" rel="noopener" class="quick-action" aria-label="Get directions">
+            <div class="quick-action__icon"><i class="ph ph-navigation-arrow"></i></div>
+            <span class="quick-action__label">Directions</span>
+          </a>
+          <a href="https://instagram.com/rosiesbeautyspatx" target="_blank" rel="noopener" class="quick-action" aria-label="Instagram">
+            <div class="quick-action__icon"><i class="ph ph-instagram-logo"></i></div>
+            <span class="quick-action__label">Instagram</span>
+          </a>
+          <button class="quick-action" onclick="App.switchTab('rewards')" aria-label="View rewards">
+            <div class="quick-action__icon"><i class="ph ph-gift"></i></div>
+            <span class="quick-action__label">Rewards</span>
+          </button>
+          <button class="quick-action" onclick="App.switchTab('contact')" aria-label="Spa hours">
+            <div class="quick-action__icon"><i class="ph ph-clock"></i></div>
+            <span class="quick-action__label">Hours</span>
+          </button>
+        </div>
       </section>
     `;
   },

@@ -581,3 +581,55 @@
   color: var(--accent);
   flex-shrink: 0;
 }
+
+/* ─── Quick Actions Grid ──────────────────────────── */
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  padding: 0 var(--space-5);
+}
+
+.quick-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-2);
+  background: var(--bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  text-decoration: none;
+  color: var(--text-primary);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: transform 200ms ease;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+}
+
+.quick-action:active {
+  transform: scale(0.95);
+}
+
+.quick-action__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-button);
+  background: var(--accent-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quick-action__icon i {
+  font-size: 20px;
+  color: var(--accent);
+}
+
+.quick-action__label {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--text-primary);
+}
