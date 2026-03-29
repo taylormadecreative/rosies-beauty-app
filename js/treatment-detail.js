@@ -155,7 +155,7 @@ const TreatmentDetail = {
   // ─── Tags Row ─────────────────────────────────────────
   _renderTags(treatment) {
     const durationLabel = formatDuration(treatment.duration);
-    const priceLabel    = `From ${formatPrice(treatment.priceFrom)}`;
+    const priceLabel    = treatment.price === 0 ? 'Free' : `From ${formatPrice(treatment.priceFrom || treatment.price)}`;
 
     // Limit bestFor pills to 3 in the tag row to avoid overflow
     const bestForPills = (treatment.bestFor || [])
@@ -280,10 +280,8 @@ const TreatmentDetail = {
   // ─── Book Button Handler ──────────────────────────────
   _handleBook() {
     TreatmentDetail.hide();
-    // Switch to book tab after hide animation starts
-    if (typeof App !== 'undefined' && App.switchTab) {
-      App.switchTab('book');
-    }
+    // Open PocketSuite for scheduling
+    window.open('https://pocketsuite.io/book/rosies-beauty-spa', '_blank');
   },
 };
 
