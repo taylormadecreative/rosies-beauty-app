@@ -221,6 +221,7 @@ const SERVICES = [
     description: 'Add-on microneedling treatment for the neck area. Pair with any face microneedling service.',
     bestFor: ['Neck', 'Add-on', 'Anti-aging'],
     icon: 'ph-needle',
+    image: 'assets/images/microneedling.jpg',
   },
 
   /* ── Waxing ──────────────────────────────────────── */
@@ -278,6 +279,7 @@ const SERVICES = [
     description: 'Panty line area only.',
     bestFor: ['Bikini line', 'Quick wax'],
     icon: 'ph-flower',
+    image: 'assets/images/waxing.jpg',
   },
   {
     id: 'brazilian-underarm',
@@ -288,6 +290,7 @@ const SERVICES = [
     description: 'Bundle deal — Brazilian wax and underarm wax together.',
     bestFor: ['Bundle', 'Brazilian', 'Underarms'],
     icon: 'ph-flower-tulip',
+    image: 'assets/images/waxing.jpg',
   },
   {
     id: 'underarm-wax',
@@ -298,6 +301,7 @@ const SERVICES = [
     description: 'Quick underarm wax for smooth, clean results.',
     bestFor: ['Underarms'],
     icon: 'ph-scissors',
+    image: 'assets/images/waxing.jpg',
   },
   {
     id: 'eyebrows-wax',
@@ -308,6 +312,7 @@ const SERVICES = [
     description: 'Precise eyebrow wax and shaping.',
     bestFor: ['Brow shaping', 'Clean lines'],
     icon: 'ph-eye',
+    image: 'assets/images/waxing.jpg',
   },
   {
     id: 'lip-wax',
@@ -318,6 +323,7 @@ const SERVICES = [
     description: 'Quick upper lip wax.',
     bestFor: ['Upper lip'],
     icon: 'ph-smiley-wink',
+    image: 'assets/images/waxing.jpg',
   },
   {
     id: 'chin-wax',
@@ -328,6 +334,7 @@ const SERVICES = [
     description: 'Chin area wax for smooth skin.',
     bestFor: ['Chin'],
     icon: 'ph-smiley-wink',
+    image: 'assets/images/waxing.jpg',
   },
   {
     id: 'full-face-wax',
@@ -338,6 +345,7 @@ const SERVICES = [
     description: 'Complete facial wax — chin, lips, eyebrows, lower jaw, and sideburns.',
     bestFor: ['Full face', 'Smooth finish'],
     icon: 'ph-user',
+    image: 'assets/images/waxing.jpg',
   },
   {
     id: 'half-stomach-wax',
@@ -348,6 +356,7 @@ const SERVICES = [
     description: 'Waxing below the belly button.',
     bestFor: ['Stomach', 'Below navel'],
     icon: 'ph-scissors',
+    image: 'assets/images/waxing.jpg',
   },
   {
     id: 'lower-leg-wax',
@@ -358,6 +367,7 @@ const SERVICES = [
     description: 'Lower leg wax from knee to ankle.',
     bestFor: ['Legs', 'Lower leg'],
     icon: 'ph-person',
+    image: 'assets/images/waxing.jpg',
   },
   {
     id: 'full-leg-wax',
@@ -368,6 +378,7 @@ const SERVICES = [
     description: 'Full leg wax — thighs to ankles.',
     bestFor: ['Legs', 'Full coverage'],
     icon: 'ph-person',
+    image: 'assets/images/waxing.jpg',
   },
   {
     id: 'vajacial',
