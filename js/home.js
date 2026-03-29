@@ -51,8 +51,8 @@ const Home = {
           <p class="home-header__greeting">${greeting}</p>
           <p class="home-header__name">${name}</p>
         </div>
-        <div class="home-header__icon" aria-hidden="true">
-          <img src="assets/images/ashley-facial.jpg" alt="Ashley" class="home-header__avatar" />
+        <div class="home-header__icon" role="button" tabindex="0" aria-label="Profile" onclick="App.switchTab('profile')">
+          <span class="home-header__initial">${name.charAt(0).toUpperCase()}</span>
         </div>
       </header>
     `;

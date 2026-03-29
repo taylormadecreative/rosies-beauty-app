@@ -54,7 +54,7 @@ const Profile = {
 
   // ─── Client Info ──────────────────────────────────────
   _renderInfo() {
-    const name = MOCK_USER.name;
+    const name = localStorage.getItem('rosies_client_name') || MOCK_USER.name;
     const initials = name.charAt(0).toUpperCase();
     const ext = this.MOCK_USER_EXTENDED;
 
