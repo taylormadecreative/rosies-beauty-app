@@ -60,6 +60,14 @@
   display: block;
 }
 
+.contact-map__iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  pointer-events: none; /* clicks go to the parent <a> link instead */
+}
+
 .contact-map__img-overlay {
   position: absolute;
   bottom: 0;

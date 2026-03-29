@@ -39,8 +39,13 @@ const Contact = {
     return `
       <div class="contact-map" role="region" aria-label="Location">
         <a href="https://maps.apple.com/?address=1150+W+Pioneer+Pkwy,+Arlington,+TX+76013" target="_blank" rel="noopener" class="contact-map__visual" aria-label="Open in Apple Maps">
-          <img src="assets/images/treatment-room.jpg" alt="Rosie's Beauty Spa location" class="contact-map__img" loading="eager" />
-          <div class="contact-map__img-overlay"><i class="ph ph-map-pin"></i> Tap for Directions</div>
+          <iframe
+            class="contact-map__iframe"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=-97.1485%2C32.7075%2C-97.1385%2C32.7145&layer=mapnik&marker=32.711%2C-97.1435"
+            loading="lazy"
+            title="Rosie's Beauty Spa location on map"
+          ></iframe>
+          <div class="contact-map__img-overlay"><i class="ph ph-map-pin"></i> Tap to Open in Maps</div>
         </a>
         <div class="contact-map__body">
           <p class="contact-map__address">1150 W Pioneer Pkwy<br>Arlington, TX 76013</p>
