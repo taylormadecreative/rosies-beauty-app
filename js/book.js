@@ -7,6 +7,7 @@
 const Book = {
   POCKETSUITE_URL: 'https://pocketsuite.io/book/rosies-beauty-spa',
   activeCategory: 'All',
+  searchQuery: '',
 
   // ─── Render ───────────────────────────────────────────
   render() {
@@ -15,15 +16,17 @@ const Book = {
 
     container.innerHTML = `
       ${this._renderHeader()}
+      ${this._renderSearch()}
       ${this._renderCategoryPills()}
       <div id="book-service-list">
         ${this._renderServiceList()}
       </div>
-      ${this._renderCallCard()}
+      ${this._renderContactCards()}
       ${this._renderFooter()}
     `;
 
     this._bindCategoryPills();
+    this._bindSearch();
   },
 
   // ─── Header ───────────────────────────────────────────
@@ -33,6 +36,31 @@ const Book = {
         <h1 class="book-header__title">Book a Treatment</h1>
         <p class="book-header__subtitle">Browse services and book your visit</p>
       </header>
+    `;
+  },
+
+  // ─── Search Bar ─────────────────────────────────────────
+  _renderSearch() {
+    return `
+      <div class="book-search" role="search">
+        <i class="ph ph-magnifying-glass book-search__icon" aria-hidden="true"></i>
+        <input
+          type="search"
+          id="book-search-input"
+          class="book-search__input"
+          placeholder="Search treatments..."
+          aria-label="Search treatments"
+          autocomplete="off"
+        >
+        <button
+          id="book-search-clear"
+          class="book-search__clear hidden"
+          aria-label="Clear search"
+          type="button"
+        >
+          <i class="ph ph-x-circle"></i>
+        </button>
+      </div>
     `;
   },
 
@@ -61,7 +89,31 @@ const Book = {
 
   // ─── Service List ─────────────────────────────────────
   _renderServiceList() {
-    const services = getServicesByCategory(this.activeCategory);
+    let services = getServicesByCategory(this.activeCategory);
+
+    // Apply search filter
+    if (this.searchQuery) {
+      const q = this.searchQuery;
+      services = services.filter((s) =>
+        s.name.toLowerCase().includes(q) ||
+        s.description.toLowerCase().includes(q) ||
+        s.category.toLowerCase().includes(q) ||
+        (s.bestFor && s.bestFor.some((b) => b.toLowerCase().includes(q)))
+      );
+
+      if (services.length === 0) {
+        return `
+          <div class="book-empty-search">
+            <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+            <p class="book-empty-search__title">No services found</p>
+            <p class="book-empty-search__text">Try a different search term</p>
+          </div>
+        `;
+      }
+
+      // When searching, show flat list (no category headers)
+      return services.map((s) => this._renderServiceCard(s)).join('');
+    }
 
     if (this.activeCategory === 'All') {
       // Group by category with section headers
@@ -116,23 +168,63 @@ const Book = {
     `;
   },
 
-  // ─── Call Card ────────────────────────────────────────
-  _renderCallCard() {
+  // ─── Contact Cards ──────────────────────────────────────
+  _renderContactCards() {
     return `
-      <a
-        href="tel:8174229613"
-        class="book-call-card"
-        aria-label="Call Ashley at (817) 422-9613"
-      >
-        <div class="book-call-card__icon" aria-hidden="true">
-          <i class="ph ph-phone"></i>
-        </div>
-        <div class="book-call-card__content">
-          <p class="book-call-card__label">Questions? Call Ashley</p>
-          <p class="book-call-card__number">(817) 422-9613</p>
-        </div>
-        <i class="ph ph-caret-right book-call-card__arrow" aria-hidden="true"></i>
-      </a>
+      <div class="book-contact-section">
+        <h2 class="book-contact-header">Contact & Location</h2>
+
+        <a
+          href="https://maps.apple.com/?address=1150+W+Pioneer+Pkwy,+Arlington,+TX+76013"
+          target="_blank"
+          rel="noopener"
+          class="book-contact-card"
+          aria-label="Get directions to Rosie's Beauty Spa"
+        >
+          <div class="book-contact-card__icon" aria-hidden="true">
+            <i class="ph ph-map-pin"></i>
+          </div>
+          <div class="book-contact-card__content">
+            <p class="book-contact-card__label">Get Directions</p>
+            <p class="book-contact-card__detail">1150 W Pioneer Pkwy, Arlington, TX 76013</p>
+            <p class="book-contact-card__detail">Pioneer Plaza</p>
+          </div>
+          <i class="ph ph-caret-right book-contact-card__arrow" aria-hidden="true"></i>
+        </a>
+
+        <a
+          href="tel:8174229613"
+          class="book-contact-card"
+          aria-label="Call Rosie's Beauty Spa"
+        >
+          <div class="book-contact-card__icon" aria-hidden="true">
+            <i class="ph ph-phone"></i>
+          </div>
+          <div class="book-contact-card__content">
+            <p class="book-contact-card__label">Call or Text</p>
+            <p class="book-contact-card__detail">(817) 422-9613</p>
+            <p class="book-contact-card__detail">Running late? Need to cancel? Call us</p>
+          </div>
+          <i class="ph ph-caret-right book-contact-card__arrow" aria-hidden="true"></i>
+        </a>
+
+        <a
+          href="https://instagram.com/rosiesbeautyspatx"
+          target="_blank"
+          rel="noopener"
+          class="book-contact-card"
+          aria-label="DM on Instagram"
+        >
+          <div class="book-contact-card__icon" aria-hidden="true">
+            <i class="ph ph-instagram-logo"></i>
+          </div>
+          <div class="book-contact-card__content">
+            <p class="book-contact-card__label">DM on Instagram</p>
+            <p class="book-contact-card__detail">@rosiesbeautyspatx</p>
+          </div>
+          <i class="ph ph-caret-right book-contact-card__arrow" aria-hidden="true"></i>
+        </a>
+      </div>
     `;
   },
 
@@ -177,6 +269,41 @@ const Book = {
     });
   },
 
+  // ─── Bind Search ────────────────────────────────────────
+  _bindSearch() {
+    const input = document.getElementById('book-search-input');
+    const clearBtn = document.getElementById('book-search-clear');
+    if (!input) return;
+
+    let debounceTimer;
+    input.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        this.searchQuery = input.value.trim().toLowerCase();
+        clearBtn.classList.toggle('hidden', !this.searchQuery);
+        this._updateServiceList();
+      }, 200);
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        input.value = '';
+        this.searchQuery = '';
+        clearBtn.classList.add('hidden');
+        this._updateServiceList();
+        input.focus();
+      });
+    }
+  },
+
+  // ─── Update Service List (filter by search + category) ──
+  _updateServiceList() {
+    const listContainer = document.getElementById('book-service-list');
+    if (listContainer) {
+      listContainer.innerHTML = this._renderServiceList();
+    }
+  },
+
   // ─── Open Service Detail ──────────────────────────────
   _openServiceDetail(serviceId) {
     if (typeof TreatmentDetail !== 'undefined' && TreatmentDetail.show) {
@@ -190,5 +317,6 @@ const Book = {
   // ─── Destroy ──────────────────────────────────────────
   destroy() {
     this.activeCategory = 'All';
+    this.searchQuery = '';
   },
 };
