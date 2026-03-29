@@ -58,12 +58,18 @@
 }
 
 .onboarding-logo {
-  width: 200px;
-  height: 200px;
+  width: 140px;
+  height: auto;
   object-fit: contain;
-  border-radius: 24px;
+  border-radius: 16px;
   background: #1E1218;
-  padding: 20px;
+  padding: 16px 20px;
+}
+
+.onboarding-icon--logo {
+  width: auto;
+  height: auto;
+  margin-bottom: var(--space-5);
 }
 
 .onboarding-slide h2 {

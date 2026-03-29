@@ -140,7 +140,7 @@ const Onboarding = {
         aria-label="Slide ${index + 1}"
         id="onboarding-slide-${index}"
       >
-        ${!isLastSlide ? `<div class="onboarding-icon">${this.icons[slide.iconKey]}</div>` : ''}
+        ${!isLastSlide ? `<div class="onboarding-icon${slide.iconKey === 'rose' ? ' onboarding-icon--logo' : ''}">${this.icons[slide.iconKey]}</div>` : ''}
         <h2>${slide.heading}</h2>
         <p>${slide.body}</p>
         ${pillsHTML}
