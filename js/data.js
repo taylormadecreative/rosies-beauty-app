@@ -64,6 +64,7 @@ const SERVICES = [
     description: 'Business consultation for estheticians and spa owners. Available virtual or in-person.',
     bestFor: ['Estheticians', 'Spa owners', 'Business advice'],
     icon: 'ph-brain',
+    image: 'assets/images/facial-massage.jpg',
   },
 
   /* ── Facials (Returning Rosebuds) ────────────────── */
@@ -87,7 +88,7 @@ const SERVICES = [
     description: 'Level 2 corrective treatment with extractions, chemical peel, LED, high frequency, and 2 enhancers included.',
     bestFor: ['Hyperpigmentation', 'Acne', 'Texture', 'Corrective'],
     icon: 'ph-shield-check',
-    image: 'assets/images/ashley-facial.jpg',
+    image: 'assets/images/facial-massage.jpg',
   },
   {
     id: 'biweekly-acne',
@@ -120,7 +121,7 @@ const SERVICES = [
     description: 'Required follow-up call for acne clients. Send progress photos before your appointment.',
     bestFor: ['Acne follow-up', 'Progress check'],
     icon: 'ph-video-camera',
-    image: 'assets/images/ashley-portrait.jpg',
+    image: 'assets/images/facial-massage.jpg',
   },
   {
     id: 'post-treatment-followup',
@@ -131,7 +132,7 @@ const SERVICES = [
     description: '7-10 days post-peel or microneedling. Polishes dead skin and promotes healing.',
     bestFor: ['Post-peel', 'Post-microneedling', 'Healing'],
     icon: 'ph-first-aid-kit',
-    image: 'assets/images/led-treatment.jpg',
+    image: 'assets/images/facial-massage.jpg',
   },
   {
     id: 'rosebud-perfect-peel',
@@ -142,7 +143,7 @@ const SERVICES = [
     description: 'Medium depth peel for all skin types. Stop retinol 7-10 days before your appointment.',
     bestFor: ['Dark spots', 'Hyperpigmentation', 'Resurfacing', 'All skin types'],
     icon: 'ph-drop-half-bottom',
-    image: 'assets/images/ashley-facial.jpg',
+    image: 'assets/images/facial-massage.jpg',
   },
   {
     id: 'rosebud-perfect-peel-booster',
@@ -153,7 +154,7 @@ const SERVICES = [
     description: 'Medium depth peel with an added booster for enhanced results. Stop retinol 7-10 days before.',
     bestFor: ['Dark spots', 'Hyperpigmentation', 'Enhanced results'],
     icon: 'ph-drop-half-bottom',
-    image: 'assets/images/ashley-facial.jpg',
+    image: 'assets/images/facial-massage.jpg',
   },
   {
     id: 'dpn-skin-tag-60',
@@ -164,7 +165,7 @@ const SERVICES = [
     description: 'Treats DPN, skin tags, and seborrheic keratosis. Numbing cream is applied for comfort.',
     bestFor: ['DPN', 'Skin tags', 'Milia', 'Seborrheic keratosis'],
     icon: 'ph-bandaids',
-    image: 'assets/images/led-treatment.jpg',
+    image: 'assets/images/facial-massage.jpg',
   },
   {
     id: 'dpn-skin-tag-30',
@@ -175,7 +176,7 @@ const SERVICES = [
     description: 'Shorter DPN and skin tag removal treatment for smaller areas.',
     bestFor: ['DPN', 'Skin tags'],
     icon: 'ph-bandaids',
-    image: 'assets/images/led-treatment.jpg',
+    image: 'assets/images/facial-massage.jpg',
   },
 
   /* ── Microneedling ───────────────────────────────── */
