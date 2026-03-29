@@ -253,12 +253,7 @@ ol {
 
   /* Tab bar wide-screen rules are in tab-bar.css */
 
-  .onboarding {
-    width: 430px;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-  }
+  /* Onboarding stays full-screen — content is centered by its own flex layout */
 
   /* Treatment overlay: backdrop spans full viewport, sheet stays 430px */
   .treatment-overlay {
