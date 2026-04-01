@@ -1,0 +1,285 @@
+/* =====================================================
+   ROSIE'S BEAUTY SPA — AUTH STYLES
+   Login, signup, password reset, confirmation screens
+   ===================================================== */
+
+/* ─── Auth Screen (full viewport) ─────────────────────── */
+.auth-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  padding: var(--space-4);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.auth-screen.hidden {
+  display: none;
+}
+
+/* ─── Auth Card ───────────────────────────────────────── */
+.auth-card {
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+}
+
+.auth-card__logo-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 140px;
+  border-radius: var(--radius-card);
+  background: #1E1218;
+  margin: 0 auto var(--space-6);
+  box-shadow: var(--shadow-card);
+}
+
+.auth-card__logo {
+  width: 120px;
+  height: auto;
+  display: block;
+}
+
+.auth-card__tagline {
+  font-family: var(--font-heading);
+  font-size: var(--text-title2);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-2);
+  line-height: 1.2;
+}
+
+.auth-card__subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-8);
+  line-height: 1.5;
+}
+
+/* ─── Auth Form ───────────────────────────────────────── */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  text-align: left;
+}
+
+/* ─── Auth Field ──────────────────────────────────────── */
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.auth-field__label {
+  font-family: var(--font-body);
+  font-size: var(--text-footnote);
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.auth-field__input {
+  width: 100%;
+  padding: 14px var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--text-primary);
+  background: var(--bg-input);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-input);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.auth-field__input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.auth-field__input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
+}
+
+.auth-field__error {
+  font-family: var(--font-body);
+  font-size: var(--text-caption1);
+  color: var(--error);
+  margin-top: 2px;
+  display: none;
+}
+
+.auth-field__error.visible {
+  display: block;
+}
+
+/* ─── Auth Submit Button ──────────────────────────────── */
+.auth-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: 16px var(--space-6);
+  margin-top: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 600;
+  color: var(--text-on-accent);
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-button);
+  box-shadow: var(--shadow-btn);
+  cursor: pointer;
+  transition: background var(--transition-fast), opacity var(--transition-fast), transform var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.auth-submit:hover {
+  background: var(--accent-hover);
+}
+
+.auth-submit:active {
+  transform: scale(0.98);
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ─── Auth Links ──────────────────────────────────────── */
+.auth-link-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  margin-top: var(--space-5);
+  font-family: var(--font-body);
+  font-size: var(--text-footnote);
+  color: var(--text-secondary);
+}
+
+.auth-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-footnote);
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.auth-link:hover {
+  opacity: 0.8;
+}
+
+.auth-forgot {
+  display: block;
+  text-align: right;
+  margin-top: calc(-1 * var(--space-2));
+  margin-bottom: var(--space-2);
+}
+
+.auth-forgot .auth-link {
+  font-size: var(--text-caption1);
+}
+
+/* ─── Auth Spinner ────────────────────────────────────── */
+.auth-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #FFFFFF;
+  border-radius: 50%;
+  animation: auth-spin 0.6s linear infinite;
+}
+
+@keyframes auth-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Auth Error Banner ───────────────────────────────── */
+.auth-error-banner {
+  display: none;
+  padding: var(--space-3) var(--space-4);
+  background: var(--error-subtle);
+  border: 1px solid var(--error);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-footnote);
+  color: var(--error);
+  line-height: 1.4;
+  text-align: center;
+}
+
+.auth-error-banner.visible {
+  display: block;
+}
+
+/* ─── Auth Success / Confirmation Screen ──────────────── */
+.auth-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-10) var(--space-6);
+}
+
+.auth-success__icon {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-circle);
+  background: var(--accent-subtle);
+  margin-bottom: var(--space-6);
+  font-size: 36px;
+  color: var(--accent);
+}
+
+.auth-success__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-title3);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-3);
+}
+
+.auth-success__text {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-8);
+  line-height: 1.5;
+  max-width: 320px;
+}
+
+/* ─── Dark Mode Overrides ─────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .auth-card__logo-wrap {
+    background: #0E080B;
+  }
+}
+
+[data-theme="dark"] .auth-card__logo-wrap {
+  background: #0E080B;
+}
