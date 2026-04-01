@@ -37,8 +37,8 @@ const Auth = {
         <div class="auth-card__logo-wrap">
           <img src="assets/images/rosies-logo.png" alt="Rosie's Beauty Spa" class="auth-card__logo" />
         </div>
-        <h1 class="auth-card__tagline">Welcome Back</h1>
-        <p class="auth-card__subtitle">Sign in to your account</p>
+        <h1 class="auth-card__tagline">Welcome Back, Rosebud</h1>
+        <p class="auth-card__subtitle">Let's get you glowing</p>
 
         <div class="auth-error-banner" id="auth-error" role="alert"></div>
 
@@ -82,6 +82,7 @@ const Auth = {
           <i class="ph ph-user" aria-hidden="true"></i>
           Continue as Guest
         </button>
+        <p class="auth-guest-note">Browse treatments and book — create an account anytime to earn Glow Points</p>
 
         <div class="auth-link-row">
           <span>Don't have an account?</span>
@@ -104,7 +105,7 @@ const Auth = {
           <img src="assets/images/rosies-logo.png" alt="Rosie's Beauty Spa" class="auth-card__logo" />
         </div>
         <h1 class="auth-card__tagline">Join Rosie's</h1>
-        <p class="auth-card__subtitle">Create your account to start earning Glow Points</p>
+        <p class="auth-card__subtitle">Book appointments, earn Glow Points, and never miss a reminder</p>
 
         <div class="auth-error-banner" id="auth-error" role="alert"></div>
 
@@ -159,7 +160,7 @@ const Auth = {
             />
           </div>
 
-          <button type="submit" class="auth-submit" id="auth-submit-btn">Create Account</button>
+          <button type="submit" class="auth-submit" id="auth-submit-btn">Join the Rosebuds</button>
         </form>
 
         <div class="auth-link-row">
@@ -267,7 +268,7 @@ const Auth = {
     this._hideError(errorEl);
 
     if (password !== confirm) {
-      this._showError(errorEl, 'Passwords do not match.');
+      this._showError(errorEl, "Those passwords don't match — try again!");
       return;
     }
 
@@ -283,7 +284,7 @@ const Auth = {
       this.show('confirm');
     } catch (err) {
       this._showError(errorEl, this._friendlyError(err.message));
-      this._setLoading(btn, false, 'Create Account');
+      this._setLoading(btn, false, 'Join the Rosebuds');
     }
   },
 
@@ -355,12 +356,12 @@ const Auth = {
   },
 
   _friendlyError(msg) {
-    if (!msg) return 'Something went wrong. Please try again.';
-    if (msg.includes('Invalid login'))    return 'Invalid email or password.';
-    if (msg.includes('already registered')) return 'An account with this email already exists.';
+    if (!msg) return 'Something went wrong. Please try again or call (817) 422-9613.';
+    if (msg.includes('Invalid login'))    return "That didn't match. Double-check and try again!";
+    if (msg.includes('already registered')) return "Looks like you're already a Rosebud! Try signing in instead.";
     if (msg.includes('valid email'))      return 'Please enter a valid email address.';
     if (msg.includes('at least'))         return 'Password must be at least 6 characters.';
     if (msg.includes('rate limit'))       return 'Too many attempts. Please wait a moment.';
-    return msg;
+    return 'Something went wrong. Please try again or call (817) 422-9613.';
   },
 };

@@ -95,16 +95,18 @@ const Home = {
 
   // ─── Header ─────────────────────────────────────────
   _renderHeader(greeting, name, photoUrl) {
+    const safeName = escHtml(name);
+    const safePhoto = escHtml(photoUrl);
     return `
       <header class="home-header" role="banner">
         <div>
           <p class="home-header__greeting">${greeting}</p>
-          <p class="home-header__name">${name}</p>
+          <p class="home-header__name">${safeName}</p>
         </div>
         <div class="home-header__icon" role="button" tabindex="0" aria-label="Profile" onclick="App.switchTab('profile')">
-          ${photoUrl
-            ? `<img src="${photoUrl}" alt="Profile" class="home-header__photo" />`
-            : `<span class="home-header__initial">${name.charAt(0).toUpperCase()}</span>`
+          ${safePhoto
+            ? `<img src="${safePhoto}" alt="Profile" class="home-header__photo" />`
+            : `<span class="home-header__initial">${safeName.charAt(0).toUpperCase()}</span>`
           }
         </div>
       </header>
@@ -113,6 +115,7 @@ const Home = {
 
   // ─── Hero Card ──────────────────────────────────────
   _renderHeroCard(greeting, name, visitStreak, pointsRemaining) {
+    const safeName = escHtml(name);
     let streakMessage;
     if (pointsRemaining <= 200) {
       streakMessage = `${pointsRemaining} points away from your next free add-on`;
@@ -124,7 +127,7 @@ const Home = {
 
     return `
       <div class="hero-card" role="region" aria-label="Welcome banner">
-        <p class="hero-card__greeting">${greeting},<br>${name}.</p>
+        <p class="hero-card__greeting">${greeting},<br>${safeName}.</p>
         <p class="hero-card__streak">${streakMessage}</p>
         <button
           class="hero-card__cta"
@@ -203,6 +206,9 @@ const Home = {
   },
 
   _renderAppointmentCard(appt) {
+    const safeService = escHtml(appt.service);
+    const safeDate = escHtml(appt.date);
+    const safeTime = escHtml(appt.time);
     const daysLabel = appt.daysUntil === 0
       ? 'Today'
       : appt.daysUntil === 1
@@ -214,7 +220,7 @@ const Home = {
         class="appointment-card"
         role="button"
         tabindex="0"
-        aria-label="${appt.service} on ${appt.date} at ${appt.time}, in ${daysLabel}"
+        aria-label="${safeService} on ${safeDate} at ${safeTime}, in ${daysLabel}"
         onclick="App.switchTab('book')"
         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();App.switchTab('book')}"
       >
@@ -222,8 +228,8 @@ const Home = {
           <i class="ph ph-sparkle"></i>
         </div>
         <div class="appointment-card__body">
-          <p class="appointment-card__service">${appt.service}</p>
-          <p class="appointment-card__datetime">${appt.date} · ${appt.time}</p>
+          <p class="appointment-card__service">${safeService}</p>
+          <p class="appointment-card__datetime">${safeDate} · ${safeTime}</p>
         </div>
         <p class="appointment-card__countdown">${daysLabel}</p>
       </div>

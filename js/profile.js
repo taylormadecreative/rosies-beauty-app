@@ -61,11 +61,11 @@ const Profile = {
   // ─── Client Info ──────────────────────────────────────
   _renderInfo() {
     const profile = App.currentProfile || {};
-    const name = profile.name || 'Rosebud';
+    const name = escHtml(profile.name || 'Rosebud');
     const initials = name.charAt(0).toUpperCase();
-    const email = profile.email || '';
-    const phone = profile.phone || '';
-    const photoUrl = profile.photo_url || null;
+    const email = escHtml(profile.email || '');
+    const phone = escHtml(profile.phone || '');
+    const photoUrl = escHtml(profile.photo_url || '');
 
     let memberSince = '';
     if (profile.created_at) {
@@ -106,7 +106,7 @@ const Profile = {
         return `
           <div class="profile-history__row">
             <div class="profile-history__info">
-              <p class="profile-history__service">${visit.service_name}</p>
+              <p class="profile-history__service">${escHtml(visit.service_name)}</p>
               <p class="profile-history__date">${formattedDate}</p>
             </div>
             <span class="profile-history__pts">+100 pts</span>

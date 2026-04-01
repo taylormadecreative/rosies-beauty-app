@@ -1,7 +1,12 @@
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-serve(async (_req) => {
+serve(async (req) => {
+  const authHeader = req.headers.get('Authorization')
+  if (!authHeader || authHeader !== `Bearer ${Deno.env.get('CRON_SECRET')}`) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 })
+  }
+
   const supabase = createClient(
     Deno.env.get('SUPABASE_URL')!,
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
@@ -39,7 +44,7 @@ serve(async (_req) => {
     // Check user notification preferences
     const { data: profile } = await supabase
       .from('profiles')
-      .select('notification_prefs, push_tokens')
+      .select('notification_prefs')
       .eq('id', appt.user_id)
       .single()
 
@@ -48,15 +53,20 @@ serve(async (_req) => {
     const prefs = profile.notification_prefs ?? {}
     if (prefs.reminders === false) continue
 
-    const pushTokens: { endpoint: string; keys: { p256dh: string; auth: string } }[] =
-      profile.push_tokens ?? []
+    // Fetch push tokens from separate table
+    const { data: tokenRows } = await supabase
+      .from('push_tokens')
+      .select('token')
+      .eq('user_id', appt.user_id)
+
+    const pushTokens = tokenRows ?? []
 
     if (pushTokens.length === 0) continue
 
     // Send Web Push to each token via FCM
-    for (const subscription of pushTokens) {
+    for (const tokenRow of pushTokens) {
       try {
-        await fetch(subscription.endpoint, {
+        await fetch(tokenRow.token, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -86,7 +96,6 @@ serve(async (_req) => {
       type: 'reminder',
       title: "Your appointment is coming up!",
       body: "You have an appointment at Rosie's Beauty Spa in about 45 minutes.",
-      appointment_id: appt.id,
     })
 
     sentCount++

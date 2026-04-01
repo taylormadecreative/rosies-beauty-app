@@ -164,8 +164,9 @@ const Rewards = {
 
   // ─── Handle Redeem ────────────────────────────────────
   async _handleRedeem(cost, rewardName) {
+    const safeRewardName = escHtml(rewardName);
     try {
-      await SupabaseData.redeemReward(App.currentUser.id, cost, rewardName);
+      await SupabaseData.redeemReward(App.currentUser.id, cost, safeRewardName);
 
       // Refresh profile so points are current
       App.currentProfile = await SupabaseData.getProfile(App.currentUser.id);
@@ -217,7 +218,7 @@ const Rewards = {
                   <i class="ph ${iconName}"></i>
                 </div>
                 <div class="rewards-history__details">
-                  <p class="rewards-history__desc">${item.description}</p>
+                  <p class="rewards-history__desc">${escHtml(item.description)}</p>
                   <p class="rewards-history__date">${dateLabel}</p>
                 </div>
                 <span class="rewards-history__points ${pointsClass}">${pointsDisplay}</span>

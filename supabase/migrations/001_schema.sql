@@ -275,6 +275,11 @@ AS $$
 DECLARE
   v_current_points INTEGER;
 BEGIN
+  -- Verify caller is the account owner
+  IF auth.uid() != p_user_id THEN
+    RETURN false;
+  END IF;
+
   -- Lock the row to prevent race conditions
   SELECT glow_points
   INTO   v_current_points

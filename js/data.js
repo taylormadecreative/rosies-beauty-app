@@ -487,3 +487,9 @@ function formatDuration(minutes) {
   const mins = minutes % 60;
   return mins > 0 ? `${hrs}h ${mins}m` : `${hrs}h`;
 }
+
+// ─── XSS Prevention ─────────────────────────────────
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}

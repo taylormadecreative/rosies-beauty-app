@@ -2,6 +2,11 @@ import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 serve(async (req) => {
+  const authHeader = req.headers.get('Authorization')
+  if (!authHeader || authHeader !== `Bearer ${Deno.env.get('CRON_SECRET')}`) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 })
+  }
+
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
       status: 405,
@@ -46,7 +51,7 @@ serve(async (req) => {
   // Fetch all profiles
   const { data: profiles, error: profilesError } = await supabase
     .from('profiles')
-    .select('id, notification_prefs, push_tokens')
+    .select('id, notification_prefs')
 
   if (profilesError) {
     return new Response(JSON.stringify({ error: profilesError.message }), {
@@ -63,14 +68,19 @@ serve(async (req) => {
     // Skip users who have opted out of offers/promos
     if (prefs.offers === false) continue
 
-    const pushTokens: { endpoint: string; keys: { p256dh: string; auth: string } }[] =
-      profile.push_tokens ?? []
+    // Fetch push tokens from separate table
+    const { data: tokenRows } = await supabase
+      .from('push_tokens')
+      .select('token')
+      .eq('user_id', profile.id)
+
+    const pushTokens = tokenRows ?? []
 
     if (pushTokens.length === 0) continue
 
-    for (const subscription of pushTokens) {
+    for (const tokenRow of pushTokens) {
       try {
-        await fetch(subscription.endpoint, {
+        await fetch(tokenRow.token, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
