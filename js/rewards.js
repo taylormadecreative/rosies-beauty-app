@@ -4,14 +4,7 @@
    ===================================================== */
 
 const Rewards = {
-  MOCK_HISTORY: [
-    { type: 'earned', description: 'Corrective Facial booking', points: 100, date: 'Mar 22' },
-    { type: 'earned', description: 'Melanu Serum purchase', points: 50, date: 'Mar 18' },
-    { type: 'earned', description: 'Chemical Peel booking', points: 100, date: 'Mar 10' },
-    { type: 'redeemed', description: 'Free add-on redeemed', points: -500, date: 'Feb 28' },
-    { type: 'earned', description: 'Referral: Tanya M.', points: 200, date: 'Feb 15' },
-    { type: 'earned', description: 'App download bonus', points: 50, date: 'Feb 1' },
-  ],
+  rewardsHistory: [],
 
   EARN_ACTIONS: [
     { icon: 'ph-calendar-blank', text: 'Book any treatment', points: '+100' },
@@ -28,9 +21,17 @@ const Rewards = {
   ],
 
   // ─── Render ───────────────────────────────────────────
-  render() {
+  async render() {
     const container = document.getElementById('tab-rewards');
     if (!container) return;
+
+    // Fetch real history from Supabase
+    try {
+      this.rewardsHistory = await SupabaseData.getRewardsHistory(App.currentUser.id);
+    } catch (err) {
+      console.warn('[Rewards] Failed to fetch history:', err);
+      this.rewardsHistory = [];
+    }
 
     container.innerHTML = `
       ${this._renderHeader()}
@@ -40,6 +41,13 @@ const Rewards = {
       ${this._renderHistory()}
       <div class="rewards-footer"></div>
     `;
+  },
+
+  // ─── Next Reward Tier Helper ──────────────────────────
+  _getNextRewardTier(points) {
+    if (points < 500) return 500;
+    if (points < 1000) return 1000;
+    return 2000;
   },
 
   // ─── Header ───────────────────────────────────────────
@@ -53,8 +61,8 @@ const Rewards = {
 
   // ─── Points Hero ──────────────────────────────────────
   _renderPointsHero() {
-    const points = MOCK_USER.glowPoints;
-    const nextAt = MOCK_USER.nextRewardAt;
+    const points = App.currentProfile.glow_points || 0;
+    const nextAt = this._getNextRewardTier(points);
     const remaining = nextAt - points;
     const progress = Math.min(points / nextAt, 1);
 
@@ -119,7 +127,7 @@ const Rewards = {
 
   // ─── Available Rewards ────────────────────────────────
   _renderAvailableRewards() {
-    const userPoints = MOCK_USER.glowPoints;
+    const userPoints = App.currentProfile.glow_points || 0;
 
     const cards = this.REWARDS.map((reward) => {
       const canRedeem = userPoints >= reward.cost;
@@ -135,7 +143,7 @@ const Rewards = {
           <button
             class="rewards-available__redeem"
             ${canRedeem ? '' : 'disabled'}
-            ${canRedeem ? `onclick="Modal.show({ title: 'Reward Redeemed!', message: 'Show this screen to Ashley at your next visit. Your points balance has been updated.', type: 'success', confirmText: 'Got It' }); Animations.confetti(document.querySelector('.rewards-hero'));"` : ''}
+            ${canRedeem ? `onclick="Rewards._handleRedeem(${reward.cost}, '${reward.name.replace(/'/g, "\\'")}')"` : ''}
             aria-label="${canRedeem ? `Redeem ${reward.name} for ${reward.cost} points` : `Need ${reward.cost - userPoints} more points to redeem ${reward.name}`}"
           >
             ${canRedeem ? 'Redeem' : `Need ${reward.cost - userPoints} more pts`}
@@ -154,35 +162,76 @@ const Rewards = {
     `;
   },
 
+  // ─── Handle Redeem ────────────────────────────────────
+  async _handleRedeem(cost, rewardName) {
+    try {
+      await SupabaseData.redeemReward(App.currentUser.id, cost, rewardName);
+
+      // Refresh profile so points are current
+      App.currentProfile = await SupabaseData.getProfile(App.currentUser.id);
+
+      // Confetti + success modal
+      Animations.confetti(document.querySelector('.rewards-hero'));
+      Modal.show({
+        title: 'Reward Redeemed!',
+        message: 'Show this screen to Ashley at your next visit. Your points balance has been updated.',
+        type: 'success',
+        confirmText: 'Got It',
+      });
+
+      // Re-render tab with updated data
+      await this.render();
+    } catch (err) {
+      console.error('[Rewards] Redemption failed:', err);
+      Modal.show({
+        title: 'Redemption Failed',
+        message: 'Something went wrong. Please try again.',
+        type: 'error',
+        confirmText: 'OK',
+      });
+    }
+  },
+
   // ─── History ──────────────────────────────────────────
   _renderHistory() {
-    const rows = this.MOCK_HISTORY.map((item) => {
-      const isEarned = item.type === 'earned';
-      const iconClass = isEarned ? 'rewards-history__icon--earned' : 'rewards-history__icon--redeemed';
-      const iconName = isEarned ? 'ph-arrow-up' : 'ph-arrow-down';
-      const pointsClass = isEarned ? 'rewards-history__points--earned' : 'rewards-history__points--redeemed';
-      const pointsDisplay = isEarned ? `+${item.points}` : `${item.points}`;
+    let content;
 
-      return `
-        <div class="rewards-history__row">
-          <div class="rewards-history__icon ${iconClass}" aria-hidden="true">
-            <i class="ph ${iconName}"></i>
-          </div>
-          <div class="rewards-history__details">
-            <p class="rewards-history__desc">${item.description}</p>
-            <p class="rewards-history__date">${item.date}</p>
-          </div>
-          <span class="rewards-history__points ${pointsClass}">${pointsDisplay}</span>
+    if (!this.rewardsHistory || this.rewardsHistory.length === 0) {
+      content = `
+        <p class="rewards-history__empty">Your rewards activity will appear here after your first visit.</p>
+      `;
+    } else {
+      content = `
+        <div class="rewards-history__list">
+          ${this.rewardsHistory.map((item) => {
+            const isEarned = item.type === 'earned';
+            const iconClass = isEarned ? 'rewards-history__icon--earned' : 'rewards-history__icon--redeemed';
+            const iconName = isEarned ? 'ph-arrow-up' : 'ph-arrow-down';
+            const pointsClass = isEarned ? 'rewards-history__points--earned' : 'rewards-history__points--redeemed';
+            const pointsDisplay = isEarned ? `+${item.points}` : `${item.points}`;
+            const dateLabel = new Date(item.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+            return `
+              <div class="rewards-history__row">
+                <div class="rewards-history__icon ${iconClass}" aria-hidden="true">
+                  <i class="ph ${iconName}"></i>
+                </div>
+                <div class="rewards-history__details">
+                  <p class="rewards-history__desc">${item.description}</p>
+                  <p class="rewards-history__date">${dateLabel}</p>
+                </div>
+                <span class="rewards-history__points ${pointsClass}">${pointsDisplay}</span>
+              </div>
+            `;
+          }).join('')}
         </div>
       `;
-    }).join('');
+    }
 
     return `
       <section class="rewards-history" aria-label="Recent activity">
         <h2 class="rewards-section-title">Recent Activity</h2>
-        <div class="rewards-history__list">
-          ${rows}
-        </div>
+        ${content}
       </section>
     `;
   },
