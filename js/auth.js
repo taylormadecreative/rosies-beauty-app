@@ -74,6 +74,15 @@ const Auth = {
           <button type="submit" class="auth-submit" id="auth-submit-btn">Sign In</button>
         </form>
 
+        <div class="auth-divider">
+          <span>or</span>
+        </div>
+
+        <button type="button" class="auth-guest-btn" id="auth-guest-btn" onclick="Auth._handleGuest()">
+          <i class="ph ph-user" aria-hidden="true"></i>
+          Continue as Guest
+        </button>
+
         <div class="auth-link-row">
           <span>Don't have an account?</span>
           <button type="button" class="auth-link" onclick="Auth.show('signup')">Create one</button>
@@ -300,6 +309,27 @@ const Auth = {
     } catch (err) {
       this._showError(errorEl, this._friendlyError(err.message));
       this._setLoading(btn, false, 'Send Reset Link');
+    }
+  },
+
+  async _handleGuest() {
+    const btn = document.getElementById('auth-guest-btn');
+    const errorEl = document.getElementById('auth-error');
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="auth-spinner"></span> Entering as guest...';
+    }
+    this._hideError(errorEl);
+
+    try {
+      await SupabaseData.signInAnonymously();
+      // Auth state change listener in App handles the rest
+    } catch (err) {
+      this._showError(errorEl, 'Guest sign-in is not available right now. Please create an account.');
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ph ph-user" aria-hidden="true"></i> Continue as Guest';
+      }
     }
   },
 

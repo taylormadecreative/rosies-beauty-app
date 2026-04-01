@@ -3,8 +3,8 @@
    Client init, auth helpers, data fetchers, storage
    ===================================================== */
 
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
+const SUPABASE_URL = 'https://rrpcfltqtebohkebrhpn.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJycGNmbHRxdGVib2hrZWJyaHBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwMTQzOTAsImV4cCI6MjA5MDU5MDM5MH0._SwK5Ba2VB-yBc-rGyN6bC7QTebwSqaIshzgdt4LLug';
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -17,6 +17,11 @@ const SupabaseData = {
   },
   async signIn(email, password) {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    return data;
+  },
+  async signInAnonymously() {
+    const { data, error } = await supabase.auth.signInAnonymously();
     if (error) throw error;
     return data;
   },

@@ -1,0 +1,8 @@
+[auth]
+enabled = true
+site_url = "https://rosies-beauty-app.netlify.app"
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = false
+enable_confirmations = false
