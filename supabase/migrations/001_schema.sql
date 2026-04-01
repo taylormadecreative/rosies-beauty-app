@@ -292,9 +292,9 @@ BEGIN
   SET    glow_points = glow_points - p_points
   WHERE  id = p_user_id;
 
-  -- Log the redemption
+  -- Log the redemption (negative points for display consistency)
   INSERT INTO public.rewards_history (user_id, type, points, description)
-  VALUES (p_user_id, 'redeemed', p_points, p_description);
+  VALUES (p_user_id, 'redeemed', -p_points, p_description);
 
   RETURN true;
 END;
