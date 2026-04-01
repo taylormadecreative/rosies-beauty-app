@@ -1,6 +1,6 @@
 [auth]
 enabled = true
-site_url = "https://rosies-beauty-app.netlify.app"
+site_url = "https://taylormadecreative.github.io/rosies-beauty-app"
 
 [auth.email]
 enable_signup = true

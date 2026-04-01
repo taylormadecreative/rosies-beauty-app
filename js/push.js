@@ -68,4 +68,4 @@ const Push = {
   }
 };
 
-const VAPID_PUBLIC_KEY = 'YOUR_VAPID_PUBLIC_KEY';
+const VAPID_PUBLIC_KEY = 'BOfwyd54KDeYFRZZgvRuYVTvuWa69klFJVN0J_sujbbHZSgF-U8rnHiyKoAnfSnotHal27D-eQXpP-YTz3bho8Q';
