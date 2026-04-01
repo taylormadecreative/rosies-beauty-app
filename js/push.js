@@ -12,6 +12,11 @@ const Push = {
       return;
     }
 
+    if (!VAPID_PUBLIC_KEY || VAPID_PUBLIC_KEY === 'YOUR_VAPID_PUBLIC_KEY') {
+      console.log('[Push] VAPID key not configured — skipping push registration');
+      return;
+    }
+
     const profile = App.currentProfile;
     if (!profile) return;
 

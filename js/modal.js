@@ -18,6 +18,9 @@ const Modal = {
    * @param {string} [opts.type='confirm']   - 'success' | 'confirm' | 'warning'
    */
   show({ title, message, confirmText = 'OK', cancelText, onConfirm, type = 'confirm' }) {
+    // Store previous focus for restoration
+    this._previousFocus = document.activeElement;
+
     // Remove any existing modal
     this.hide();
 
@@ -71,9 +74,20 @@ const Modal = {
 
     backdrop.addEventListener('click', () => this.hide());
 
-    // Escape key
+    // Escape key + focus trap
     this._escHandler = (e) => {
-      if (e.key === 'Escape') this.hide();
+      if (e.key === 'Escape') { this.hide(); return; }
+      if (e.key === 'Tab') {
+        const focusable = overlay.querySelectorAll('button:not([disabled])');
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+          if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      }
     };
     document.addEventListener('keydown', this._escHandler);
 
@@ -101,6 +115,11 @@ const Modal = {
       const overlay = this._overlay;
       this._overlay = null;
       setTimeout(() => overlay.remove(), 250);
+    }
+    // Restore focus to the element that opened the modal
+    if (this._previousFocus && typeof this._previousFocus.focus === 'function') {
+      this._previousFocus.focus();
+      this._previousFocus = null;
     }
   },
 };

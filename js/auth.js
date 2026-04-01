@@ -191,6 +191,11 @@ const Auth = {
     `;
 
     document.getElementById('auth-form').addEventListener('submit', (e) => this._handleSignup(e));
+
+    requestAnimationFrame(() => {
+      const firstInput = document.querySelector('#auth-content input:first-of-type');
+      if (firstInput) firstInput.focus();
+    });
   },
 
   // ─── Reset View ───────────────────────────────────────
@@ -201,7 +206,7 @@ const Auth = {
     container.innerHTML = `
       <div class="auth-card">
         <div class="auth-card__logo-wrap">
-          <img src="assets/images/rosies-logo.png" alt="Rosie's Beauty Spa" class="auth-card__logo" />
+          <img src="assets/images/rosies-logo.png" alt="Rosie's Beauty Spa" class="auth-card__logo" width="120" height="auto" />
         </div>
         <h1 class="auth-card__tagline">Reset Password</h1>
         <p class="auth-card__subtitle">Enter your email and we'll send you a reset link</p>
@@ -231,6 +236,11 @@ const Auth = {
     `;
 
     document.getElementById('auth-form').addEventListener('submit', (e) => this._handleReset(e));
+
+    requestAnimationFrame(() => {
+      const firstInput = document.querySelector('#auth-content input:first-of-type');
+      if (firstInput) firstInput.focus();
+    });
   },
 
   // ─── Confirmation View ────────────────────────────────
@@ -352,6 +362,19 @@ const Auth = {
         btn.innerHTML = '<i class="ph ph-user" aria-hidden="true"></i> Continue as Guest';
       }
     }
+  },
+
+  // ─── Password Toggle ─────────────────────────────────
+  _togglePassword(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    const icon = btn.querySelector('i');
+    if (icon) {
+      icon.className = isPassword ? 'ph ph-eye-slash' : 'ph ph-eye';
+    }
+    btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
   },
 
   // ─── UI Helpers ───────────────────────────────────────

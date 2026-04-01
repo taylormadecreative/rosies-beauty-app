@@ -137,7 +137,7 @@
 
 .shop-product-card__desc {
   font-family: var(--font-body);
-  font-size: var(--text-caption);
+  font-size: var(--text-caption1);
   color: var(--text-secondary);
   margin-top: var(--space-1);
   line-height: 1.4;

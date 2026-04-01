@@ -164,6 +164,10 @@ const Rewards = {
 
   // ─── Handle Redeem ────────────────────────────────────
   async _handleRedeem(cost, rewardName) {
+    // Disable all redeem buttons to prevent double-tap
+    const buttons = document.querySelectorAll('.rewards-available__redeem');
+    buttons.forEach(b => b.disabled = true);
+
     const safeRewardName = escHtml(rewardName);
     try {
       await SupabaseData.redeemReward(App.currentUser.id, cost, safeRewardName);
@@ -184,6 +188,8 @@ const Rewards = {
       await this.render();
     } catch (err) {
       console.error('[Rewards] Redemption failed:', err);
+      // Re-enable redeem buttons on error
+      buttons.forEach(b => b.disabled = false);
       Modal.show({
         title: 'Redemption Failed',
         message: 'Something went wrong. Please try again.',

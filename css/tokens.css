@@ -40,7 +40,7 @@
   /* Colors — Text */
   --text-primary:    #1E1218;
   --text-secondary:  rgba(30, 18, 24, 0.55);
-  --text-tertiary:   rgba(30, 18, 24, 0.35);
+  --text-tertiary:   rgba(30, 18, 24, 0.55);
   --text-on-accent:  #FFFFFF;
 
   /* Colors — Accent */
@@ -148,7 +148,7 @@
     /* Text */
     --text-primary:    #F2EAE5;
     --text-secondary:  rgba(231, 212, 204, 0.55);
-    --text-tertiary:   rgba(231, 212, 204, 0.35);
+    --text-tertiary:   rgba(231, 212, 204, 0.55);
     --text-on-accent:  #FFFFFF;
 
     /* Accent */
@@ -198,7 +198,7 @@
   --bg-input:        rgba(231, 212, 204, 0.08);
   --text-primary:    #F2EAE5;
   --text-secondary:  rgba(231, 212, 204, 0.55);
-  --text-tertiary:   rgba(231, 212, 204, 0.35);
+  --text-tertiary:   rgba(231, 212, 204, 0.55);
   --text-on-accent:  #FFFFFF;
   --accent:          #C4444D;
   --accent-hover:    #D85560;

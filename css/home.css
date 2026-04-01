@@ -140,7 +140,7 @@
   font-family: var(--font-body);
   font-size: var(--text-subhead);
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.60);
+  color: rgba(255, 255, 255, 0.85);
   margin-bottom: var(--space-5);
   position: relative;
   z-index: 1;
@@ -178,7 +178,7 @@
   font-family: var(--font-body);
   font-size: var(--text-caption1);
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.90);
   margin-top: var(--space-5);
   position: relative;
   z-index: 1;
@@ -629,7 +629,7 @@
 }
 
 .quick-action__label {
-  font-size: var(--text-caption);
+  font-size: var(--text-caption1);
   font-weight: 600;
   color: var(--text-primary);
 }
