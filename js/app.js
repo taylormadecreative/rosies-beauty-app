@@ -1,28 +1,158 @@
 /* =====================================================
    ROSIE'S BEAUTY SPA — APP ROUTER
-   Tab switching, theme, service worker, onboarding
+   Auth state management, tab switching, theme, SW
    ===================================================== */
 
 const App = {
   currentTab: 'home',
-  isFirstRun: false,
+  currentUser: null,
+  currentProfile: null,
 
-  // ─── Init ─────────────────────────────────────────
-  init() {
+  // ─── Init ─────────────────────────────────────────────
+  async init() {
     this.initTheme();
-    this.isFirstRun = !localStorage.getItem('rosies_onboarded');
-
-    if (this.isFirstRun) {
-      this.showOnboarding();
-    } else {
-      this.showApp();
-    }
-
     this.initTabs();
     this.registerSW();
+
+    // Listen for auth state changes
+    SupabaseData.onAuthStateChange((event, session) => {
+      console.log('[App] Auth event:', event);
+      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+        if (session?.user) {
+          this.onSignIn(session.user);
+        }
+      } else if (event === 'SIGNED_OUT') {
+        this.onSignOut();
+      }
+    });
+
+    // Check for existing session
+    try {
+      const { data } = await SupabaseData.getSession();
+      if (data?.session?.user) {
+        await this.onSignIn(data.session.user);
+      } else {
+        Auth.show('login');
+      }
+    } catch (err) {
+      console.warn('[App] Session check failed:', err);
+      Auth.show('login');
+    }
   },
 
-  // ─── Theme ────────────────────────────────────────
+  // ─── Auth State Handlers ──────────────────────────────
+  async onSignIn(user) {
+    this.currentUser = user;
+
+    // Load profile (retry once if trigger hasn't fired yet)
+    try {
+      this.currentProfile = await SupabaseData.getProfile(user.id);
+    } catch (err) {
+      console.warn('[App] Profile not ready, retrying in 1s...');
+      await new Promise((r) => setTimeout(r, 1000));
+      try {
+        this.currentProfile = await SupabaseData.getProfile(user.id);
+      } catch (retryErr) {
+        console.error('[App] Profile load failed:', retryErr);
+        this.currentProfile = { id: user.id, name: user.user_metadata?.name || '', glow_points: 0 };
+      }
+    }
+
+    // Migrate localStorage data from old onboarding flow
+    await this._migrateLocalStorage();
+
+    // Init push notifications if module exists
+    if (typeof Push !== 'undefined' && Push.init) {
+      Push.init(user.id);
+    }
+
+    Auth.hide();
+    this.showApp();
+  },
+
+  onSignOut() {
+    this.currentUser = null;
+    this.currentProfile = null;
+
+    // Clear tab render cache so tabs re-render on next login
+    document.querySelectorAll('.tab-panel').forEach((panel) => {
+      delete panel.dataset.rendered;
+    });
+
+    Auth.show('login');
+  },
+
+  // ─── localStorage Migration ───────────────────────────
+  async _migrateLocalStorage() {
+    if (!this.currentUser || !this.currentProfile) return;
+
+    const oldName = localStorage.getItem('rosies_client_name');
+    const oldPhoto = localStorage.getItem('rosies_profile_photo');
+    const updates = {};
+
+    if (oldName && !this.currentProfile.name) {
+      updates.name = oldName;
+    }
+
+    // Migrate profile photo to Supabase Storage
+    if (oldPhoto && !this.currentProfile.photo_url) {
+      try {
+        const response = await fetch(oldPhoto);
+        const blob = await response.blob();
+        const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
+        await SupabaseData.uploadAvatar(this.currentUser.id, file);
+        console.log('[App] Migrated profile photo to Supabase Storage');
+      } catch (err) {
+        console.warn('[App] Photo migration failed:', err);
+      }
+    }
+
+    // Migrate notification preferences
+    const notifKeys = ['rosies_notif_appointments', 'rosies_notif_promos', 'rosies_notif_rewards'];
+    const notifPrefs = {};
+    notifKeys.forEach((key) => {
+      const val = localStorage.getItem(key);
+      if (val !== null) {
+        const shortKey = key.replace('rosies_notif_', 'notif_');
+        notifPrefs[shortKey] = val === 'true';
+      }
+    });
+
+    if (Object.keys(notifPrefs).length > 0) {
+      Object.assign(updates, notifPrefs);
+    }
+
+    // Apply updates
+    if (Object.keys(updates).length > 0) {
+      try {
+        this.currentProfile = await SupabaseData.updateProfile(this.currentUser.id, updates);
+        console.log('[App] Migrated localStorage data to Supabase');
+      } catch (err) {
+        console.warn('[App] Migration update failed:', err);
+      }
+    }
+
+    // Clear old keys
+    localStorage.removeItem('rosies_client_name');
+    localStorage.removeItem('rosies_profile_photo');
+    localStorage.removeItem('rosies_onboarded');
+    notifKeys.forEach((key) => localStorage.removeItem(key));
+  },
+
+  // ─── Sign Out ─────────────────────────────────────────
+  async handleSignOut() {
+    try {
+      // Remove push token if module exists
+      if (typeof Push !== 'undefined' && Push.currentToken && this.currentUser) {
+        await SupabaseData.removePushToken(this.currentUser.id, Push.currentToken);
+      }
+      await SupabaseData.signOut();
+    } catch (err) {
+      console.error('[App] Sign out error:', err);
+    }
+  },
+
+  // ─── Theme ────────────────────────────────────────────
   initTheme() {
     const saved = localStorage.getItem('rosies_theme');
     if (saved && saved !== 'system') {
@@ -42,25 +172,13 @@ const App = {
     }
   },
 
-  // ─── Onboarding / App visibility ──────────────────
-  showOnboarding() {
-    const onboarding = document.getElementById('onboarding');
-    const appEl = document.getElementById('app');
-    onboarding.classList.remove('hidden');
-    appEl.classList.add('hidden');
-
-    // Trigger onboarding render if module loaded
-    if (typeof Onboarding !== 'undefined' && Onboarding.render) {
-      Onboarding.render();
-    }
-  },
-
+  // ─── App Visibility ──────────────────────────────────
   showApp() {
-    const onboarding = document.getElementById('onboarding');
+    const authScreen = document.getElementById('auth-screen');
     const appEl = document.getElementById('app');
 
-    onboarding.classList.add('hidden');
-    appEl.classList.remove('hidden');
+    if (authScreen) authScreen.classList.add('hidden');
+    if (appEl) appEl.classList.remove('hidden');
 
     // Render the current (home) tab
     if (typeof Home !== 'undefined' && Home.render) {
@@ -69,17 +187,12 @@ const App = {
 
     // Enable tab crossfade transitions after first render
     requestAnimationFrame(() => {
-      document.getElementById('app').classList.add('tab-transitions');
+      const app = document.getElementById('app');
+      if (app) app.classList.add('tab-transitions');
     });
   },
 
-  completeOnboarding() {
-    localStorage.setItem('rosies_onboarded', 'true');
-    this.isFirstRun = false;
-    this.showApp();
-  },
-
-  // ─── Tabs ──────────────────────────────────────────
+  // ─── Tabs ──────────────────────────────────────────────
   initTabs() {
     const tabButtons = document.querySelectorAll('.tab[data-tab]');
     tabButtons.forEach((btn) => {
@@ -94,17 +207,15 @@ const App = {
     if (tabName === this.currentTab) return;
 
     // Clean up previous tab
-    if (this.currentTab === 'book' && typeof Book !== 'undefined' && Book.destroy) {
-      Book.destroy();
-    }
-    if (this.currentTab === 'contact' && typeof Contact !== 'undefined' && Contact.destroy) {
-      Contact.destroy();
-    }
-    if (this.currentTab === 'rewards' && typeof Rewards !== 'undefined' && Rewards.destroy) {
-      Rewards.destroy();
-    }
-    if (this.currentTab === 'profile' && typeof Profile !== 'undefined' && Profile.destroy) {
-      Profile.destroy();
+    const cleanupMap = {
+      book: Book,
+      contact: Contact,
+      rewards: Rewards,
+      profile: Profile,
+    };
+    const prevModule = cleanupMap[this.currentTab];
+    if (prevModule && typeof prevModule !== 'undefined' && prevModule.destroy) {
+      prevModule.destroy();
     }
 
     const prevTab = this.currentTab;
@@ -193,7 +304,7 @@ const App = {
     `;
   },
 
-  // ─── Service Worker ────────────────────────────────
+  // ─── Service Worker ────────────────────────────────────
   registerSW() {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -210,7 +321,7 @@ const App = {
   },
 };
 
-// ─── Bootstrap ──────────────────────────────────────
+// ─── Bootstrap ──────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   App.init();
 });
