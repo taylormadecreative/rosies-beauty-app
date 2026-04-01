@@ -323,7 +323,7 @@ const Home = {
             <p class="product-card__name">1150 W Pioneer Pkwy</p>
             <p class="product-card__context">Arlington, TX 76013 · Pioneer Plaza</p>
           </div>
-          <p class="product-card__price" style="font-size: var(--text-caption); color: var(--accent);">Get Directions →</p>
+          <p class="product-card__price" style="font-size: var(--text-caption1); color: var(--accent);">Get Directions →</p>
         </a>
       </section>
     `;

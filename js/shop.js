@@ -359,7 +359,7 @@ const Shop = {
             <i class="ph ph-shopping-cart" aria-hidden="true"></i>
             Buy Now${priceDisplay ? ' · ' + priceDisplay : ''}
           </a>
-          <p style="font-size: var(--text-caption); color: var(--text-secondary); margin-top: var(--space-2); text-align: center;">Secure checkout on rosiesbeautyspa.com</p>
+          <p style="font-size: var(--text-caption1); color: var(--text-secondary); margin-top: var(--space-2); text-align: center;">Secure checkout on rosiesbeautyspa.com</p>
         </div>
 
       </div>
