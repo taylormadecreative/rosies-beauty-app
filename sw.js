@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rosies-beauty-v11';
+const CACHE_NAME = 'rosies-beauty-v12';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -10,6 +10,7 @@ const STATIC_ASSETS = [
   '/css/tab-bar.css',
   '/css/onboarding.css',
   '/css/home.css',
+  '/css/auth.css',
   '/js/app.js',
   '/js/data.js',
   '/js/home.js',
@@ -32,6 +33,9 @@ const STATIC_ASSETS = [
   '/assets/fonts/Figtree-SemiBold.woff2',
   '/js/modal.js',
   '/css/modal.css',
+  '/js/supabase.js',
+  '/js/auth.js',
+  '/js/push.js',
 ];
 
 // Install: cache static assets
@@ -74,6 +78,9 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   if (!event.request.url.startsWith(self.location.origin)) return;
 
+  // Skip Supabase API calls — always fetch from network
+  if (event.request.url.includes('supabase.co')) return;
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
@@ -109,6 +116,51 @@ self.addEventListener('fetch', (event) => {
           return caches.match('/index.html');
         }
       });
+    })
+  );
+});
+
+// Push: display incoming push notification
+self.addEventListener('push', (event) => {
+  let data = { title: "Rosie's Beauty Spa", body: 'You have a new notification' };
+  if (event.data) {
+    try { data = event.data.json(); } catch (e) { data.body = event.data.text(); }
+  }
+  const options = {
+    body: data.body,
+    icon: '/assets/icons/icon-192.png',
+    badge: '/assets/icons/icon-192.png',
+    vibrate: [100, 50, 100],
+    data: { url: data.url || '/', type: data.type || 'general' },
+    actions: data.actions || []
+  };
+  event.waitUntil(self.registration.showNotification(data.title, options));
+});
+
+// Notification click: focus existing window or open new one
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+
+  const targetUrl = (event.notification.data && event.notification.data.url) || '/';
+  const notifType = (event.notification.data && event.notification.data.type) || 'general';
+
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      // Find an existing window to focus
+      for (const client of clientList) {
+        if (client.url.startsWith(self.location.origin) && 'focus' in client) {
+          client.postMessage({ type: 'NOTIFICATION_CLICK', notifType, url: targetUrl });
+          return client.focus();
+        }
+      }
+      // No existing window — open a new one
+      if (self.clients.openWindow) {
+        return self.clients.openWindow(targetUrl).then((client) => {
+          if (client) {
+            client.postMessage({ type: 'NOTIFICATION_CLICK', notifType, url: targetUrl });
+          }
+        });
+      }
     })
   );
 });
