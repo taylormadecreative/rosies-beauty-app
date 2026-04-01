@@ -40,6 +40,7 @@
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/tab-bar.css" />
   <link rel="stylesheet" href="css/onboarding.css" />
+  <link rel="stylesheet" href="css/auth.css" />
   <link rel="stylesheet" href="css/home.css" />
   <link rel="stylesheet" href="css/treatment-detail.css" />
   <link rel="stylesheet" href="css/book.css" />
@@ -51,9 +52,11 @@
 <body>
 
   <!-- =========================================
-       ONBOARDING FLOW
+       AUTH SCREEN
   ========================================== -->
-  <div id="onboarding" class="onboarding hidden" role="main" aria-label="Welcome onboarding"></div>
+  <div id="auth-screen" class="auth-screen hidden" role="main" aria-label="Authentication">
+    <div id="auth-content"></div>
+  </div>
 
   <!-- =========================================
        MAIN APP
@@ -157,16 +160,21 @@
 
   </main><!-- /#app -->
 
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
   <!-- JS — load order matters -->
+  <script src="js/supabase.js"></script>
   <script src="js/data.js"></script>
   <script src="js/animations.js"></script>
   <script src="js/modal.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/book.js"></script>
   <script src="js/contact.js"></script>
   <script src="js/rewards.js"></script>
   <script src="js/profile.js"></script>
+  <script src="js/push.js"></script>
   <script src="js/app.js"></script>
-  <script src="js/onboarding.js"></script>
   <script src="js/home.js"></script>
   <script src="js/treatment-detail.js"></script>
 

@@ -460,28 +460,6 @@ const TREATMENTS = SERVICES.filter((s) =>
   ['new-rosebud-experience', 'rosie-glow-facial', 'corrective-renewal', 'skinpen-microneedling', 'brazilian-wax'].includes(s.id)
 );
 
-// ─── Mock User ────────────────────────────────────────
-const MOCK_USER = {
-  name: 'Keisha',
-  glowPoints: 325,
-  nextRewardAt: 500,
-  visitStreak: 6,
-
-  upcomingAppointment: {
-    service: 'Rosie 60-min Glow Facial',
-    date: 'Thursday, April 3',
-    time: '2:30 PM',
-    daysUntil: 6,
-  },
-
-  recommendedProduct: {
-    name: 'Melanu Brightening Serum',
-    price: 42,
-    description: 'Vitamin C + niacinamide serum for melanin-rich skin.',
-    image: 'assets/images/product-brightening-serum.jpg',
-  },
-};
-
 // ─── Utility Functions ────────────────────────────────
 function getGreeting() {
   const hour = new Date().getHours();
