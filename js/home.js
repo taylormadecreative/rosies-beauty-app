@@ -7,31 +7,43 @@
 const Home = {
 
   // ─── Render ─────────────────────────────────────────
-  render() {
+  async render() {
     const panel = document.getElementById('tab-home');
     if (!panel) return;
 
-    const user = MOCK_USER;
-    const clientName = localStorage.getItem('rosies_client_name') || 'Rosebud';
+    const profile = App.currentProfile || {};
+    const clientName = profile.name || 'Rosebud';
     const greeting = getGreeting();
-    const pointsProgress = Math.min(
-      Math.round((user.glowPoints / user.nextRewardAt) * 100),
-      100
-    );
-    const pointsRemaining = user.nextRewardAt - user.glowPoints;
+    const glowPoints = profile.glow_points || 0;
+    const visitStreak = profile.visit_streak || 0;
+    const photoUrl = profile.photo_url || null;
+    const nextRewardAt = 500;
+    const pointsRemaining = nextRewardAt - glowPoints;
+    const pointsProgress = Math.min(Math.round((glowPoints / nextRewardAt) * 100), 100);
+
+    // Fetch upcoming appointment from Supabase
+    let upcomingAppointment = null;
+    try {
+      const raw = await SupabaseData.getUpcomingAppointment(App.currentUser.id);
+      if (raw) {
+        upcomingAppointment = Home._formatAppointment(raw);
+      }
+    } catch (err) {
+      console.warn('[Home] Could not load upcoming appointment:', err);
+    }
 
     panel.innerHTML = `
-      ${Home._renderHeader(greeting, clientName)}
+      ${Home._renderHeader(greeting, clientName, photoUrl)}
 
       <div class="home-content fade-in">
 
-        ${Home._renderHeroCard(greeting, clientName, user.visitStreak)}
+        ${Home._renderHeroCard(greeting, clientName, visitStreak, pointsRemaining)}
 
         ${Home._renderTreatmentsSection()}
 
-        ${Home._renderUpcomingSection(user.upcomingAppointment)}
+        ${Home._renderUpcomingSection(upcomingAppointment)}
 
-        ${Home._renderRewardsSection(user.glowPoints, pointsRemaining, pointsProgress)}
+        ${Home._renderRewardsSection(glowPoints, pointsRemaining, pointsProgress)}
 
         ${Home._renderLocationCard()}
 
@@ -43,8 +55,46 @@ const Home = {
     `;
   },
 
+  // ─── Format Raw Appointment from Supabase ───────────
+  _formatAppointment(raw) {
+    // raw.date is a DATE string "YYYY-MM-DD", raw.time is a TIME string "HH:MM:SS"
+    const [year, month, day] = raw.date.split('-').map(Number);
+    const apptDate = new Date(year, month - 1, day);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    apptDate.setHours(0, 0, 0, 0);
+    const diffMs = apptDate - today;
+    const daysUntil = Math.round(diffMs / (1000 * 60 * 60 * 24));
+
+    // Format date for display: "Mon, Jun 14"
+    const dateLabel = new Date(year, month - 1, day).toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+    });
+
+    // Format time for display: "2:30 PM"
+    const [hours, minutes] = raw.time.split(':').map(Number);
+    const timeDate = new Date();
+    timeDate.setHours(hours, minutes, 0, 0);
+    const timeLabel = timeDate.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+
+    return {
+      service: raw.service_name,
+      date: dateLabel,
+      time: timeLabel,
+      status: raw.status,
+      daysUntil,
+    };
+  },
+
   // ─── Header ─────────────────────────────────────────
-  _renderHeader(greeting, name) {
+  _renderHeader(greeting, name, photoUrl) {
     return `
       <header class="home-header" role="banner">
         <div>
@@ -52,8 +102,8 @@ const Home = {
           <p class="home-header__name">${name}</p>
         </div>
         <div class="home-header__icon" role="button" tabindex="0" aria-label="Profile" onclick="App.switchTab('profile')">
-          ${localStorage.getItem('rosies_profile_photo')
-            ? `<img src="${localStorage.getItem('rosies_profile_photo')}" alt="Profile" class="home-header__photo" />`
+          ${photoUrl
+            ? `<img src="${photoUrl}" alt="Profile" class="home-header__photo" />`
             : `<span class="home-header__initial">${name.charAt(0).toUpperCase()}</span>`
           }
         </div>
@@ -62,12 +112,15 @@ const Home = {
   },
 
   // ─── Hero Card ──────────────────────────────────────
-  _renderHeroCard(greeting, name, visitStreak) {
-    const user = MOCK_USER;
-    const pointsRemaining = user.nextRewardAt - user.glowPoints;
-    const streakMessage = pointsRemaining <= 200
-      ? `${pointsRemaining} points away from your next free add-on`
-      : `Your skin is on a ${user.visitStreak}-visit glow up streak`;
+  _renderHeroCard(greeting, name, visitStreak, pointsRemaining) {
+    let streakMessage;
+    if (pointsRemaining <= 200) {
+      streakMessage = `${pointsRemaining} points away from your next free add-on`;
+    } else if (visitStreak > 0) {
+      streakMessage = `Your skin is on a ${visitStreak}-visit glow up streak`;
+    } else {
+      streakMessage = 'Start your glow up journey today';
+    }
 
     return `
       <div class="hero-card" role="region" aria-label="Welcome banner">
@@ -150,9 +203,11 @@ const Home = {
   },
 
   _renderAppointmentCard(appt) {
-    const daysLabel = appt.daysUntil === 1
-      ? 'Tomorrow'
-      : `${appt.daysUntil} days`;
+    const daysLabel = appt.daysUntil === 0
+      ? 'Today'
+      : appt.daysUntil === 1
+        ? 'Tomorrow'
+        : `${appt.daysUntil} days`;
 
     return `
       <div
@@ -227,36 +282,6 @@ const Home = {
             <div class="progress-fill shimmer" style="width: ${progressPct}%"></div>
           </div>
           <p class="rewards-card__caption">Earn points with every visit. Redeem for free services.</p>
-        </div>
-      </section>
-    `;
-  },
-
-  // ─── Recommended Product ────────────────────────────
-  _renderRecommendedProduct(product) {
-    if (!product) return '';
-    const imgSrc = 'assets/images/product-cream.jpg';
-    return `
-      <section class="home-section" aria-label="Recommended product">
-        <div class="home-section__header">
-          <h2 class="home-section__title">Recommended for You</h2>
-        </div>
-        <div
-          class="product-card"
-          role="button"
-          tabindex="0"
-          aria-label="${product.name}, $${product.price}"
-          onclick="App.switchTab('contact')"
-          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();App.switchTab('contact')}"
-        >
-          <div class="product-card__image">
-            <img src="${imgSrc}" alt="${product.name}" loading="lazy" onerror="this.style.display='none'" />
-          </div>
-          <div class="product-card__body">
-            <p class="product-card__name">${product.name}</p>
-            <p class="product-card__context">${product.description}</p>
-          </div>
-          <p class="product-card__price">$${product.price}</p>
         </div>
       </section>
     `;
