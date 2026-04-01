@@ -116,6 +116,7 @@ const Home = {
   // ─── Hero Card ──────────────────────────────────────
   _renderHeroCard(greeting, name, visitStreak, pointsRemaining) {
     const safeName = escHtml(name);
+    const ctaText = visitStreak > 0 ? 'Book Your Next Visit' : 'Book Your First Visit';
     let streakMessage;
     if (pointsRemaining <= 200) {
       streakMessage = `${pointsRemaining} points away from your next free add-on`;
@@ -129,15 +130,15 @@ const Home = {
       <div class="hero-card" role="region" aria-label="Welcome banner">
         <p class="hero-card__greeting">${greeting},<br>${safeName}.</p>
         <p class="hero-card__streak">${streakMessage}</p>
+        <p class="hero-card__social-proof">Rated 5.0 ★ by 91 Happy Rosebuds</p>
         <button
           class="hero-card__cta"
           onclick="App.switchTab('book')"
           aria-label="Book your next visit"
         >
           <i class="ph ph-calendar-blank" aria-hidden="true"></i>
-          Book Your Next Visit
+          ${ctaText}
         </button>
-        <p class="hero-card__social-proof">5.0 ★ · 91 Reviews</p>
       </div>
     `;
   },
@@ -249,8 +250,8 @@ const Home = {
         <div class="appointment-empty__icon" aria-hidden="true">
           <i class="ph ph-calendar-plus"></i>
         </div>
-        <p class="appointment-empty__text">No upcoming appointments</p>
-        <p class="appointment-empty__cta">Book a service →</p>
+        <p class="appointment-empty__text">Your next glow-up is waiting</p>
+        <p class="appointment-empty__cta">Find Your Treatment →</p>
       </div>
     `;
   },

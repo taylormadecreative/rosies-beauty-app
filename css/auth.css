@@ -124,6 +124,31 @@
   display: block;
 }
 
+/* ─── Password Toggle ────────────────────────────────── */
+.auth-field__input-wrap {
+  position: relative;
+}
+.auth-field__input-wrap .auth-field__input {
+  padding-right: 48px;
+}
+.auth-field__toggle {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 20px;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* ─── Auth Submit Button ──────────────────────────────── */
 .auth-submit {
   display: flex;
@@ -280,7 +305,7 @@
   gap: 12px;
   margin: 20px 0 16px;
   color: var(--text-tertiary);
-  font-size: var(--text-caption);
+  font-size: var(--text-caption1);
 }
 
 .auth-divider::before,
@@ -310,7 +335,7 @@
 }
 
 .auth-guest-btn:hover {
-  background: var(--bg-secondary, rgba(0,0,0,0.03));
+  background: var(--bg-input, rgba(0,0,0,0.03));
   border-color: var(--text-tertiary);
 }
 
@@ -322,6 +347,13 @@
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+}
+
+.auth-guest-note {
+  text-align: center;
+  font-size: var(--text-caption1);
+  color: var(--text-secondary);
+  margin-top: 8px;
 }
 
 /* ─── Dark Mode Overrides ─────────────────────────────── */

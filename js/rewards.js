@@ -199,7 +199,8 @@ const Rewards = {
 
     if (!this.rewardsHistory || this.rewardsHistory.length === 0) {
       content = `
-        <p class="rewards-history__empty">Your rewards activity will appear here after your first visit.</p>
+        <p class="rewards-history__empty">Book your first treatment to start earning Glow Points!</p>
+        <button class="btn btn-primary" style="margin: 12px auto; display: block; max-width: 200px;" onclick="App.switchTab('book')">Book Now</button>
       `;
     } else {
       content = `

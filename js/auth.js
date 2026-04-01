@@ -35,7 +35,7 @@ const Auth = {
     container.innerHTML = `
       <div class="auth-card">
         <div class="auth-card__logo-wrap">
-          <img src="assets/images/rosies-logo.png" alt="Rosie's Beauty Spa" class="auth-card__logo" />
+          <img src="assets/images/rosies-logo.png" alt="Rosie's Beauty Spa" class="auth-card__logo" width="120" height="auto" />
         </div>
         <h1 class="auth-card__tagline">Welcome Back, Rosebud</h1>
         <p class="auth-card__subtitle">Let's get you glowing</p>
@@ -57,14 +57,19 @@ const Auth = {
 
           <div class="auth-field">
             <label class="auth-field__label" for="auth-password">Password</label>
-            <input
-              class="auth-field__input"
-              id="auth-password"
-              type="password"
-              placeholder="Enter your password"
-              autocomplete="current-password"
-              required
-            />
+            <div class="auth-field__input-wrap">
+              <input
+                class="auth-field__input"
+                id="auth-password"
+                type="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              />
+              <button type="button" class="auth-field__toggle" onclick="Auth._togglePassword('auth-password', this)" aria-label="Show password">
+                <i class="ph ph-eye" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
 
           <div class="auth-forgot">
@@ -92,6 +97,11 @@ const Auth = {
     `;
 
     document.getElementById('auth-form').addEventListener('submit', (e) => this._handleLogin(e));
+
+    requestAnimationFrame(() => {
+      const firstInput = document.querySelector('#auth-content input:first-of-type');
+      if (firstInput) firstInput.focus();
+    });
   },
 
   // ─── Signup View ──────────────────────────────────────
@@ -102,7 +112,7 @@ const Auth = {
     container.innerHTML = `
       <div class="auth-card">
         <div class="auth-card__logo-wrap">
-          <img src="assets/images/rosies-logo.png" alt="Rosie's Beauty Spa" class="auth-card__logo" />
+          <img src="assets/images/rosies-logo.png" alt="Rosie's Beauty Spa" class="auth-card__logo" width="120" height="auto" />
         </div>
         <h1 class="auth-card__tagline">Join Rosie's</h1>
         <p class="auth-card__subtitle">Book appointments, earn Glow Points, and never miss a reminder</p>
@@ -136,28 +146,38 @@ const Auth = {
 
           <div class="auth-field">
             <label class="auth-field__label" for="auth-password">Password</label>
-            <input
-              class="auth-field__input"
-              id="auth-password"
-              type="password"
-              placeholder="At least 6 characters"
-              autocomplete="new-password"
-              minlength="6"
-              required
-            />
+            <div class="auth-field__input-wrap">
+              <input
+                class="auth-field__input"
+                id="auth-password"
+                type="password"
+                placeholder="At least 6 characters"
+                autocomplete="new-password"
+                minlength="6"
+                required
+              />
+              <button type="button" class="auth-field__toggle" onclick="Auth._togglePassword('auth-password', this)" aria-label="Show password">
+                <i class="ph ph-eye" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
 
           <div class="auth-field">
             <label class="auth-field__label" for="auth-confirm-password">Confirm Password</label>
-            <input
-              class="auth-field__input"
-              id="auth-confirm-password"
-              type="password"
-              placeholder="Re-enter your password"
-              autocomplete="new-password"
-              minlength="6"
-              required
-            />
+            <div class="auth-field__input-wrap">
+              <input
+                class="auth-field__input"
+                id="auth-confirm-password"
+                type="password"
+                placeholder="Re-enter your password"
+                autocomplete="new-password"
+                minlength="6"
+                required
+              />
+              <button type="button" class="auth-field__toggle" onclick="Auth._togglePassword('auth-confirm-password', this)" aria-label="Show password">
+                <i class="ph ph-eye" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
 
           <button type="submit" class="auth-submit" id="auth-submit-btn">Join the Rosebuds</button>

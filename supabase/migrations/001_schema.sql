@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   photo_url           TEXT          DEFAULT NULL,
   glow_points         INTEGER       NOT NULL DEFAULT 0,
   visit_streak        INTEGER       NOT NULL DEFAULT 0,
-  notification_prefs  JSONB         NOT NULL DEFAULT '{"reminders":true,"rewards":true,"offers":true,"openings":true}'::jsonb,
+  notification_prefs  JSONB         NOT NULL DEFAULT '{"reminders":true,"rewards":true,"offers":false,"openings":false}'::jsonb,
   created_at          TIMESTAMPTZ   NOT NULL DEFAULT now(),
   updated_at          TIMESTAMPTZ   NOT NULL DEFAULT now()
 );

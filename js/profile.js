@@ -8,8 +8,8 @@ const Profile = {
   NOTIFICATIONS: [
     { key: 'reminders', label: 'Appointment Reminders',  desc: 'Get reminded before your visits',  defaultOn: true },
     { key: 'rewards',   label: 'Rewards Updates',        desc: 'Points earned and new rewards',     defaultOn: true },
-    { key: 'offers',    label: 'New Products & Offers',  desc: 'Sales, launches, and promos',       defaultOn: true },
-    { key: 'openings',  label: 'Cancellation Openings',  desc: 'Get notified when slots open up',   defaultOn: true },
+    { key: 'offers',    label: 'New Products & Offers',  desc: 'Sales, launches, and promos',       defaultOn: false },
+    { key: 'openings',  label: 'Cancellation Openings',  desc: 'Get notified when slots open up',   defaultOn: false },
   ],
 
   // ─── Render ───────────────────────────────────────────
@@ -99,7 +99,7 @@ const Profile = {
   _renderHistory(visits) {
     let content;
     if (!visits || visits.length === 0) {
-      content = `<p class="profile-history__empty">Your visit history will appear here after your first appointment.</p>`;
+      content = `<p class="profile-history__empty">Ready for your first glow-up? Ashley specializes in corrective skincare for Black and brown skin.</p>`;
     } else {
       content = visits.map((visit) => {
         const formattedDate = new Date(visit.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -293,7 +293,7 @@ const Profile = {
 
     if (!file.type.startsWith('image/')) return;
     if (file.size > 5 * 1024 * 1024) {
-      Modal.show({ title: 'Image Too Large', message: 'Please choose a photo under 5MB.', confirmText: 'OK', type: 'confirm' });
+      Modal.show({ title: 'Image Too Large', message: 'That photo is a little too big. Try a different one or take a new selfie!', confirmText: 'OK', type: 'confirm' });
       return;
     }
 
@@ -336,7 +336,7 @@ const Profile = {
       console.error('[Profile] Photo upload failed:', err);
       Modal.show({
         title: 'Upload Failed',
-        message: 'Could not upload your photo. Please try again.',
+        message: "Couldn't upload your photo right now. Try again in a moment!",
         confirmText: 'OK',
         type: 'confirm',
       });
